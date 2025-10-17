@@ -10,6 +10,7 @@
   **Username**: student_test
   **Password**: TestPass123
   **API Token**: 8aa5b12301e7a074559ec3e15b8c360dd97791a4
+  **Web UI**: http://paperless-etfbl.duckdns.org:8000/
 
 ---
 
