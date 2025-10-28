@@ -5,6 +5,10 @@ VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HCI-2025-Project-Template", "HCI-2025-Project-Template\HCI-2025-Project-Template.csproj", "{F249FD34-9267-4247-A021-149238CE7C83}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HCI-2025.Core", "HCI-2025.Core\HCI-2025.Core.csproj", "{5F825B3A-F79C-445E-AA87-20F06B86891D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HCI-2025.ViewModel", "HCI-2025.ViewModel\HCI-2025.ViewModel.csproj", "{1EBA1245-77CA-41AF-9B7E-A60A0C5AC357}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{F249FD34-9267-4247-A021-149238CE7C83}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F249FD34-9267-4247-A021-149238CE7C83}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F249FD34-9267-4247-A021-149238CE7C83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F825B3A-F79C-445E-AA87-20F06B86891D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F825B3A-F79C-445E-AA87-20F06B86891D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F825B3A-F79C-445E-AA87-20F06B86891D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F825B3A-F79C-445E-AA87-20F06B86891D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EBA1245-77CA-41AF-9B7E-A60A0C5AC357}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EBA1245-77CA-41AF-9B7E-A60A0C5AC357}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EBA1245-77CA-41AF-9B7E-A60A0C5AC357}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EBA1245-77CA-41AF-9B7E-A60A0C5AC357}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
