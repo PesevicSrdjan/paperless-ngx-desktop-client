@@ -6,91 +6,107 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HCI_2025_Project_Template"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800"
+        Title="Paperless_ngx"
+        Height="600" Width="800"
         WindowStartupLocation="CenterScreen">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <!-- za logo -->
-            <RowDefinition Height="1*"/>
-            <!-- za ostalo -->
-            <RowDefinition Height="0.10*"/>
-            <RowDefinition Height="0.25*"/>
-            <RowDefinition Height="0.25*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
 
-        <Image Source="Assets/Paperless-Ngx_Black_Logo.png"
-           HorizontalAlignment="Center"
-           VerticalAlignment="Bottom"
-           Grid.Row="0"
-           Stretch="Uniform"
-           MaxWidth="350"
-           MaxHeight="200"/>
-        
-        <TextBlock 
-            Grid.Row="1"
-            Text="Please sign in."
-            FontSize="15"
-            Foreground="Black"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Top"/>
-        
-        <TextBox 
-            x:Name="txtBox_username" 
-            Grid.Row="2"
-            HorizontalAlignment="Stretch" 
-            VerticalAlignment="Stretch" 
-            MaxWidth="350"
-            materialDesign:HintAssist.Hint="Username"
-            materialDesign:TextFieldAssist.HasClearButton="True"
-            materialDesign:TextFieldAssist.HasLeadingIcon="True"
-            materialDesign:TextFieldAssist.LeadingIcon="Account"
-            Style="{StaticResource MaterialDesignOutlinedTextBox}" 
-            FontSize="16"
-             TextChanged="txtBox_username_TextChanged"
-            GotFocus="txtBox_username_GotFocus"
-            LostFocus="txtBox_username_LostFocus"/>
+    <!-- Viewbox za pravu responzivnost -->
+    <Viewbox Stretch="Uniform">
+        <Grid Width="800" Height="600">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <!-- Logo -->
+                <RowDefinition Height="Auto" />
+                <!-- Tekst -->
+                <RowDefinition Height="Auto" />
+                <!-- Username -->
+                <RowDefinition Height="Auto" />
+                <!-- Password -->
+                <RowDefinition Height="Auto" />
+                <!-- Dugme -->
+                <RowDefinition Height="*" />
+                <!-- Prazan prostor -->
+            </Grid.RowDefinitions>
 
-        <Popup x:Name="popupSuggestions"
-           PlacementTarget="{Binding ElementName=txtBox_username}"
-           Placement="Top"
-           StaysOpen="False">
-            <Border Background="White" BorderBrush="Gray" BorderThickness="1">
-                <ListBox x:Name="listSuggestions"
-                     SelectionChanged="listSuggestions_SelectionChanged"
-                      MaxHeight="200" 
-                      FontSize="16"   
-                         />
-            </Border>
-        </Popup>
+            <!-- LOGO -->
+            <Image Grid.Row="0"
+                   Source="Assets/Paperless-Ngx_Black_Logo.png"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Bottom"
+                   Stretch="Uniform"
+                   MaxWidth="350"
+                   MaxHeight="200"/>
 
+            <!-- TEKST -->
+            <TextBlock Grid.Row="1"
+                       Text="Please sign in."
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="18"
+                       FontWeight="SemiBold"
+                       TextAlignment="Center"
+                       Margin="0,10,0,10"/>
 
-        <PasswordBox
-            x:Name="passwordBox_password"
-            Grid.Row="3"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch" 
-            MaxWidth="350"
-            materialDesign:HintAssist.Hint="Password"
-            materialDesign:PasswordBoxAssist.Password="{Binding Password1, Mode=TwoWay}"
-            materialDesign:TextFieldAssist.HasClearButton="True"
-            materialDesign:TextFieldAssist.HasLeadingIcon="True"
-            materialDesign:TextFieldAssist.LeadingIcon="Key"
-            Style="{StaticResource MaterialDesignOutlinedRevealPasswordBox}" FontSize="16"/>
+            <!-- USERNAME -->
+            <TextBox Grid.Row="2"
+                     x:Name="txtBox_username"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     Width="350"
+                     Margin="5"
+                     materialDesign:HintAssist.Hint="Username"
+                     materialDesign:TextFieldAssist.HasClearButton="True"
+                     materialDesign:TextFieldAssist.HasLeadingIcon="True"
+                     materialDesign:TextFieldAssist.LeadingIcon="Account"
+                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                     FontSize="16"
+                     TextChanged="txtBox_username_TextChanged"
+                     GotFocus="txtBox_username_GotFocus"
+                     LostFocus="txtBox_username_LostFocus">
+            </TextBox>
 
-        <Button 
-            x:Name="button_login" 
-            Grid.Row="4"
-            Content="Sign in" 
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Top"
-            Margin="0,10,0,0"
-            Height="40"
-            MaxWidth="350"
-            IsDefault="True"
-            Background="#0D4D26"
-            Style="{StaticResource MaterialDesignFlatDarkBgButton}" 
-            Click="Button_Click" FontSize="16"/>
-    </Grid>
+            <!-- POPUP -->
+            <Popup x:Name="popupSuggestions"
+                   PlacementTarget="{Binding ElementName=txtBox_username}"
+                   Placement="Top"
+                   StaysOpen="False">
+                <Border Background="White" BorderBrush="Gray" BorderThickness="1">
+                    <ListBox x:Name="listSuggestions"
+                             SelectionChanged="listSuggestions_SelectionChanged"
+                             MaxHeight="200"
+                             FontSize="16" />
+                </Border>
+            </Popup>
+
+            <!-- PASSWORD -->
+            <PasswordBox Grid.Row="3"
+                         x:Name="passwordBox_password"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         Width="350"
+                         materialDesign:HintAssist.Hint="Password"
+                         materialDesign:PasswordBoxAssist.Password="{Binding Password1, Mode=TwoWay}"
+                         materialDesign:TextFieldAssist.HasClearButton="True"
+                         materialDesign:TextFieldAssist.HasLeadingIcon="True"
+                         materialDesign:TextFieldAssist.LeadingIcon="Key"
+                         Style="{StaticResource MaterialDesignOutlinedRevealPasswordBox}"
+                         FontSize="16"/>
+
+            <!-- DUGME -->
+            <Button Grid.Row="4"
+                    x:Name="button_login"
+                    Content="Sign in"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Width="350" Height="40"
+                    Margin="0,10,0,0"
+                    Background="#0D4D26"
+                    Foreground="White"
+                    Style="{StaticResource MaterialDesignFlatDarkBgButton}"
+                    IsDefault="True"
+                    Click="Button_Click"
+                    FontSize="16"/>
+        </Grid>
+    </Viewbox>
 </Window>
