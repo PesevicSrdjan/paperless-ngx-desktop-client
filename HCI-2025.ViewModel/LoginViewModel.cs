@@ -1,5 +1,5 @@
-﻿using HCI_2025.Core.Models;
-using HCI_2025.Core.Services;
+﻿using HCI_2025.Core.Interfaces;
+using HCI_2025.Core.Models;
 using System.Collections.ObjectModel;
 namespace HCI_2025.ViewModel
 {
@@ -88,8 +88,6 @@ namespace HCI_2025.ViewModel
                 return (false, null);
             }
         }
-    
-
     }
 }
  

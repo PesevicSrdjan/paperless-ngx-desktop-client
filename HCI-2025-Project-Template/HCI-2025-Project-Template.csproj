@@ -10,7 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\paperless-dashboard.png" />
+    <None Remove="Assets\paperless-ico.white.png" />
+    <None Remove="Assets\paperless-logo.png" />
     <None Remove="Assets\Paperless-Ngx_Black_Logo.png" />
+    <None Remove="Assets\paperless.ico" />
+    <None Remove="Assets\Screenshot_2.png" />
+    <None Remove="Assets\unnamed.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,7 +30,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\paperless-ico.white.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\paperless-logo.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\Paperless-Ngx_Black_Logo.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\paperless.ico">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\unnamed.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

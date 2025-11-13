@@ -1,5 +1,4 @@
-﻿using HCI_2025.Core.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,19 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace HCI_2025_Project_Template.Views
 {
     /// <summary>
-    /// Interaction logic for DashboardWindow.xaml
+    /// Interaction logic for DashboardView.xaml
     /// </summary>
-    public partial class DashboardWindow : Window
+    public partial class DashboardView : UserControl
     {
-        public DashboardWindow(LoginResponse response)
+        public DashboardView()
         {
             InitializeComponent();
-            label.Content = $"Login uspješan! Token: {response.Token}";
         }
     }
 }

@@ -1,0 +1,188 @@
+﻿<Window x:Class="HCI_2025_Project_Template.Views.DashboardWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HCI_2025_Project_Template.Views"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="DashboardWindow"
+        d:Height="1020" 
+        d:Width="1920"
+        WindowState="Maximized"
+        WindowStartupLocation="CenterScreen"
+        Icon="/Assets/paperless.ico">
+        <!--'d:Height="1020"' && d:Width="1919" postavljeno zbog design-a-->
+
+    <Window.Resources>
+        <!-- Style za sve Buttone na Sidebar (Navigation bar)-->
+        <Style x:Key="SideBarButtonStyle" TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
+            <Setter Property="Padding" Value="10,8"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+            <Setter Property="Foreground" Value="Black"></Setter>
+            <Setter Property="Margin" Value="0,5"></Setter>
+            <EventSetter Event="Click" Handler="SidebarButton_Click"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <materialDesign:PackIcon 
+                                Kind="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button}}"
+                                Width="20"
+                                Height="20" 
+                                VerticalAlignment="Center"
+                                Margin="20,0,8,0"
+                                Foreground="White">
+                                <materialDesign:PackIcon.Effect>
+                                    <DropShadowEffect Color="Black" ShadowDepth="0" BlurRadius="6"/>
+                                </materialDesign:PackIcon.Effect>
+                            </materialDesign:PackIcon>
+
+                            <TextBlock
+                                x:Name="ButtonText"
+                                Text="{Binding Content, RelativeSource={RelativeSource AncestorType=Button}}" 
+                                VerticalAlignment="Center"
+                                FontSize="14"/>
+                        </StackPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="Button.IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="#17541F" />
+                </Trigger>
+                <Trigger Property="Button.IsPressed" Value="True">
+                    <Setter Property="Foreground" Value="#17541F" />
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        <!--Style za sve TextBlock na Sidebar (Navigation bar)-->
+        <Style x:Key="SideBarTextBlock" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="FontWeight" Value="SemiBold"></Setter>
+            <Setter Property="Foreground" Value="#666"></Setter>
+            <Setter Property="Margin" Value="20,20,0,10"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+                       
+        </Style>
+        
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <!-- Ikona -->
+            <ColumnDefinition Width="Auto"/>
+            <!-- Tekst -->
+            <ColumnDefinition Width="Auto"/>
+            <!-- Search box -->
+            <ColumnDefinition Width="*"/>
+            <!-- Ostatak -->
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border 
+            Grid.Row="0"
+            Grid.ColumnSpan="4"
+            VerticalAlignment="Top"
+            Height="50"
+            Background="#17541F"/>
+        <Image
+            Grid.Row="0"
+            Grid.Column="0"
+            Source="/Assets/unnamed.png"
+            Stretch="Uniform"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Left"
+            Margin="10,10,0,0"
+            Width="30"
+            Height="30"/>
+
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="1"
+            Text="Paperless-ngx"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Left"
+            Margin="0,15,0,0"
+            Width="130"
+            Foreground="White"
+            FontFamily="Segoe UI"
+            FontSize="15"
+            TextOptions.TextRenderingMode="ClearType"
+            TextOptions.TextFormattingMode="Ideal"/>
+
+        <TextBox
+            Grid.Row="0"
+            Grid.Column="2"
+            x:Name="textBox_search"
+            Height="26"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Stretch"
+            Margin="70,12,0,0"
+            Background="#14471A"
+            Padding="5,2,5,2"
+            Foreground="White"
+            FontSize="15"
+            BorderBrush="#45764c"
+            materialDesign:HintAssist.Hint="Search"
+            materialDesign:TextFieldAssist.HasLeadingIcon="True"
+            materialDesign:TextFieldAssist.LeadingIcon="Search"
+            Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+        <Border 
+            Grid.Row="1" 
+            Grid.ColumnSpan="2" 
+            Background="#F8F9FA" 
+            BorderBrush="#DADADA" 
+            BorderThickness="0,0,1,0">
+
+            <StackPanel>
+
+                <Button
+                    x:Name="button_dashboard"
+                    Style="{StaticResource SideBarButtonStyle}"
+                    Tag="Home"
+                    Content="Dashboard"
+                    Click="button_dashboard_Click">
+                </Button>
+
+                <Button
+                    x:Name="button_documents"
+                    Style="{StaticResource SideBarButtonStyle}"
+                    Tag="DriveDocument"
+                    Content="Documents"
+                    Click="button_documents_Click">
+                </Button>
+
+                <TextBlock
+                    Text="MANAGE"
+                    Style="{StaticResource SideBarTextBlock}">
+                </TextBlock>
+
+                <Button
+                    x:Name="button_correspondents"
+                    Style="{StaticResource SideBarButtonStyle}"
+                    Tag="Account"
+                    Content="Correspondents">
+                </Button>
+
+                <Button
+                    x:Name="button_tags"
+                    Style="{StaticResource SideBarButtonStyle}"
+                    Tag="Tags"
+                    Content="Tags">
+                </Button>
+                
+            </StackPanel>
+        </Border>
+
+        <ContentControl x:Name="MainContentControl" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2"></ContentControl>
+    </Grid>
+</Window>

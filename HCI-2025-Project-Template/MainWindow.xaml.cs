@@ -12,6 +12,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using HCI_2025_Project_Template.Views;
 using HCI_2025.ViewModel;
+using HCI_2025.Core.Models;
 namespace HCI_2025_Project_Template
 {
     /// <summary>
@@ -31,8 +32,8 @@ namespace HCI_2025_Project_Template
         {
             InitializeComponent();
 
-            // Instanciranje LoginViewModel - a, ubrizgavamo instancu AuthService koji je singleton.
-            _viewModel = new LoginViewModel(AuthService.getInstance());
+            // Instanciranje LoginViewModel - a, ubrizgavamo instancu AuthService.
+            _viewModel = new LoginViewModel(new AuthService());
 
             // Učitaj prethodne korisnike iz Settings
             var savedUsers = Settings.Default.SavedUser?.Split(';');
@@ -110,6 +111,13 @@ namespace HCI_2025_Project_Template
 
             if (result.Success)
             {
+
+                Session.CurrentUser = new LoggedUser
+                {
+                    Username = _viewModel.Username,
+                    Password = _viewModel.Password,
+                };
+
                 // Spremi username u Settings
                 List<string> users = new List<string>();
 
@@ -149,7 +157,7 @@ namespace HCI_2025_Project_Template
                 Settings.Default.Save();
 
                 // Otvori Dashboard
-                DashboardWindow dbw = new DashboardWindow(result.LoginResponse);
+                DashboardWindow dbw = new DashboardWindow();
                 dbw.Show();
             }
             else

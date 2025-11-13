@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="HCI_2025_Project_Template.Views.UserControls.DocumentsTableView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HCI_2025_Project_Template.Views.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="White" Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <DataGrid
+            x:Name="documentsGrid"
+            ItemsSource="{Binding Documents}"
+            Grid.Row="0"
+            Margin="0,0,0,10"
+            AutoGenerateColumns="False"
+            CanUserAddRows="False"
+            CanUserDeleteRows="False"
+            IsReadOnly="True">
+
+        <DataGrid.Columns>
+            <DataGridTextColumn
+                Width="*"
+                Binding="{Binding Title}"
+                Header="Title" />
+            <DataGridTextColumn
+                Width="*"
+                Binding="{Binding Date}"
+                Header="Date" />
+            <DataGridTextColumn
+                Width="*"
+                Binding="{Binding TagsString}"
+                Header="Tags" />
+            <DataGridTextColumn
+                Width="*"
+                Binding="{Binding Type}"
+                Header="Type" />
+        </DataGrid.Columns>
+     </DataGrid>
+    </Grid>
+</UserControl>

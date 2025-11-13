@@ -4,16 +4,26 @@
              xmlns:local="clr-namespace:HCI_2025_Project_Template"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              StartupUri="MainWindow.xaml">
+
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="Green" SecondaryColor="Blue" />
 
+                <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="Green" SecondaryColor="Lime" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml" />
+            
             </ResourceDictionary.MergedDictionaries>
 
+            <!-- Globalni stil za sve button-e -->
+            <Style TargetType="Button" BasedOn= "{StaticResource MaterialDesignFlatDarkBgButton}">
+                <Setter Property="Background" Value="#17541F"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Margin" Value="0,10,0,0"/>
+            </Style>
+            
         </ResourceDictionary>
-        
 
+        
     </Application.Resources>
 </Application>

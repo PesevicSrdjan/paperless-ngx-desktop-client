@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace HCI_2025.Core.Services
+namespace HCI_2025.Core.Interfaces
 {
     public interface IAuthService
     {
