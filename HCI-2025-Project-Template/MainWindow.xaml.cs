@@ -1,5 +1,4 @@
-﻿using HCI_2025.Core.Services;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,6 +12,7 @@ using System.Windows.Shapes;
 using HCI_2025_Project_Template.Views;
 using HCI_2025.ViewModel;
 using HCI_2025.Core.Models;
+using HCI_2025_Project_Template.Core.Services;
 namespace HCI_2025_Project_Template
 {
     /// <summary>
@@ -111,12 +111,6 @@ namespace HCI_2025_Project_Template
 
             if (result.Success)
             {
-
-                Session.CurrentUser = new LoggedUser
-                {
-                    Username = _viewModel.Username,
-                    Password = _viewModel.Password,
-                };
 
                 // Spremi username u Settings
                 List<string> users = new List<string>();

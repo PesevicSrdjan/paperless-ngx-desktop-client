@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace HCI_2025.Core.Models
 {
-    public class DocTypeResponse
+    public static class AuthSession
     {
-        public List<DocType> Results { get; set; }
+        public static string? Token {  get; set; }
     }
 }

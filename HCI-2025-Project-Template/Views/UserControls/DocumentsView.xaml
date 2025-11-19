@@ -7,9 +7,25 @@
              xmlns:local="clr-namespace:HCI_2025_Project_Template.Views.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    
-    <Grid 
-        Background="White">
+
+    <UserControl.Resources>
+        <Style x:Key="LoadingCircularProgressBar" TargetType="ProgressBar" BasedOn="{StaticResource MaterialDesignCircularProgressBar}">
+            <Setter Property="Width" Value="20"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="IsIndeterminate" Value="True"/>
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Setter Property="Margin" Value="20,0,0,0"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Background="White">
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -21,7 +37,6 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/> 
-        
         </Grid.ColumnDefinitions>
 
         <TextBlock 
@@ -37,30 +52,31 @@
             Orientation="Horizontal" 
             HorizontalAlignment="Right" 
             Margin="0,20,20,0">
-            
+
             <Button 
                 Style="{StaticResource MaterialDesignToolButton}"
                 ToolTip="Card View"
                 Margin="0,0,10,0"
                 Click="cardView_Click">
+                
                 <materialDesign:PackIcon 
                     Kind="ViewModule" 
                     Width="24" 
                     Height="24"
-                    Foreground="#17541F"
-                    />
+                    Foreground="#17541F"/>
+                
             </Button>
 
             <Button 
                 Style="{StaticResource MaterialDesignToolButton}"
                 ToolTip="Table View"
                 Click="tableView_Click">
+                
                 <materialDesign:PackIcon 
                     Kind="ViewList" 
                     Width="24" 
                     Height="24"
-                    Foreground="#17541F"
-                    />
+                    Foreground="#17541F"/>
                 
             </Button>
         </StackPanel>
@@ -100,17 +116,102 @@
             Grid.ColumnSpan="2"
             HorizontalAlignment="Center"/>
 
-        <TextBlock
-            Grid.Row="3"
-            Grid.Column="0"
-            HorizontalAlignment="Center"
-            FontWeight="SemiBold"
-            Margin="0,0,43,0"
-            FontSize="14"
-            Text="{Binding Documents.Count, StringFormat='Documents: {0}'}"/>
+        <StackPanel Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" Orientation="Horizontal">
 
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <!-- ProgressBar za učitavanje -->
+                <ProgressBar 
+                    x:Name="loadingBar"
+                    Style="{StaticResource LoadingCircularProgressBar}">
+                </ProgressBar>
 
+                <TextBlock
+                    Text="Loading..."
+                    FontStyle="Italic"
+                    Foreground="Gray"
+                    Margin="10,5,0,0">
+                    
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </StackPanel>
 
+                <!-- TextBlock sa brojem dokumenata -->
+            <TextBlock 
+                FontWeight="SemiBold"
+                FontSize="14"
+                Margin="20,0,0,0"
+                VerticalAlignment="Center"
+                Text="{Binding TotalDocuments, StringFormat='Documents: {0}'}">
+               
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+                
+            </TextBlock>
+        </StackPanel>
+
+        <StackPanel 
+            Orientation="Horizontal" 
+            HorizontalAlignment="Right"
+            Grid.Row="3" 
+            Grid.Column="1">
+
+            <Button 
+                Style="{StaticResource MaterialDesignFlatButton}" 
+                Padding="2" Margin="0,0,0,0"
+                Width="28" Height="28"
+                Click="PreviousPage_Click">
+
+                <materialDesign:PackIcon 
+                    Kind="ChevronDoubleLeft" 
+                    Width="25" 
+                    Height="25"/>
+            </Button>
+
+            <Button 
+                Style="{StaticResource MaterialDesignFlatDarkBgButton}" 
+                Padding="0"
+                Width="30" 
+                Height="30"
+                Foreground="Black"
+                Background="White">
+
+                <TextBlock Text="{Binding CurrentPage}"
+                    Foreground="Black"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"/>
+            </Button>
+
+            <Button 
+                Style="{StaticResource MaterialDesignFlatButton}"
+                Padding="2"
+                Margin="0,0,20,0"
+                Width="28" Height="28"
+                Click="NextPage_Click">
+
+                <materialDesign:PackIcon 
+                    Kind="ChevronDoubleRight" 
+                    Width="25" 
+                    Height="25"/>
+
+            </Button>
+        </StackPanel>
         <ContentControl x:Name="DocumentContentControl" Grid.Row="4" Grid.ColumnSpan="2"></ContentControl>
     </Grid>
 </UserControl>

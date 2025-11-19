@@ -25,11 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HCI-2025.Core\HCI-2025.Core.csproj" />
-    <ProjectReference Include="..\HCI-2025.ViewModel\HCI-2025.ViewModel.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="Assets\paperless-ico.white.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

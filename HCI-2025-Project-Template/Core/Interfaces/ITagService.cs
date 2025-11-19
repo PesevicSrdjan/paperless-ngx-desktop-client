@@ -9,7 +9,6 @@ namespace HCI_2025.Core.Interfaces
 {
     public interface ITagService
     {
-        Task <List<Tag>> getTagsAsync ();
-
+        Task<List<Tag>> getTagsAsync();
     }
 }

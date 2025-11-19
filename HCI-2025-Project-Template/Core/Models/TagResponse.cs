@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace HCI_2025.Core.Models
 {
-    public static class Session
+    public class TagResponse
     {
-        public static LoggedUser CurrentUser { get; set; }
+        public required List<Tag> Results { get; set; }
     }
 }

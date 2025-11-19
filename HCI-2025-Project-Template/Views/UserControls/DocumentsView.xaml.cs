@@ -1,7 +1,10 @@
-﻿using HCI_2025.Core.Services;
-using HCI_2025.ViewModel;
+﻿using HCI_2025.ViewModel;
+using HCI_2025_Project_Template.Core.Services;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -23,7 +26,7 @@ namespace HCI_2025_Project_Template.Views.UserControls
     /// </summary>
     public partial class DocumentsView : UserControl
     {
-        private readonly DocumentsViewModel _viewModel;
+        private static DocumentsViewModel _viewModel;
 
         private UserControl _tableView = new DocumentsTableView();
         private UserControl _cardView = new DocumentsCardView();
@@ -31,18 +34,22 @@ namespace HCI_2025_Project_Template.Views.UserControls
         {
             InitializeComponent();
 
-            _viewModel = new DocumentsViewModel(new TagService(),new DocTypeService(), new DocumentService());
-            this.DataContext = _viewModel;
-
-
-            DocumentContentControl.Content = _tableView;
-
-
-            Loaded += async (s, e) =>
+            if (_viewModel == null)
             {
-                await _viewModel.loadDataAsync();
-            };
+                _viewModel = new DocumentsViewModel(new TagService(),new DocTypeService(), new DocumentService());
+
+                _ = loadDataAsyncHelper();
+            }
+
+            this.DataContext = _viewModel;
+            DocumentContentControl.Content = _tableView;
         }
+
+        private async Task loadDataAsyncHelper()
+        {
+            await _viewModel.LoadInitialAsync();
+        }
+
         private void tableView_Click(object sender, RoutedEventArgs e)
         {
             DocumentContentControl.Content = _tableView;
@@ -50,6 +57,16 @@ namespace HCI_2025_Project_Template.Views.UserControls
         private void cardView_Click(object sender, RoutedEventArgs e)
         { 
             DocumentContentControl.Content = _cardView;
+        }
+
+        private async void NextPage_Click(object sender, RoutedEventArgs e)
+        {
+            await _viewModel.NextPageAsync();
+        }
+
+        private async void PreviousPage_Click(object sender, RoutedEventArgs e)
+        {
+            await _viewModel.PreviousPageAsync();
         }
     }
 }

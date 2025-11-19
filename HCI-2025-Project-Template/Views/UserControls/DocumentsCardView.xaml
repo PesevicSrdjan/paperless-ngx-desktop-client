@@ -6,7 +6,134 @@
              xmlns:local="clr-namespace:HCI_2025_Project_Template.Views.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="AliceBlue">
+
+
+    <Grid Background="White">
+
+        <ListBox 
+            ItemsSource="{Binding Documents}" 
+            BorderThickness="0"
+            Background="Transparent">
             
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel 
+                        IsItemsHost="True" 
+                        Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border 
+                        Margin="10"
+                        Width="160"
+                        CornerRadius="12"
+                        Background="White"
+                        BorderBrush="#DDD"
+                        BorderThickness="1">    
+
+                        <Border.Effect>
+                            <DropShadowEffect 
+                                Color="#888" 
+                                BlurRadius="8" 
+                                ShadowDepth="2" 
+                                Opacity="0.25"/>
+                        </Border.Effect>
+
+                        <StackPanel>
+                            <!-- Thumbnail -->
+                            <Border 
+                                CornerRadius="12,12,0,0" 
+                                ClipToBounds="True">
+                                <Image 
+                                    Source="{Binding Thumbnail}"
+                                    Height="180"
+                                    Stretch="UniformToFill"/>
+                            </Border>
+
+                            <!-- Title -->
+                            <TextBlock 
+                                Text="{Binding Title}"
+                                FontSize="14"
+                                FontWeight="SemiBold"
+                                TextWrapping="Wrap"
+                                Margin="8,6,8,0"/>
+
+                            <Separator 
+                                Margin="8,2,8,2" 
+                                Background="#DDD" 
+                                Height="1"/>
+                            
+                            <!-- Type -->
+                            <TextBlock 
+                                Text="{Binding Type}"
+                                Foreground="#777"
+                                FontSize="12"
+                                Margin="8,2,8,4"/>
+
+                            <!-- Tags -->
+                            <ItemsControl 
+                                ItemsSource="{Binding Tags}"
+                                Margin="8,0,8,8">
+                                
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border 
+                                            Background="#EEE"
+                                            CornerRadius="6"
+                                            Padding="4,2"
+                                            Margin="2"> 
+                                            <TextBlock 
+                                                Text="{Binding}" 
+                                                FontSize="10" 
+                                                Foreground="#444"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+
+                        <!-- Hover efekat -->
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform 
+                                            ScaleX="1" 
+                                            ScaleY="1"/>
+                                    </Setter.Value>
+                                </Setter>
+
+                                <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="RenderTransform">
+                                            <Setter.Value>
+                                                <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="BorderBrush" Value="#4C9AFF"/>
+                                        <Setter Property="Effect">
+                                            <Setter.Value>
+                                                <DropShadowEffect Color="#4C9AFF" BlurRadius="12" ShadowDepth="2" Opacity="0.35"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+
+        </ListBox>
     </Grid>
 </UserControl>

@@ -25,7 +25,6 @@ namespace HCI_2025_Project_Template.Views
         public DashboardWindow()
         {
             InitializeComponent();
-            //label.Content = $"Login uspješan! Token: {response.Token}";
 
             MainContentControl.Content = new DashboardView();
             _selectedSidebarButton = button_dashboard;

@@ -9,6 +9,9 @@ namespace HCI_2025.Core.Models
 {
     public class DocumentJson
     {
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
+
         [JsonPropertyName("title")]
         public string Title { get; set; }
 

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace HCI_2025.Core.Models
 {
-    public class TagResponse
+    public class DocTypeResponse
     {
-        public List<Tag> Results { get; set; }
+        public List<DocType>? Results { get; set; }
     }
 }

@@ -13,6 +13,6 @@ namespace HCI_2025.Core.Models
         public int Id { get; set; }
 
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public required string Name { get; set; }
     }
 }

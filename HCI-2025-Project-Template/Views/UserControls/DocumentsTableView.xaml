@@ -6,7 +6,10 @@
              xmlns:local="clr-namespace:HCI_2025_Project_Template.Views.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="White" Margin="20">
+    <Grid 
+        Background="White" 
+        Margin="20">
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -14,6 +17,8 @@
 
         <DataGrid
             x:Name="documentsGrid"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
             ItemsSource="{Binding Documents}"
             Grid.Row="0"
             Margin="0,0,0,10"
@@ -24,15 +29,15 @@
 
         <DataGrid.Columns>
             <DataGridTextColumn
-                Width="*"
+                Width="2*"
                 Binding="{Binding Title}"
                 Header="Title" />
             <DataGridTextColumn
                 Width="*"
-                Binding="{Binding Date}"
+                Binding="{Binding DateOnly}"
                 Header="Date" />
             <DataGridTextColumn
-                Width="*"
+                Width="2*"
                 Binding="{Binding TagsString}"
                 Header="Tags" />
             <DataGridTextColumn

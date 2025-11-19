@@ -12,7 +12,7 @@ namespace HCI_2025.Core.Models
     {
         // 'Token' se vraća ukoliko je login uspješan.
         [JsonPropertyName("token")]
-        public string Token { get; set; }
+        public string? Token { get; set; }
         // 'Success' provjerava da li je u UI login prošao.
         public bool Success => !string.IsNullOrEmpty(Token);
     }

@@ -16,8 +16,8 @@ namespace HCI_2025.ViewModel
         /// <summary>
         /// Trenutno uneseni podaci u 'TextBox' i 'PasswordBox'.
         /// </summary>
-        public string Username { get; set; }
-        public string Password { get; set; }
+        public string Username { get; set; } = String.Empty;
+        public string Password { get; set; } = String.Empty;
 
         /// <summary>
         /// Lista prethodnih korisnika koje smo već unijeli i spremili u Settings.
@@ -76,17 +76,17 @@ namespace HCI_2025.ViewModel
         /// (false, null) - NOT OK.
         ///</returns>
 
-        public async Task<(bool Success, LoginResponse LoginResponse)> loginAsync()
+        public async Task<LoginResponse> loginAsync()
         {
-            try
-            {
-                var response = await _authService.loginAsync(Username, Password);
-                return (true, response);
-            }
-            catch
-            {
-                return (false, null);
-            }
+
+            var response = await _authService.loginAsync(Username, Password);
+
+            if (response == null || !response.Success)
+                return new LoginResponse { Token = null };
+
+            AuthSession.Token = response.Token;
+
+            return response;
         }
     }
 }
