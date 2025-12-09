@@ -5,16 +5,14 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace HCI_2025.Core.Models
+namespace HCI_2025_Project_Template.Core.Models.Api
 {
-    public class Tag
+    public class DocType
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
 
         [JsonPropertyName("name")]
         public required string Name { get; set; }
-
-        // TODO po potrebi dodati boju.
     }
 }

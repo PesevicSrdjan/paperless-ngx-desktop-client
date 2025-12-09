@@ -1,5 +1,7 @@
-﻿using HCI_2025.Core.Interfaces;
-using HCI_2025.Core.Models;
+﻿using HCI_2025_Project_Template.Core.Interfaces;
+using HCI_2025_Project_Template.Core.Models.Responses;
+using HCI_2025_Project_Template.Core.Models.Api;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +34,6 @@ namespace HCI_2025_Project_Template.Core.Services
                     Token = null 
                 };
             }
-            //response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
 

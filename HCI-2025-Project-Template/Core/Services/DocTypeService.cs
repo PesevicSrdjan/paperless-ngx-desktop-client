@@ -1,5 +1,6 @@
-﻿using HCI_2025.Core.Interfaces;
-using HCI_2025.Core.Models;
+﻿using HCI_2025_Project_Template.Core.Interfaces;
+using HCI_2025_Project_Template.Core.Models.Api;
+using HCI_2025_Project_Template.Core.Models.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,7 +38,6 @@ namespace HCI_2025_Project_Template.Core.Services
             {
                 return new List<DocType>();
             }
-            
         }
     }
 }

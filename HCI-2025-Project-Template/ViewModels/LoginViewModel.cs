@@ -1,7 +1,8 @@
-﻿using HCI_2025.Core.Interfaces;
-using HCI_2025.Core.Models;
+﻿using HCI_2025_Project_Template.Core.Interfaces;
+using HCI_2025_Project_Template.Core.Models.Api;
+using HCI_2025_Project_Template.Core.Models.Responses;
 using System.Collections.ObjectModel;
-namespace HCI_2025.ViewModel
+namespace HCI_2025_Project_Template.ViewModels
 {
     /// <summary>
     /// Klasa koja predstavlja 'posrednika' između UI-a i servisa (Core -a)

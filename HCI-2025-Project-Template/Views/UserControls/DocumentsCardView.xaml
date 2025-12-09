@@ -86,12 +86,12 @@
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <Border 
-                                            Background="#EEE"
+                                            Background="{Binding Color}"
                                             CornerRadius="6"
                                             Padding="4,2"
                                             Margin="2"> 
                                             <TextBlock 
-                                                Text="{Binding}" 
+                                                Text="{Binding Name}" 
                                                 FontSize="10" 
                                                 Foreground="#444"/>
                                         </Border>

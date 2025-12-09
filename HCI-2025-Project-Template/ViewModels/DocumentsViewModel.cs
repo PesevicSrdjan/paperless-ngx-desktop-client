@@ -1,5 +1,6 @@
-﻿using HCI_2025.Core.Interfaces;
-using HCI_2025.Core.Models;
+﻿using HCI_2025_Project_Template.Core.Interfaces;
+using HCI_2025_Project_Template.Core.Models.Ui;
+using HCI_2025_Project_Template.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,26 +9,47 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media.Imaging;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace HCI_2025.ViewModel
+namespace HCI_2025_Project_Template.ViewModels
 {
     public class DocumentsViewModel : INotifyPropertyChanged
     {
-        private readonly IDocumentService _documentService;
-        private readonly ITagService _tagService;
-        private readonly IDocTypeService _docTypeService;
+        private readonly DocumentLoaderService _loader;
+
         private bool _isLoading;
         private int _currentPage = 1;
-        public int TotalDocuments { get; private set; }
         public int PageSize { get; set; } = 50;
-        public Dictionary<int, string> TagsDict { get; set; } = new();
-        public Dictionary<int, string> TypesDict { get; set; } = new();
-
-        private readonly Dictionary<int, BitmapImage?> _thumbnailCache = new();
+        public List<Document> DocumentsAll { get; set; } = new();
         public ObservableCollection<Document> Documents { get; set; } = new();
+        public ObservableCollection<TagInfo> TagsList { get; set; } = new();
+        public ObservableCollection<DocTypeInfo> TypesList { get; set; } = new();
+        public ObservableCollection<CorrespondentsInfo> CorrespondentsList { get; set; } = new();
+        public ObservableCollection<TagInfo> SelectedTags { get; set; } = new();
+        public ObservableCollection<DocTypeInfo> SelectedTypes { get; set; } = new();
 
+        public ObservableCollection<CorrespondentsInfo> SelectedCorrespondents { get; set; } = new();
+        public ObservableCollection<object> ActiveFilters { get; } = new ObservableCollection<object>();
+
+        public bool HasActiveFilters => ActiveFilters.Any();
+
+        private int _totalDocuments;
+        public int TotalDocuments
+        {
+            get => _totalDocuments;
+            set
+            {
+                if (_totalDocuments != value)
+                { 
+                    _totalDocuments = value;
+                    OnPropertyChanged(nameof(TotalDocuments));
+                    OnPropertyChanged(nameof(DocumentCountDisplay));
+                }
+                
+            }
+        }
         public bool IsLoading
         {
             get => _isLoading;
@@ -37,7 +59,6 @@ namespace HCI_2025.ViewModel
                 OnPropertyChanged(nameof(IsLoading)); 
             }
         }
-        
         public int CurrentPage
         {
             get => _currentPage;
@@ -50,12 +71,19 @@ namespace HCI_2025.ViewModel
                 }
             }
         }
-        
-        public DocumentsViewModel(ITagService tagService, IDocTypeService docTypeService, IDocumentService documentService)
+
+        public DocumentsViewModel(DocumentLoaderService loader)
         {
-            _documentService = documentService;
-            _tagService = tagService;
-            _docTypeService = docTypeService;
+            _loader = loader;
+            SelectedTags.CollectionChanged += async (s, e) => await LoadPageAsync(1, isTagChange: true);
+            SelectedTypes.CollectionChanged += async (s, e) => await LoadPageAsync(1, isTypeChange: true);
+            SelectedCorrespondents.CollectionChanged += async (s, e) => await LoadPageAsync(1, isCorrChange: true);
+
+            ActiveFilters.CollectionChanged += (s, e) =>
+            {
+                OnPropertyChanged(nameof(HasActiveFilters));
+                OnPropertyChanged(nameof(DocumentCountDisplay));
+            };
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -66,77 +94,102 @@ namespace HCI_2025.ViewModel
         
         public async Task LoadInitialAsync()
         {
-            IsLoading = true; 
-            try
-            {
-                TotalDocuments = await _documentService.getOneDocAsync();
-                OnPropertyChanged(nameof(TotalDocuments));
+            IsLoading = true;
+            await _loader.InitializeAsync();
 
-                var tags = await _tagService.getTagsAsync();
-                TagsDict = tags.ToDictionary(t => t.Id, t => t.Name);
+            TagsList.Clear();
+            foreach (var tag in _loader.TagsDict.Values)
+                TagsList.Add(tag);
 
-                var types = await _docTypeService.getDocTypeAsync();
-                TypesDict = types.ToDictionary(t => t.Id, t => t.Name);
+            TypesList.Clear();
+            foreach (var type in _loader.TypesDict.Values)
+                TypesList.Add(type);
 
-                await LoadPageAsync(1);
-            }
-            finally
-            {
-                IsLoading = false;
-            }
+            CorrespondentsList.Clear();
+            foreach (var correspondent in _loader.CorrespondentsDict.Values)
+                CorrespondentsList.Add(correspondent);
+
+            TotalDocuments = await _loader.GetTotalDocumentsAsync();
+            await LoadPageAsync(1);
+            IsLoading = false;
         }
 
-        public async Task LoadPageAsync(int page)
+        public async Task LoadPageAsync(int page, bool isTagChange = false, bool isTypeChange = false, bool isCorrChange = false)
         {
             if (page < 1)
                 page = 1;
 
             IsLoading = true;
 
-            try
+            var tagIds = SelectedTags.Select(t => t.Id).ToList();
+            var typeIds = SelectedTypes.Select(t => t.Id).ToList();
+            var corrIds = SelectedCorrespondents.Select(t => t.Id).ToList();
+
+            if (isTagChange || isTypeChange || isCorrChange)
             {
-                var rawDocs = await _documentService.getAllDocumentsAsync(page, PageSize);
+                TotalDocuments = await CalculateTotalDocumentsAsync(
+                    tagIds.Count > 0 ? tagIds : null,
+                    typeIds.Count > 0 ? typeIds : null,
+                    corrIds.Count > 0 ? corrIds : null
+                );
+            }
 
-                if (rawDocs == null || rawDocs.Count == 0)
-                    return;
+            DocumentsAll = await _loader.LoadPageAsync(page, PageSize, tagIds, typeIds, corrIds);
 
+            if(DocumentsAll != null && DocumentsAll.Count > 0)
+            {
                 CurrentPage = page;
-
-                var loadedDocs = new List<Document>();
-
-                foreach (var d in rawDocs)
-                {
-                    BitmapImage? thumbBitmap;
-
-                    if (!_thumbnailCache.TryGetValue(d.Id, out thumbBitmap))
-                    {
-                        thumbBitmap = await _documentService.getDocumentThumbAsync(d.Id);
-                        _thumbnailCache[d.Id] = thumbBitmap;
-                    }
-
-                    loadedDocs.Add(new Document
-                    {
-                        Id = d.Id,
-                        Title = d.Title,
-                        Type = d.Type.HasValue && TypesDict.ContainsKey(d.Type.Value)
-                                ? TypesDict[d.Type.Value]
-                                : "Nepoznato",
-                        Tags = d.Tags.Select(id => TagsDict.ContainsKey(id) ? TagsDict[id] : "Nepoznato").ToList(),
-                        Date = d.Date,
-                        Thumbnail = thumbBitmap
-                    });
-                }
-
-                Documents.Clear();
-                foreach (var doc in loadedDocs)
-                    Documents.Add(doc);
-
-                OnPropertyChanged(nameof(Documents));
+                UpdateDocumentsView();
             }
-            finally
+
+            else
             {
-                IsLoading = false;
+                if (isTagChange || isTypeChange || isCorrChange)
+                {
+                    Documents.Clear();
+                    DocumentsAll = new List<Document>();
+                    TotalDocuments = 0;
+                }
             }
+
+            IsLoading = false;
+        }
+
+        public async Task ClearAllFiltersAsync()
+        {
+            IsLoading = true;
+
+            SelectedTags.Clear();
+            SelectedTypes.Clear();
+            SelectedCorrespondents.Clear();
+            ActiveFilters.Clear();
+
+            // Reset ukupnog broja dokumenata
+            TotalDocuments = await _loader.GetTotalDocumentsAsync();
+
+            await LoadPageAsync(1, isTagChange: true, isTypeChange: true, isCorrChange: true);
+
+            IsLoading = false;
+        }
+
+
+        public string DocumentCountDisplay
+        {
+            get
+            {
+                if (HasActiveFilters)
+                    return $"Documents: {TotalDocuments} (filtered)";
+                else
+                    return $"Documents: {TotalDocuments}";
+            }
+        }
+        private void UpdateDocumentsView()
+        {
+            Documents.Clear();
+            foreach (var doc in DocumentsAll)
+                Documents.Add(doc);
+
+            OnPropertyChanged(nameof(Documents));
         }
 
         public async Task NextPageAsync()
@@ -148,6 +201,23 @@ namespace HCI_2025.ViewModel
         {
             if (CurrentPage > 1)
                 await LoadPageAsync(CurrentPage - 1);
+        }
+
+        private async Task<int> CalculateTotalDocumentsAsync(List<int>? tagIds = null, List<int>? typeIds = null, List<int>? corrIds = null)
+        {
+            int total = 0;
+            int page = 1;
+            List<Document> docs;
+
+            do
+            {
+                docs = await _loader.LoadPageAsync(page, PageSize, tagIds, typeIds,corrIds);
+                total += docs.Count;
+                page++;
+            }
+            while (docs != null && docs.Count > 0);
+
+            return total;
         }
     }
 }

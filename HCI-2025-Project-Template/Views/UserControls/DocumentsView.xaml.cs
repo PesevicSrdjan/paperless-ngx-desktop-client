@@ -1,7 +1,9 @@
-﻿using HCI_2025.ViewModel;
+﻿using HCI_2025_Project_Template.Core.Models.Ui;
 using HCI_2025_Project_Template.Core.Services;
+using HCI_2025_Project_Template.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -36,7 +38,7 @@ namespace HCI_2025_Project_Template.Views.UserControls
 
             if (_viewModel == null)
             {
-                _viewModel = new DocumentsViewModel(new TagService(),new DocTypeService(), new DocumentService());
+                _viewModel = new DocumentsViewModel(new DocumentLoaderService());
 
                 _ = loadDataAsyncHelper();
             }
@@ -68,5 +70,131 @@ namespace HCI_2025_Project_Template.Views.UserControls
         {
             await _viewModel.PreviousPageAsync();
         }
+
+        private void CheckBox_Checked_Tag(object sender, RoutedEventArgs e)
+        {
+           var vm = DataContext as DocumentsViewModel;
+            OnFilterToggle((CheckBox)sender, vm.SelectedTags, vm.ActiveFilters);
+        }
+
+        private void CheckBox_Unchecked_Tag(object sender, RoutedEventArgs e)
+        {
+            var vm = DataContext as DocumentsViewModel;
+            OnFilterToggle((CheckBox)sender, vm.SelectedTags, vm.ActiveFilters);
+        }
+
+
+        private void CheckBox_Checked_Type(object sender, RoutedEventArgs e)
+        {
+            var vm = DataContext as DocumentsViewModel;
+            OnFilterToggle((CheckBox)sender, vm.SelectedTypes, vm.ActiveFilters);
+        }
+
+        private void CheckBox_Unchecked_Type(object sender, RoutedEventArgs e)
+        {
+            var vm = DataContext as DocumentsViewModel;
+            OnFilterToggle((CheckBox)sender, vm.SelectedTypes, vm.ActiveFilters);
+        }
+
+
+        private void CheckBox_Checked_Corr(object sender, RoutedEventArgs e)
+        {
+            var vm = DataContext as DocumentsViewModel;
+            OnFilterToggle((CheckBox)sender, vm.SelectedCorrespondents, vm.ActiveFilters);
+        }
+
+        private void CheckBox_Unchecked_Corr(object sender, RoutedEventArgs e)
+        {
+            var vm = DataContext as DocumentsViewModel;
+            OnFilterToggle((CheckBox)sender, vm.SelectedCorrespondents, vm.ActiveFilters);
+        }
+
+        private void OnFilterToggle<T>(CheckBox cb, ObservableCollection<T> selectedList, ObservableCollection<object> activeFilters)
+        {
+            bool isChecked = cb.IsChecked ?? false;
+            T item = (T)cb.DataContext;
+
+            if (isChecked)
+            {
+                if (!selectedList.Contains(item))
+                    selectedList.Add(item);
+
+                if (!activeFilters.Contains(item))
+                    activeFilters.Add(item);
+            }
+            else
+            {
+                selectedList.Remove(item);
+                activeFilters.Remove(item);
+            }
+        }
+
+        private void Item_Click(object sender, MouseButtonEventArgs e)
+        {
+
+            var cb = FindVisualChild<CheckBox>((Border)sender); 
+            cb.IsChecked = !cb.IsChecked; 
+            e.Handled = true;
+        }
+
+        private async void ClearFilters_Click(object sender, RoutedEventArgs e)
+        {
+            var vm = DataContext as DocumentsViewModel;
+            if (vm == null) return;
+
+            ComboBoxTags.SelectedItem = null;
+            ComboBoxTypes.SelectedItem = null;
+            ComboBoxCorrespondents.SelectedItem = null;
+
+            ResetComboBoxCheckBoxes(ComboBoxTags);
+            ResetComboBoxCheckBoxes(ComboBoxTypes);
+            ResetComboBoxCheckBoxes(ComboBoxCorrespondents);
+
+            await vm.ClearAllFiltersAsync();
+        }
+
+        private void ResetComboBoxCheckBoxes(ComboBox comboBox)
+        {
+            comboBox.SelectedItem = null;
+
+            foreach (var item in comboBox.Items)
+            {
+                if (comboBox.ItemContainerGenerator.ContainerFromItem(item) is ComboBoxItem cbi)
+                {
+                    if (FindVisualChild<CheckBox>(cbi) is CheckBox cb)
+                        cb.IsChecked = false;
+                }
+            }
+        }
+
+        private void ComboBoxTags_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBoxTags.SelectedItem = null;
+        }
+
+        private void ComboBoxTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBoxTypes.SelectedItem = null;
+        }
+
+        private void ComboBoxCorrespondents_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBoxCorrespondents.SelectedItem = null;
+        }
+
+        public static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+            {
+                var child = VisualTreeHelper.GetChild(obj, i);
+                if (child is T t)
+                    return t;
+                var childOfChild = FindVisualChild<T>(child);
+                if (childOfChild != null)
+                    return childOfChild;
+            }
+            return null;
+        }
+
     }
 }

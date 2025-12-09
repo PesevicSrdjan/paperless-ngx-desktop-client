@@ -10,9 +10,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using HCI_2025_Project_Template.Views;
-using HCI_2025.ViewModel;
-using HCI_2025.Core.Models;
+using HCI_2025_Project_Template.ViewModels;
 using HCI_2025_Project_Template.Core.Services;
+
 namespace HCI_2025_Project_Template
 {
     /// <summary>

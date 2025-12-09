@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 
 namespace HCI_2025_Project_Template.Core.Services
 {
-    public class TagService : ITagService
+    public class CorrespondentsService : ICorrespondentsService
     {
-        public async Task<List<Tag>> getTagsAsync()
+        public async Task<List<Correspondents>> getCorrespondentsAsync()
         {
             try
             {
@@ -22,27 +22,23 @@ namespace HCI_2025_Project_Template.Core.Services
 
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", AuthSession.Token);
 
-                string url = "api/tags/";
-
+                string url = "api/correspondents/";
                 var response = await client.GetAsync(url);
 
-
                 if (!response.IsSuccessStatusCode)
-                {
-                    return new List<Tag>();
-                }
+                    return new List<Correspondents>();
 
-                var data = await response.Content.ReadFromJsonAsync<TagResponse>();
+                var data = await response.Content.ReadFromJsonAsync<CorrespondentsResponse>();
 
-                if(data != null)
-                    return data.Results;
+                if (data != null && data.Results != null) return data.Results;
 
-                return new List<Tag>();
+                return new List<Correspondents>();
             }
             catch (HttpRequestException)
             {
-                return new List<Tag>();
+                return new List<Correspondents>();
             }
+
         }
     }
 }

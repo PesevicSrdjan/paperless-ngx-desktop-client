@@ -11,27 +11,25 @@
         WindowStartupLocation="CenterScreen"
         Icon="./Assets/paperless.ico"
         >
-        
-        <!-- Viewbox za responzivnost -->
-    <Viewbox Stretch="Uniform">
-        <Grid Width="800" Height="600">
-            <!-- Logo -->
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                 <!-- Tekst -->
-                <RowDefinition Height="Auto" />
-                <!-- Username -->
-                <RowDefinition Height="Auto" />
-                <!-- Password -->
-                <RowDefinition Height="Auto" />
-                <!-- Dugme -->
-                <RowDefinition Height="Auto" />
-                <!-- Prazan prostor -->
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
 
-            <!-- LOGO -->
-            <Image 
+    <Grid>
+        <!-- Logo -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <!-- Tekst -->
+            <RowDefinition Height="Auto" />
+            <!-- Username -->
+            <RowDefinition Height="Auto" />
+            <!-- Password -->
+            <RowDefinition Height="Auto" />
+            <!-- Dugme -->
+            <RowDefinition Height="Auto" />
+            <!-- Prazan prostor -->
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- LOGO -->
+        <Image 
                 Grid.Row="0"
                 Source="Assets/Paperless-Ngx_Black_Logo.png"
                 HorizontalAlignment="Center"
@@ -40,8 +38,8 @@
                 MaxWidth="350"
                 MaxHeight="200"/>
 
-            <!-- TEKST -->
-            <TextBlock 
+        <!-- TEKST -->
+        <TextBlock 
                 Grid.Row="1"
                 Text="Please sign in."
                 HorizontalAlignment="Center"
@@ -51,8 +49,8 @@
                 TextAlignment="Center"
                 Margin="0,10,0,10"/>
 
-            <!-- USERNAME -->
-            <TextBox 
+        <!-- USERNAME -->
+        <TextBox 
                 Grid.Row="2"
                 x:Name="txtBox_username"
                 HorizontalAlignment="Center"
@@ -68,26 +66,26 @@
                 TextChanged="txtBox_username_TextChanged"
                 GotFocus="txtBox_username_GotFocus"
                 LostFocus="txtBox_username_LostFocus">
-            </TextBox>
+        </TextBox>
 
-            <!-- POPUP -->
-            <Popup 
+        <!-- POPUP -->
+        <Popup 
                 x:Name="popupSuggestions"
                 PlacementTarget="{Binding ElementName=txtBox_username}"
                 Placement="Top"
                 StaysOpen="False">
-                <Border 
+            <Border 
                     Background="White" BorderBrush="Gray" BorderThickness="1">
-                    <ListBox 
+                <ListBox 
                         x:Name="listSuggestions"
                         SelectionChanged="listSuggestions_SelectionChanged"
                         MaxHeight="200"
                         FontSize="16" />
-                </Border>
-            </Popup>
+            </Border>
+        </Popup>
 
-            <!-- PASSWORD -->
-            <PasswordBox 
+        <!-- PASSWORD -->
+        <PasswordBox 
                 Grid.Row="3"
                 x:Name="passwordBox_password"
                 HorizontalAlignment="Center"
@@ -101,8 +99,8 @@
                 Style="{StaticResource MaterialDesignOutlinedRevealPasswordBox}"
                 FontSize="16"/>
 
-            <!-- BUTTON -->
-            <Button 
+        <!-- BUTTON -->
+        <Button 
                 Grid.Row="4"
                 x:Name="button_login"
                 Content="Sign in"
@@ -112,6 +110,5 @@
                 IsDefault="True"
                 Click="Button_Click"
                 />
-        </Grid>
-    </Viewbox>
+    </Grid>
 </Window>

@@ -2,17 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace HCI_2025.Core.Models
+namespace HCI_2025_Project_Template.Core.Models.Ui
 {
-    public class DocType
+    public class CorrespondentsInfo
     {
-        [JsonPropertyName("id")]
         public int Id { get; set; }
-
-        [JsonPropertyName("name")]
         public required string Name { get; set; }
     }
 }

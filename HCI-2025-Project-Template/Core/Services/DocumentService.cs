@@ -1,5 +1,6 @@
-﻿using HCI_2025.Core.Interfaces;
-using HCI_2025.Core.Models;
+﻿using HCI_2025_Project_Template.Core.Interfaces;
+using HCI_2025_Project_Template.Core.Models.Api;
+using HCI_2025_Project_Template.Core.Models.Responses;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,7 +21,8 @@ namespace HCI_2025_Project_Template.Core.Services
 {
     public class DocumentService : IDocumentService
     {
-        public async Task<List<DocumentJson>> getAllDocumentsAsync(int page = 1, int pageSize = 50)
+        public async Task<List<DocumentJson>> getAllDocumentsAsync(int page = 1, int pageSize = 50,
+            List<int>? tagIds = null, List<int>? typeIds = null, List<int>? corrIds = null)
         {
             try
             {
@@ -30,8 +32,33 @@ namespace HCI_2025_Project_Template.Core.Services
                 // 2. Postavljanje Tokena u Header HTTP zaglavlja.
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", AuthSession.Token);
 
+                List<string> query = new();
+
                 // 3. Konstrukcija URL- a.
-                string url = $"api/documents/?page={page}&page_size={pageSize}";
+                if (tagIds != null && tagIds.Count > 0)
+                {
+                    string tagParam = string.Join(",", tagIds);
+                    query.Add($"tags__id__all={tagParam}");
+                }
+
+                if (typeIds != null && typeIds.Count > 0)
+                {
+                    string typeParam = string.Join(",", typeIds);
+                    query.Add($"document_type__id__in={typeParam}");
+                }
+
+                if (corrIds != null && corrIds.Count > 0)
+                {
+                    string corrParam = string.Join(",", corrIds);
+                    query.Add($"correspondent__id__in={corrParam}");
+                }
+
+                query.Add($"page={page}");
+                query.Add($"page_size={pageSize}");
+
+                string finalQuery = string.Join("&", query);
+                string url = $"api/documents/?{finalQuery}";
+
 
                 // 4. Slanje zahtjeva.
                 var response = await client.GetAsync(url);

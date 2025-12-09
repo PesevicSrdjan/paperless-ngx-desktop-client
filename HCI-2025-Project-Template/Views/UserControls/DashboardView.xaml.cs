@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HCI_2025_Project_Template.Views
+namespace HCI_2025_Project_Template.Views.UserControls
 {
     /// <summary>
     /// Interaction logic for DashboardView.xaml
