@@ -252,7 +252,7 @@ namespace HCI_2025_Project_Template.ViewModels
             try
             {
                 _searchTimer?.Stop();
-                _searchTitle = "";
+                SearchTitle = "";
                 _currentSearchTitle = "";
                 
                 if (clearAll)
@@ -263,7 +263,6 @@ namespace HCI_2025_Project_Template.ViewModels
                     ActiveFilters.Clear();
                 }
 
-                OnPropertyChanged(nameof(SearchTitle));
                 OnPropertyChanged(nameof(HasActiveFilters));
 
                 _suppressLoad = false;
