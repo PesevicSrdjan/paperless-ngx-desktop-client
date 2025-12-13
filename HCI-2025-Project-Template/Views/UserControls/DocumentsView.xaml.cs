@@ -83,7 +83,6 @@ namespace HCI_2025_Project_Template.Views.UserControls
             OnFilterToggle((CheckBox)sender, vm.SelectedTags, vm.ActiveFilters);
         }
 
-
         private void CheckBox_Checked_Type(object sender, RoutedEventArgs e)
         {
             var vm = DataContext as DocumentsViewModel;
@@ -150,7 +149,7 @@ namespace HCI_2025_Project_Template.Views.UserControls
             ResetComboBoxCheckBoxes(ComboBoxTypes);
             ResetComboBoxCheckBoxes(ComboBoxCorrespondents);
 
-            await vm.ClearAllFiltersAsync();
+            await vm.ClearFiltersAsync(clearAll: true);
         }
 
         private void ResetComboBoxCheckBoxes(ComboBox comboBox)
@@ -180,6 +179,15 @@ namespace HCI_2025_Project_Template.Views.UserControls
         private void ComboBoxCorrespondents_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBoxCorrespondents.SelectedItem = null;
+        }
+
+        private void textBox_search_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var tb = sender as TextBox;
+            if (tb != null && string.IsNullOrEmpty(tb.Text))
+            {
+                _viewModel?.ClearFiltersAsync(clearAll: false);
+            }
         }
 
         public static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject

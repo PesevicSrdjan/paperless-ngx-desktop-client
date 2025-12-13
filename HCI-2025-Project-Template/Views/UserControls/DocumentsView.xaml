@@ -33,7 +33,11 @@
 
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsLoading}" Value="True">
-                    <Setter Property="IsEnabled" Value="False"/>
+                    <Setter Property="IsReadOnly" Value="True"/>
+                    <Setter Property="Background" Value="#EEE"/>
+                    <Setter Property="Foreground" Value="#888"/>
+                    
+                    <Setter Property="IsHitTestVisible" Value="False"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -163,7 +167,9 @@
             Grid.Row="1"
             Grid.ColumnSpan="3"
             x:Name="textBox_search"
-            Style="{StaticResource SearchTextBoxStyle}"/>
+            Style="{StaticResource SearchTextBoxStyle}"
+            Text="{Binding SearchTitle, UpdateSourceTrigger=PropertyChanged}"
+            TextChanged="textBox_search_TextChanged"/>
 
         <!--Ostavljen prostor za filtere-->
         <ComboBox
@@ -328,16 +334,17 @@
             Click="ClearFilters_Click">
             <Button.Style>
                 <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
-                    <Setter Property="Visibility" Value="Visible"/>
+                    <Setter Property="Visibility" Value="Collapsed"/>
                     
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsLoading}" Value="True">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                        </DataTrigger>
-                        
-                        <DataTrigger Binding="{Binding HasActiveFilters}" Value="False">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                        </DataTrigger>
+                        <!-- Dugme je vidljivo samo kada nije loading i ima filtere -->
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsLoading}" Value="False"/>
+                                <Condition Binding="{Binding HasActiveFilters}" Value="True"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </MultiDataTrigger>
                     </Style.Triggers>
                 </Style>
             </Button.Style>

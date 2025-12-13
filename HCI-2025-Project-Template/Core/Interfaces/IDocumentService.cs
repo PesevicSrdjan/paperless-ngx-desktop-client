@@ -10,8 +10,12 @@ namespace HCI_2025_Project_Template.Core.Interfaces
 {
     public interface IDocumentService
     {
-        Task<List<DocumentJson>> getAllDocumentsAsync(int page = 1, int pageSize = 50,
-            List<int>? tagIds = null, List<int>? typeIds = null, List<int>? corrIds = null);
+        Task<List<DocumentJson>> getAllDocumentsAsync(
+            int page = 1, int pageSize = 50,
+            List<int>? tagIds = null, 
+            List<int>? typeIds = null, 
+            List<int>? corrIds = null,
+            string? title = null);
         Task<int> getOneDocAsync(int page = 1, int pageSize = 1);
         Task<BitmapImage?> getDocumentThumbAsync(int idDoc);
     }

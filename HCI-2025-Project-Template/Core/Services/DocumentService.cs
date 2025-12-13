@@ -21,8 +21,12 @@ namespace HCI_2025_Project_Template.Core.Services
 {
     public class DocumentService : IDocumentService
     {
-        public async Task<List<DocumentJson>> getAllDocumentsAsync(int page = 1, int pageSize = 50,
-            List<int>? tagIds = null, List<int>? typeIds = null, List<int>? corrIds = null)
+        public async Task<List<DocumentJson>> getAllDocumentsAsync(
+            int page = 1, int pageSize = 50,
+            List<int>? tagIds = null, 
+            List<int>? typeIds = null, 
+            List<int>? corrIds = null,
+            string? title = null)
         {
             try
             {
@@ -51,6 +55,12 @@ namespace HCI_2025_Project_Template.Core.Services
                 {
                     string corrParam = string.Join(",", corrIds);
                     query.Add($"correspondent__id__in={corrParam}");
+                }
+
+                if (!string.IsNullOrWhiteSpace(title))
+                {
+                    string encodedTitle = WebUtility.UrlEncode(title);
+                    query.Add($"title_content={encodedTitle}");
                 }
 
                 query.Add($"page={page}");

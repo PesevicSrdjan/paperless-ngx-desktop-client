@@ -69,9 +69,9 @@ namespace HCI_2025_Project_Template.Core.Services
         }
 
         public async Task<List<Document>> LoadPageAsync(int page, int pageSize, List<int>? tagIds = null, List<int>? typeIds = null,
-            List<int>? corrIds = null)
+            List<int>? corrIds = null, string? title = null)
         {
-            var rawDocs = await _documentService.getAllDocumentsAsync(page, pageSize, tagIds, typeIds, corrIds);
+            var rawDocs = await _documentService.getAllDocumentsAsync(page, pageSize, tagIds, typeIds, corrIds, title);
 
             if (rawDocs == null || rawDocs.Count == 0)
                 return new List<Document>();
