@@ -99,15 +99,48 @@ namespace HCI_2025_Project_Template.Core.Services
             }
         }
 
-        public async Task<int> getOneDocAsync(int page = 1, int pageSize = 1)
+        public async Task<int> getTotalDocumentsAsync(
+            List<int>? tagIds = null,
+            List<int>? typeIds = null,
+            List<int>? corrIds = null,
+            string? title = null)
         {
             try
             {
                 var client = ApiClient.Instance;
-
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", AuthSession.Token);
 
-                string url = $"api/documents/?page={page}&page_size={pageSize}";
+                List<string> query = new();
+
+                if (tagIds != null && tagIds.Count > 0)
+                {
+                    string tagParam = string.Join(",", tagIds);
+                    query.Add($"tags__id__all={tagParam}");
+                }
+
+                if (typeIds != null && typeIds.Count > 0)
+                {
+                    string typeParam = string.Join(",", typeIds);
+                    query.Add($"document_type__id__in={typeParam}");
+                }
+
+                if (corrIds != null && corrIds.Count > 0)
+                {
+                    string corrParam = string.Join(",", corrIds);
+                    query.Add($"correspondent__id__in={corrParam}");
+                }
+
+                if (!string.IsNullOrWhiteSpace(title))
+                {
+                    string encodedTitle = WebUtility.UrlEncode(title);
+                    query.Add($"title_content={encodedTitle}");
+                }
+
+                query.Add($"page=1");
+                query.Add($"page_size=1");
+
+                string finalQuery = string.Join("&", query);
+                string url = $"api/documents/?{finalQuery}";
 
                 var response = await client.GetAsync(url);
 
@@ -117,11 +150,7 @@ namespace HCI_2025_Project_Template.Core.Services
                 response.EnsureSuccessStatusCode();
 
                 var data = await response.Content.ReadFromJsonAsync<DocumentsResponse>();
-
-                if (data != null)
-                    return data.count;
-
-                return 0;
+                return data?.count ?? 0;
             }
             catch (HttpRequestException)
             {
@@ -172,6 +201,5 @@ namespace HCI_2025_Project_Template.Core.Services
 
             return bitmap;
         }
-
     }
 }

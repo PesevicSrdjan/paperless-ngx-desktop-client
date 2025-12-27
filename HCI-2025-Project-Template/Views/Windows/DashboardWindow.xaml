@@ -159,7 +159,8 @@
                     x:Name="button_tags"
                     Style="{StaticResource SideBarButtonStyle}"
                     Tag="Tags"
-                    Content="Tags">
+                    Content="Tags"
+                    Click="button_tags_Click">
                 </Button>
                 
             </StackPanel>

@@ -14,7 +14,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using static System.Net.Mime.MediaTypeNames;
+using System.Windows;
 
 namespace HCI_2025_Project_Template.ViewModels
 {
@@ -108,7 +108,7 @@ namespace HCI_2025_Project_Template.ViewModels
                     _searchTimer.Tick += async (s, e) =>
                     {
                         _searchTimer.Stop();
-                        await LoadPageAsync(1, title: _searchTitle);
+                        await LoadPageAsync(1, title: _searchTitle, forceRecalcTotalDocuments: true);
 
                         OnPropertyChanged(nameof(HasActiveFilters));
                     };
@@ -180,7 +180,8 @@ namespace HCI_2025_Project_Template.ViewModels
             bool isTypeChange = false, 
             bool isCorrChange = false, 
             bool isPagination = false, 
-            string? title = null)
+            string? title = null,
+            bool forceRecalcTotalDocuments = false)
 
         {
             if (page < 1)
@@ -201,10 +202,11 @@ namespace HCI_2025_Project_Template.ViewModels
 
                 bool isTitleChange = title != null && title != _currentSearchTitle;
 
-                Debug.WriteLine($"isTagChange={isTagChange}, isTypeChange={isTypeChange}, isCorrChange={isCorrChange}, isTitleChange={isTitleChange}");
+
+                Debug.WriteLine($"isTagChange={isTagChange}, isTypeChange={isTypeChange}, isCorrChange={isCorrChange}, isTitleChange={isTitleChange}, forceRecalcTotalDocuments ={forceRecalcTotalDocuments}");
 
 
-                if (isTagChange || isTypeChange || isCorrChange || isTitleChange)
+                if (forceRecalcTotalDocuments || isTagChange || isTypeChange || isCorrChange || isTitleChange)
                 {
 
                     Debug.WriteLine("Ušao u if za računanje TotalDocuments");
@@ -217,6 +219,7 @@ namespace HCI_2025_Project_Template.ViewModels
                 }
 
                 DocumentsAll = await _loader.LoadPageAsync(page, PageSize, tagIds, typeIds, corrIds, effectiveTitle);
+
 
                 if (DocumentsAll != null && DocumentsAll.Count > 0)
                 {
@@ -267,7 +270,8 @@ namespace HCI_2025_Project_Template.ViewModels
 
                 _suppressLoad = false;
 
-                await LoadPageAsync(1, isTagChange: true, isTypeChange: true, isCorrChange: true);
+                await LoadPageAsync(1, isTagChange: true, isTypeChange: true, isCorrChange: true, forceRecalcTotalDocuments: true);
+
             }
             finally 
             { 
@@ -286,13 +290,13 @@ namespace HCI_2025_Project_Template.ViewModels
             }
         }
         private void UpdateDocumentsView()
-         {
-             Documents.Clear();
-             foreach (var doc in DocumentsAll)
-                 Documents.Add(doc);
+        {
+            Documents.Clear();
+            foreach (var doc in DocumentsAll)
+                Documents.Add(doc);
 
-             OnPropertyChanged(nameof(Documents));
-         }
+            OnPropertyChanged(nameof(Documents));
+        }
         public async Task NextPageAsync()
         {
             IsLoading = true;
@@ -310,19 +314,7 @@ namespace HCI_2025_Project_Template.ViewModels
         #endregion
         private async Task<int> CalculateTotalDocumentsAsync(List<int>? tagIds = null, List<int>? typeIds = null, List<int>? corrIds = null, string? title = null)
         {
-            int total = 0;
-            int page = 1;
-            List<Document> docs;
-
-            do
-            {
-                docs = await _loader.LoadPageAsync(page, PageSize, tagIds, typeIds,corrIds,title);
-                total += docs.Count;
-                page++;
-            }
-            while (docs != null && docs.Count > 0);
-
-            return total;
+            return await _loader.GetTotalDocumentsAsync(tagIds, typeIds, corrIds, title);
         }
     
     }

@@ -5,13 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media.Imaging;
 
 namespace HCI_2025_Project_Template.Core.Services
 {
     public class DocumentLoaderService
     {
-        private readonly IDocumentService  _documentService;
+        private readonly IDocumentService _documentService;
         private readonly ITagService _tagService;
         private readonly IDocTypeService _docTypeService;
         private readonly ICorrespondentsService _correspondentsService;
@@ -21,6 +22,8 @@ namespace HCI_2025_Project_Template.Core.Services
 
         private readonly Dictionary<int, BitmapImage?> _thumbnailCache = new();
 
+        // Default thumbnail pri učitavanju - "pravi" thumbnail stiže postepno - lazy loading.
+        private static readonly BitmapImage PlaceholderImage = new BitmapImage(new Uri("pack://application:,,,/Assets/plholder.png"));
         public DocumentLoaderService()
         {
             _documentService = new DocumentService();
@@ -29,11 +32,24 @@ namespace HCI_2025_Project_Template.Core.Services
             _correspondentsService = new CorrespondentsService();
         }
 
+        public async Task<int> GetTotalDocumentsAsync(List<int>? tagIds = null, List<int>? typeIds = null, List<int>? corrIds = null, string? title = null)
+        {
+            return await _documentService.getTotalDocumentsAsync(tagIds, typeIds, corrIds, title);
+        }
+
         public async Task InitializeAsync()
         {
-            var tags = await _tagService.getTagsAsync();
-            TagsDict = tags.ToDictionary
-            (  
+            var tagsTask = _tagService.getTagsAsync();
+            var typesTask = _docTypeService.getDocTypeAsync();
+            var corrTask = _correspondentsService.getCorrespondentsAsync();
+
+            await Task.WhenAll(tagsTask, typesTask, corrTask);
+
+            var tags = tagsTask.Result;
+            var types = typesTask.Result;
+            var correspondents = corrTask.Result;
+
+            TagsDict = tags.ToDictionary(
                 t => t.Id,
                 t => new TagInfo
                 {
@@ -44,21 +60,16 @@ namespace HCI_2025_Project_Template.Core.Services
                 }
             );
 
-            var types = await _docTypeService.getDocTypeAsync();
-            TypesDict = types.ToDictionary
-            (
-                t => t.Id, 
+            TypesDict = types.ToDictionary(
+                t => t.Id,
                 t => new DocTypeInfo
                 {
                     Id = t.Id,
-                    Name = t.Name,
+                    Name = t.Name
                 }
             );
 
-            var correspondents = await _correspondentsService.getCorrespondentsAsync();
-
-            CorrespondentsDict = correspondents.ToDictionary
-            (
+            CorrespondentsDict = correspondents.ToDictionary(
                 t => t.Id,
                 t => new CorrespondentsInfo
                 {
@@ -68,43 +79,67 @@ namespace HCI_2025_Project_Template.Core.Services
             );
         }
 
-        public async Task<List<Document>> LoadPageAsync(int page, int pageSize, List<int>? tagIds = null, List<int>? typeIds = null,
-            List<int>? corrIds = null, string? title = null)
+
+        public async Task<List<Document>> LoadPageAsync(
+            int page, int pageSize,
+            List<int>? tagIds = null, 
+            List<int>? typeIds = null,
+            List<int>? corrIds = null, 
+            string? title = null)
         {
             var rawDocs = await _documentService.getAllDocumentsAsync(page, pageSize, tagIds, typeIds, corrIds, title);
 
             if (rawDocs == null || rawDocs.Count == 0)
                 return new List<Document>();
 
-            var loadedDocs = new List<Document>();
-
-            foreach (var d in rawDocs)
+            var docs = rawDocs.Select(d => new Document
             {
-                if (!_thumbnailCache.TryGetValue(d.Id, out var thumb))
-                {
-                    thumb = await _documentService.getDocumentThumbAsync(d.Id);
-                    _thumbnailCache[d.Id] = thumb;
-                }
+                Id = d.Id,
+                Title = d.Title,
+                Type = d.Type.HasValue && TypesDict.ContainsKey(d.Type.Value)
+                       ? TypesDict[d.Type.Value].Name
+                       : "Nepoznato",
+                Tags = d.Tags.Where(id => TagsDict.ContainsKey(id)).Select(id => TagsDict[id]).ToList(),
+                Date = d.Date,
+                Thumbnail = PlaceholderImage,
+                IsThumbnailLoading = true
 
-                loadedDocs.Add(new Document
-                {
-                    Id = d.Id,
-                    Title = d.Title,
-                    Type = d.Type.HasValue && TypesDict.ContainsKey(d.Type.Value)
-                            ? TypesDict[d.Type.Value].Name
-                            : "Nepoznato",
-                    Tags = d.Tags.Where(id => TagsDict.ContainsKey(id)).Select(id => TagsDict[id]).ToList(),
-                    Date = d.Date,
-                    Thumbnail = thumb
-                });
-            }
+            }).ToList();
 
-            return loadedDocs;
+            _ = LoadThumbnailsAsync(docs);
+
+            return docs;
         }
 
-        public async Task<int> GetTotalDocumentsAsync()
+
+        public async Task LoadThumbnailsAsync(List<Document> docs)
         {
-            return await _documentService.getOneDocAsync();
+            // Max 2 paralelnih thumbnaila se učitava - jer želimo da učitavanje dokumenata bude brže.
+            var semaphore = new SemaphoreSlim(2); 
+            var tasks = docs.Select(async doc =>
+            {
+                await semaphore.WaitAsync();
+                try
+                {
+                    if (!_thumbnailCache.TryGetValue(doc.Id, out var thumb))
+                    {
+                        thumb = await _documentService.getDocumentThumbAsync(doc.Id);
+                        _thumbnailCache[doc.Id] = thumb;
+                    }
+
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        doc.Thumbnail = thumb ?? PlaceholderImage;
+                        doc.IsThumbnailLoading = false;
+                    });
+                }
+                finally
+                {
+                    semaphore.Release();
+                }
+            });
+
+            await Task.WhenAll(tasks);
         }
     }
 }

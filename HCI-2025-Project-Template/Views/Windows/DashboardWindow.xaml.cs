@@ -73,11 +73,14 @@ namespace HCI_2025_Project_Template.Views
                 }
             }
         }
-
         private void SidebarButton_Click(object sender, RoutedEventArgs e)
         {
             resetPrevSelectedButton();
             setNewSelectedButton(sender as Button);
+        }
+        private void button_tags_Click(object sender, RoutedEventArgs e)
+        {
+            MainContentControl.Content = new TagsView();
         }
     }
 }

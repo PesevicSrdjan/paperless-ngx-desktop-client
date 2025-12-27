@@ -1,0 +1,95 @@
+﻿<UserControl x:Class="HCI_2025_Project_Template.Views.UserControls.TagsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HCI_2025_Project_Template.Views.UserControls"
+             mc:Ignorable="d" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             d:DesignHeight="450" d:DesignWidth="800">
+<UserControl.Resources>
+    
+    <Style x:Key="LoadingCircularProgressBar" TargetType="ProgressBar" BasedOn="{StaticResource MaterialDesignCircularProgressBar}">
+        <Setter Property="Width" Value="20"/>
+        <Setter Property="Height" Value="20"/>
+        <Setter Property="IsIndeterminate" Value="True"/>
+        <Setter Property="Visibility" Value="Collapsed"/>
+        <Setter Property="Margin" Value="20,0,0,0"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                <Setter Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+</UserControl.Resources>
+
+    <Grid 
+        Background="White">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Text="Tags"
+            FontSize="25"
+            FontWeight="SemiBold"
+            Margin="20,20,0,0"/>
+
+        <Button 
+            Style="{StaticResource MaterialDesignOutlinedButton}"
+            Grid.Row="0"
+            Width="80"
+            HorizontalAlignment="Right"
+            Margin="20,4,50,0"
+            Padding="5,2"
+            Click="CreateTag_Click">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <materialDesign:PackIcon 
+                    Kind="Plus" 
+                    Width="16" 
+                    Height="16" 
+                    Margin="0,0,4,0"/>
+                <TextBlock 
+                    Text="Create"/>
+            </StackPanel>
+        </Button>
+
+        <StackPanel Grid.Row="1" HorizontalAlignment="Left" Orientation="Horizontal">
+            <!-- ProgressBar za učitavanje -->
+            <ProgressBar 
+                x:Name="loadingBar"
+                Style="{StaticResource LoadingCircularProgressBar}">    
+            </ProgressBar>
+
+            <TextBlock
+                Text="Loading..."
+                FontStyle="Italic"
+                Foreground="Gray"
+                Margin="10,10,0,0"> 
+
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </StackPanel>
+
+        <ContentControl x:Name="TagsContentControl" Grid.Row="2"></ContentControl>
+    </Grid>
+</UserControl>

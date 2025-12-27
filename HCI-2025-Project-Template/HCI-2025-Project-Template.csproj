@@ -15,6 +15,8 @@
     <None Remove="Assets\paperless-logo.png" />
     <None Remove="Assets\Paperless-Ngx_Black_Logo.png" />
     <None Remove="Assets\paperless.ico" />
+    <None Remove="Assets\placeholder.png" />
+    <None Remove="Assets\plholder.png" />
     <None Remove="Assets\Screenshot_2.png" />
     <None Remove="Assets\unnamed.png" />
   </ItemGroup>
@@ -36,6 +38,12 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\paperless.ico">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\placeholder.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\plholder.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\unnamed.png">

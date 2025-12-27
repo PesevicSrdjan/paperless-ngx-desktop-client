@@ -16,7 +16,12 @@ namespace HCI_2025_Project_Template.Core.Interfaces
             List<int>? typeIds = null, 
             List<int>? corrIds = null,
             string? title = null);
-        Task<int> getOneDocAsync(int page = 1, int pageSize = 1);
         Task<BitmapImage?> getDocumentThumbAsync(int idDoc);
+
+        Task<int> getTotalDocumentsAsync(
+           List<int>? tagIds = null,
+           List<int>? typeIds = null,
+           List<int>? corrIds = null,
+           string? title = null);
     }
 }

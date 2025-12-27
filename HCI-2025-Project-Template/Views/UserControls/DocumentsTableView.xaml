@@ -61,8 +61,7 @@
                                             <TextBlock 
                                                 Text="{Binding Name}" 
                                                 Foreground="White" 
-                                                FontSize="10"
-                                            />
+                                                FontSize="10"/>
                                         </Border>
                                         
                                     </DataTemplate>

@@ -19,6 +19,6 @@ namespace HCI_2025_Project_Template.Core.Models.Api
         public required string TagColor { get; set; }
 
         [JsonPropertyName("document_count")]
-        public required int DocumentCount { get; set; }
+        public int DocumentCount { get; set; }
     }
 }
