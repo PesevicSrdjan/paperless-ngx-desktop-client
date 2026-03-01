@@ -2,28 +2,47 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:HCI_2025_Project_Template"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              StartupUri="MainWindow.xaml">
 
     <Application.Resources>
+
         <ResourceDictionary>
+
             <ResourceDictionary.MergedDictionaries>
 
                 <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="Green" SecondaryColor="Lime" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml" />
-            
-            </ResourceDictionary.MergedDictionaries>
 
-            <!-- Globalni stil za sve button-e -->
+            </ResourceDictionary.MergedDictionaries>
+            
+            <BitmapImage x:Key="Logo" UriSource="pack://application:,,,/Assets/Paperless-Ngx_Black_Logo.png"/>
+
+            <!-- ========== ACCENT COLORS ========== -->
+            <Color x:Key="AccentColorLight">#17541F</Color>
+            <Color x:Key="AccentColorDark">#57C566</Color>
+
+            <!-- ========== FONT SIZES ========== -->
+            <sys:Double x:Key="BodyFontSizeExtraSmall">12</sys:Double>
+            <sys:Double x:Key="BodyFontSizeSmall">14</sys:Double>
+            <sys:Double x:Key="BodyFontSizeDefault">16</sys:Double>
+            <sys:Double x:Key="BodyFontSizeLarge">20</sys:Double>
+            <sys:Double x:Key="FontSizeTitle">30</sys:Double>
+
+            <SolidColorBrush x:Key="AccentColor" Color="{DynamicResource AccentColorLight}"/>
+
             <Style TargetType="Button" BasedOn= "{StaticResource MaterialDesignFlatDarkBgButton}">
-                <Setter Property="Background" Value="#17541F"/>
+                <Setter Property="Background" Value="{DynamicResource AccentColor}"/>
                 <Setter Property="FontSize" Value="16"/>
                 <Setter Property="Foreground" Value="White"/>
-                <Setter Property="Margin" Value="0,10,0,0"/>
             </Style>
-            
+
+            <Style x:Key="BodyTextStyle" TargetType="TextBlock">
+                <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}"/>
+            </Style>
+
         </ResourceDictionary>
 
-        
     </Application.Resources>
 </Application>

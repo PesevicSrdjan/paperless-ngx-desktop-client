@@ -4,12 +4,215 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HCI_2025_Project_Template.Views.UserControls"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="White">
-        <TextBlock Text="Dashboard Page" 
-                   FontSize="30"
-                   VerticalAlignment="Center" 
-                   HorizontalAlignment="Center"/>
+
+
+    <UserControl.Resources>
+
+        <!-- ========== COLORS ========== -->
+        <SolidColorBrush x:Key="DashboardCardBackground">#F0FFF4</SolidColorBrush>
+        <SolidColorBrush x:Key="DashboardPrimaryTextBrush">Black</SolidColorBrush>
+        
+        <!-- ========== CONTROL SIZES ========== -->
+        <sys:Double x:Key="ButtonWidth">200</sys:Double>
+        <sys:Double x:Key="ButtonHeight">70</sys:Double>
+        <sys:Double x:Key="LogoWidth">170</sys:Double>
+        <sys:Double x:Key="LogoHeight">75</sys:Double>
+        <sys:Double x:Key="UploadIconWidth">36</sys:Double>
+        <sys:Double x:Key="UploadIconHeight">36</sys:Double>
+
+        <!-- ========== BORDER THICKNESS ========== -->
+        <Thickness x:Key="DefaultBorderThickness">1</Thickness>
+
+        <!-- ========== FONT SIZE ========== -->
+        <sys:Double x:Key="CardTitle">26</sys:Double>
+
+        <!-- ========== MARGINS ========== -->
+        <Thickness x:Key="TitleMargins">25</Thickness>
+        <Thickness x:Key="SubTitleMargins">0,0,0,30</Thickness>
+        <Thickness x:Key="UploadButtonMargins">10,0,20,0</Thickness>
+        <Thickness x:Key="CardMargins">20,0,10,0</Thickness>
+        <Thickness x:Key="CardBodyMargins">0,8,0,0</Thickness>
+        <Thickness x:Key="CardFooterMargins">0,10,0,0</Thickness>
+
+        <!-- ========== CORNER RADIUS ========== -->
+        <CornerRadius x:Key="DashboardCornerRadius">5</CornerRadius>
+        <CornerRadius x:Key="CardCornerRadius">5</CornerRadius>
+        
+        <!-- ========== PADDING ========== -->
+        <Thickness x:Key="CardPadding">15</Thickness>
+        
+        <Style x:Key="CustomUploadButtonStyle" TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
+            <Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentColor}"/>
+            <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="{StaticResource DashboardCornerRadius}"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border 
+                                x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{Binding Path=(materialDesign:ButtonAssist.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}">
+                                <ContentPresenter 
+                                    HorizontalAlignment="Center" 
+                                    VerticalAlignment="Center" 
+                                    Content="{TemplateBinding Content}" 
+                                    ContentTemplate="{TemplateBinding ContentTemplate}"/>
+                            </Border>
+                        </Grid>
+                        
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="Black"/>
+                                <Setter TargetName="border" Property="Background" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#EEE"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+    </UserControl.Resources>
+
+    <Grid
+        Background="{DynamicResource MaterialDesignPaper}"
+        AllowDrop="True"
+        DragEnter="Grid_DragEnter"
+        Drop="Grid_Drop">
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="0"
+            Style="{StaticResource BodyTextStyle}"
+            Text="Dashboard" 
+            FontSize="{StaticResource FontSizeTitle}"
+            FontWeight="SemiBold"
+            VerticalAlignment="Top" 
+            HorizontalAlignment="Left"
+            Margin="{StaticResource TitleMargins}"/>
+
+        <TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
+            Style="{StaticResource BodyTextStyle}"
+            Text="Hello Student, welcome to Paperless-ngx" 
+            FontSize="{StaticResource BodyFontSizeDefault}"
+            VerticalAlignment="Bottom" 
+            HorizontalAlignment="Left"
+            Margin="{StaticResource SubTitleMargins}"/>
+
+        <Image Grid.Row="0" Grid.Column="3"
+            Stretch="Uniform"
+            Source="{DynamicResource Logo}"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center"
+            Width="{StaticResource LogoWidth}"
+            Height="{StaticResource LogoHeight}"/>
+
+
+        <Button Grid.Row="1" Grid.Column="3"
+            Width="{StaticResource ButtonWidth}"
+            Height="{StaticResource ButtonHeight}"
+            BorderThickness="{StaticResource DefaultBorderThickness}"
+            Cursor="Hand"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Center"
+            Margin="{StaticResource UploadButtonMargins}"
+            Style="{StaticResource CustomUploadButtonStyle}"
+            Click="UploadButton_Click">
+
+            <StackPanel
+                Orientation="Vertical"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+
+                <!-- Gornji red: ikona + tekst -->
+                <StackPanel
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center">
+
+                    <materialDesign:PackIcon
+                        Kind="Upload"
+                        Width="{StaticResource UploadIconWidth}"
+                        Height="{StaticResource UploadIconHeight}"
+                        Foreground="{DynamicResource AccentColor}"/>
+
+                    <TextBlock
+                        Text="Upload documents"
+                        FontSize="{StaticResource BodyFontSizeSmall}"
+                        FontWeight="SemiBold"
+                        Foreground="{DynamicResource AccentColor}"
+                        VerticalAlignment="Center"/>    
+                </StackPanel>
+
+                <TextBlock
+                    Text="or drop files anywhere"
+                    FontSize="{StaticResource BodyFontSizeExtraSmall}"
+                    FontStyle="Italic"
+                    Foreground="{StaticResource AccentColor}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"/>
+            </StackPanel>
+        </Button>
+
+        <Border Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="1"
+            BorderBrush="{DynamicResource AccentColor}" 
+            BorderThickness="{StaticResource DefaultBorderThickness}" 
+            CornerRadius="{StaticResource CardCornerRadius}" 
+            Padding="{StaticResource CardPadding}" 
+            Margin="{StaticResource CardMargins}"
+            Background="{StaticResource DashboardCardBackground}">
+            <StackPanel>
+                <!-- Naslov -->
+                <TextBlock 
+                    Text="Paperless-ngx is running! 🎉" 
+                    FontWeight="SemiBold" 
+                    FontSize="{StaticResource CardTitle}" 
+                    Foreground="{DynamicResource AccentColor}"/>
+
+                <!-- Glavni tekst -->
+                <TextBlock 
+                    TextWrapping="Wrap" 
+                    Margin="{StaticResource CardBodyMargins}" 
+                    FontSize="{StaticResource BodyFontSizeSmall}"
+                    Foreground="{StaticResource DashboardPrimaryTextBrush}">
+                    You're ready to start uploading documents! Explore the various features of this web app on your own, or start a quick tour using the button below.
+                    <LineBreak/>
+                    <LineBreak/>
+                    More detail on how to use and configure Paperless-ngx is always available in the documentation.
+               
+                </TextBlock>
+
+                <!-- Footer tekst -->
+                <TextBlock 
+                    Text="Thanks for being a part of the Paperless-ngx community!" 
+                    FontStyle="Italic" 
+                    FontSize="{StaticResource BodyFontSizeExtraSmall}" 
+                    Margin="{StaticResource CardFooterMargins}" 
+                    Foreground="{DynamicResource AccentColor}"/>
+            </StackPanel>
+        </Border>
     </Grid>
 </UserControl>

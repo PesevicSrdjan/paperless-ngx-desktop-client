@@ -36,22 +36,17 @@ namespace HCI_2025_Project_Template.Views.UserControls
         {
             InitializeComponent();
 
-            if (_viewModel == null)
-            {
-                _viewModel = new DocumentsViewModel(new DocumentLoaderService());
+            _viewModel = new DocumentsViewModel(new DocumentLoaderService());
 
-                _ = loadDataAsyncHelper();
-            }
+            _ = loadDataAsyncHelper();
 
             this.DataContext = _viewModel;
             DocumentContentControl.Content = _tableView;
         }
-
         private async Task loadDataAsyncHelper()
         {
             await _viewModel.LoadInitialAsync();
         }
-
         private void tableView_Click(object sender, RoutedEventArgs e)
         {
             DocumentContentControl.Content = _tableView;
@@ -60,12 +55,10 @@ namespace HCI_2025_Project_Template.Views.UserControls
         { 
             DocumentContentControl.Content = _cardView;
         }
-
         private async void NextPage_Click(object sender, RoutedEventArgs e)
         {
             await _viewModel.NextPageAsync();
         }
-
         private async void PreviousPage_Click(object sender, RoutedEventArgs e)
         {
             await _viewModel.PreviousPageAsync();
@@ -76,26 +69,21 @@ namespace HCI_2025_Project_Template.Views.UserControls
            var vm = DataContext as DocumentsViewModel;
             OnFilterToggle((CheckBox)sender, vm.SelectedTags, vm.ActiveFilters);
         }
-
         private void CheckBox_Unchecked_Tag(object sender, RoutedEventArgs e)
         {
             var vm = DataContext as DocumentsViewModel;
             OnFilterToggle((CheckBox)sender, vm.SelectedTags, vm.ActiveFilters);
         }
-
         private void CheckBox_Checked_Type(object sender, RoutedEventArgs e)
         {
             var vm = DataContext as DocumentsViewModel;
             OnFilterToggle((CheckBox)sender, vm.SelectedTypes, vm.ActiveFilters);
         }
-
         private void CheckBox_Unchecked_Type(object sender, RoutedEventArgs e)
         {
             var vm = DataContext as DocumentsViewModel;
             OnFilterToggle((CheckBox)sender, vm.SelectedTypes, vm.ActiveFilters);
         }
-
-
         private void CheckBox_Checked_Corr(object sender, RoutedEventArgs e)
         {
             var vm = DataContext as DocumentsViewModel;
@@ -107,7 +95,6 @@ namespace HCI_2025_Project_Template.Views.UserControls
             var vm = DataContext as DocumentsViewModel;
             OnFilterToggle((CheckBox)sender, vm.SelectedCorrespondents, vm.ActiveFilters);
         }
-
         private void OnFilterToggle<T>(CheckBox cb, ObservableCollection<T> selectedList, ObservableCollection<object> activeFilters)
         {
             bool isChecked = cb.IsChecked ?? false;
@@ -127,7 +114,6 @@ namespace HCI_2025_Project_Template.Views.UserControls
                 activeFilters.Remove(item);
             }
         }
-
         private void Item_Click(object sender, MouseButtonEventArgs e)
         {
 
@@ -135,7 +121,6 @@ namespace HCI_2025_Project_Template.Views.UserControls
             cb.IsChecked = !cb.IsChecked; 
             e.Handled = true;
         }
-
         private async void ClearFilters_Click(object sender, RoutedEventArgs e)
         {
             var vm = DataContext as DocumentsViewModel;
@@ -151,7 +136,6 @@ namespace HCI_2025_Project_Template.Views.UserControls
 
             await vm.ClearFiltersAsync(clearAll: true);
         }
-
         private void ResetComboBoxCheckBoxes(ComboBox comboBox)
         {
             comboBox.SelectedItem = null;
@@ -165,22 +149,18 @@ namespace HCI_2025_Project_Template.Views.UserControls
                 }
             }
         }
-
         private void ComboBoxTags_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBoxTags.SelectedItem = null;
         }
-
         private void ComboBoxTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBoxTypes.SelectedItem = null;
         }
-
         private void ComboBoxCorrespondents_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBoxCorrespondents.SelectedItem = null;
         }
-
         private void textBox_search_TextChanged(object sender, TextChangedEventArgs e)
         {
             var tb = sender as TextBox;
@@ -189,7 +169,6 @@ namespace HCI_2025_Project_Template.Views.UserControls
                 _viewModel?.ClearFiltersAsync(clearAll: false);
             }
         }
-
         public static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject
         {
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
@@ -203,6 +182,5 @@ namespace HCI_2025_Project_Template.Views.UserControls
             }
             return null;
         }
-
     }
 }

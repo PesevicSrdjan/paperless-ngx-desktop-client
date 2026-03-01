@@ -22,7 +22,6 @@ namespace HCI_2025_Project_Template.Core.Models.Ui
             get => _name;
             set { _name = value; OnPropertyChanged(); }
         }
-
         public string Color
         {
             get => _color;

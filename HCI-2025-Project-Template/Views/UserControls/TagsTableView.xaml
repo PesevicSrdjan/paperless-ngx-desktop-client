@@ -5,33 +5,72 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:HCI_2025_Project_Template.Views.UserControls"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              d:DesignHeight="450" d:DesignWidth="800">
+    
+    <UserControl.Resources>
+
+        <!-- ========== COLORS ========== -->
+        <SolidColorBrush x:Key="TagsForeground">White</SolidColorBrush>
+
+        <!-- ========== MARGINS ========== -->
+        <Thickness x:Key="TableViewGridMargins">20</Thickness>
+        <Thickness x:Key="TagsDataGridMargin">0,0,0,10</Thickness>
+        <Thickness x:Key="NameMargins">2</Thickness>
+        <Thickness x:Key="IconMargins">0,0,4,0</Thickness>
+
+        <!-- ========== CONTROL SIZES ========== -->
+        <sys:Double x:Key="IconWidth">16</sys:Double>
+        <sys:Double x:Key="IconHeight">16</sys:Double>
+
+        <!-- ========== BORDER THICKNESS ========== -->
+        <Thickness x:Key="TagsDataGridBorderThickness">0</Thickness>
+
+        <!-- ========== CORNER RADIUS ========== -->
+        <CornerRadius x:Key="NameCornerRadius">4</CornerRadius>
+        
+        <!-- ========== PADDING ========== -->
+        <Thickness x:Key="NamePadding">4,2</Thickness>
+        <Thickness x:Key="ButtonPadding">10,4</Thickness>
+
+        <!-- ========== FONT SIZE ========== -->
+        <sys:Double x:Key="TagsFont">10</sys:Double>
+
+    </UserControl.Resources>
 
     <materialDesign:DialogHost 
         Identifier="MainDialog"
         materialDesign:TransitionAssist.DisableTransitions="True">
         
         <Grid
-            Background="White" 
-            Margin="20">
+            Background="{DynamicResource MaterialDesignPaper}" 
+            Margin="{StaticResource TableViewGridMargins}">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <DataGrid
-               x:Name="TagsGrid"
-               HorizontalAlignment="Stretch"
-               HorizontalContentAlignment="Stretch"
-               ItemsSource="{Binding TagsList}"
-               Grid.Row="0"
-               Margin="0,0,0,10"
-               AutoGenerateColumns="False"
-               CanUserAddRows="False"
-               CanUserDeleteRows="False"
-               IsReadOnly="True">
+            <DataGrid Grid.Row="0"
+                x:Name="TagsGrid"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
+                ItemsSource="{Binding TagsList}"
+                Margin="{StaticResource TagsDataGridMargin}"
+                SelectionUnit="FullRow"
+                SelectionMode="Single"
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                CanUserDeleteRows="False"
+                IsReadOnly="True">
+
+                <DataGrid.CellStyle>
+                    <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                        <Setter Property="BorderThickness" Value="{StaticResource TagsDataGridBorderThickness}"/>
+                    </Style>
+                </DataGrid.CellStyle>
 
                 <DataGrid.Columns>
                     <DataGridTextColumn
@@ -44,16 +83,16 @@
                             <DataTemplate>
                                 <Border
                                     Background="{Binding Color}"
-                                    CornerRadius="4"
-                                    Padding="4,2"
-                                    Margin="2"
+                                    CornerRadius="{StaticResource NameCornerRadius}"
+                                    Padding="{StaticResource NamePadding}"
+                                    Margin="{StaticResource NameMargins}"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center">
 
                                     <TextBlock
                                         Text="{Binding Color}"
-                                        Foreground="White"
-                                        FontSize="10"/>
+                                        Foreground="{StaticResource TagsForeground}"
+                                        FontSize="{StaticResource TagsFont}"/>
                                 </Border>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -75,52 +114,38 @@
                                     </Grid.ColumnDefinitions>
 
                                     <!-- EDIT -->
-                                    <Button 
-                                        Grid.Column="0"
-                                        Padding="8,2"
-                                        Background="Transparent"
-                                        BorderThickness="1"
-                                        BorderBrush="#64748B"
-                                        Click="EditButton_Click">
+                                    <Button Grid.Column="0"
+                                        Padding="{StaticResource ButtonPadding}"
+                                        Click="EditButton_Click"
+                                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                                        BorderBrush="{DynamicResource AccentColor}"
+                                        Foreground="{DynamicResource AccentColor}">       
 
                                         <StackPanel Orientation="Horizontal">
-                                            <materialDesign:PackIcon 
-                                                Kind="Pencil" 
-                                                Width="16" 
-                                                Height="16" 
-                                                Foreground="#64748B"/>
-                                            <TextBlock 
-                                                Text="Edit" 
-                                                Margin="6,0,0,0" 
-                                                Foreground="#64748B"/>
+                                            <materialDesign:PackIcon
+                                                Kind="Pencil"
+                                                Width="{StaticResource IconWidth}"
+                                                Height="{StaticResource IconHeight}"
+                                                Margin="{StaticResource IconMargins}"/>
+                                            <TextBlock Text="Edit"/>
                                         </StackPanel>
                                     </Button>
 
-                                    <!-- SEPARATOR -->
-                                    <Border 
-                                        Grid.Column="1" 
-                                        Width="1" 
-                                        Background="#E5E7EB"/>
-
                                     <!-- DELETE -->
-                                    <Button 
-                                        Grid.Column="2"
-                                        Padding="8,2"
-                                        Background="Transparent"
-                                        BorderThickness="1"
-                                        BorderBrush="#EF4444"
-                                        Click="DeleteButton_Click">
+                                    <Button Grid.Column="2"
+                                        Padding="{StaticResource ButtonPadding}"
+                                        Click="DeleteButton_Click"
+                                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                                        BorderBrush="{DynamicResource AccentColor}"
+                                        Foreground="{DynamicResource AccentColor}">           
 
                                         <StackPanel Orientation="Horizontal">
-                                            <materialDesign:PackIcon 
-                                                Kind="Delete" 
-                                                Width="16" 
-                                                Height="16" 
-                                                Foreground="#EF4444"/>
-                                            <TextBlock 
-                                                Text="Delete" 
-                                                Margin="6,0,0,0" 
-                                                Foreground="#EF4444"/>
+                                            <materialDesign:PackIcon
+                                                Kind="Delete"
+                                                Width="{StaticResource IconWidth}"
+                                                Height="{StaticResource IconHeight}"
+                                                Margin="{StaticResource IconMargins}"/>      
+                                            <TextBlock Text="Delete"/>
                                         </StackPanel>
                                     </Button>
                                 </Grid>

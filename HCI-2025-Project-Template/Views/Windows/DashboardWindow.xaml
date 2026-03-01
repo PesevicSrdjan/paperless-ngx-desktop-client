@@ -11,16 +11,47 @@
         d:Width="1920"
         WindowState="Maximized"
         WindowStartupLocation="CenterScreen"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         Icon="/Assets/paperless.ico">
         <!--'d:Height="1020"' && d:Width="1919" postavljeno zbog design-a-->
 
     <Window.Resources>
+
+        <SolidColorBrush x:Key="SideBarIconForeground">White</SolidColorBrush>
+        <SolidColorBrush x:Key="SideBarTextForeground">#666</SolidColorBrush>
+        <SolidColorBrush x:Key="PaperlessTextForeground">White</SolidColorBrush>
+        <Color x:Key="DropShadowColor">Black</Color>
+
+        <!-- ========== CONTROL SIZES ========== -->
+        <sys:Double x:Key="SideBarIconWidth">20</sys:Double>
+        <sys:Double x:Key="SideBarIconHeight">20</sys:Double>
+        <sys:Double x:Key="BorderHeight">50</sys:Double>
+        <sys:Double x:Key="ImageWidth">30</sys:Double>
+        <sys:Double x:Key="ImageHeight">30</sys:Double>
+        <sys:Double x:Key="PaperlessTextWidth">130</sys:Double>
+
+        <!-- ========== PADDING ========== -->
+        <Thickness x:Key="SideBarButtonPadding">10,8</Thickness>
+
+        <!-- ========== MARGINS ========== -->
+        <Thickness x:Key="SideBarButtonMargin">0,5</Thickness>
+        <Thickness x:Key="SideBarIconMargin">20,0,8,0</Thickness>
+        <Thickness x:Key="SideBarTextMargin">20,20,0,10</Thickness>
+        <Thickness x:Key="ImageMargin">10,10,0,0</Thickness>
+        <Thickness x:Key="PaperlessTextMargin">0,15,0,0</Thickness>
+
+        <!-- ========== FONT SIZE ========== -->
+        <sys:Double x:Key="PaperlessTextFont">15</sys:Double>
+
+        <!-- ========== BORDER THICKNESS ========== -->
+        <Thickness x:Key="PaperlessBorderThickness">0,0,1,0</Thickness>
+
         <!-- Style za sve Buttone na Sidebar (Navigation bar)-->
         <Style x:Key="SideBarButtonStyle" TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
-            <Setter Property="Padding" Value="10,8"></Setter>
+            <Setter Property="Padding" Value="{StaticResource SideBarButtonPadding}"></Setter>
             <Setter Property="HorizontalAlignment" Value="Left"></Setter>
-            <Setter Property="Foreground" Value="Black"></Setter>
-            <Setter Property="Margin" Value="0,5"></Setter>
+            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}"></Setter>
+            <Setter Property="Margin" Value="{StaticResource SideBarButtonMargin}"></Setter>
             <EventSetter Event="Click" Handler="SidebarButton_Click"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -28,46 +59,48 @@
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <materialDesign:PackIcon 
                                 Kind="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button}}"
-                                Width="20"
-                                Height="20" 
+                                Width="{StaticResource SideBarIconWidth}"
+                                Height="{StaticResource SideBarIconHeight}" 
                                 VerticalAlignment="Center"
-                                Margin="20,0,8,0"
-                                Foreground="White">
+                                Margin="{StaticResource SideBarIconMargin}"
+                                Foreground="{StaticResource SideBarIconForeground}">
                                 <materialDesign:PackIcon.Effect>
-                                    <DropShadowEffect Color="Black" ShadowDepth="0" BlurRadius="6"/>
+                                    <DropShadowEffect Color="{StaticResource DropShadowColor}" ShadowDepth="0" BlurRadius="6"/>
                                 </materialDesign:PackIcon.Effect>
                             </materialDesign:PackIcon>
 
-                            <TextBlock
-                                x:Name="ButtonText"
-                                Text="{Binding Content, RelativeSource={RelativeSource AncestorType=Button}}" 
-                                VerticalAlignment="Center"
-                                FontSize="14"/>
+                            <TextBlock x:Name="ButtonText"
+                               Text="{Binding Content, RelativeSource={RelativeSource AncestorType=Button}}"
+                               VerticalAlignment="Center"
+                               FontSize="{StaticResource BodyFontSizeSmall}"
+                               Foreground="{TemplateBinding Foreground}"
+                               FontWeight="{TemplateBinding FontWeight}"/>
                         </StackPanel>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="{DynamicResource AccentColor}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="ButtonText" Property="Foreground" Value="{DynamicResource AccentColor}"/>
+                                <Setter TargetName="ButtonText" Property="FontWeight" Value="Bold"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            <Style.Triggers>
-                <Trigger Property="Button.IsMouseOver" Value="True">
-                    <Setter Property="Foreground" Value="#17541F" />
-                </Trigger>
-                <Trigger Property="Button.IsPressed" Value="True">
-                    <Setter Property="Foreground" Value="#17541F" />
-                    <Setter Property="FontWeight" Value="Bold"/>
-                </Trigger>
-            </Style.Triggers>
+            
         </Style>
         
         <!--Style za sve TextBlock na Sidebar (Navigation bar)-->
         <Style x:Key="SideBarTextBlock" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="FontSize" Value="{StaticResource BodyFontSizeExtraSmall}"></Setter>
             <Setter Property="FontWeight" Value="SemiBold"></Setter>
-            <Setter Property="Foreground" Value="#666"></Setter>
-            <Setter Property="Margin" Value="20,20,0,10"></Setter>
+            <Setter Property="Foreground" Value="{StaticResource SideBarTextForeground}"></Setter>
+            <Setter Property="Margin" Value="{StaticResource SideBarTextMargin}"></Setter>
             <Setter Property="HorizontalAlignment" Value="Left"></Setter>
-                       
         </Style>
-        
+
     </Window.Resources>
 
     <Grid>
@@ -87,46 +120,38 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Border 
-            Grid.Row="0"
-            Grid.ColumnSpan="4"
+        <Border Grid.Row="0" Grid.ColumnSpan="4"
             VerticalAlignment="Top"
-            Height="50"
-            Background="#17541F"/>
-        <Image
-            Grid.Row="0"
-            Grid.Column="0"
-            Source="/Assets/unnamed.png"
+            Background="{DynamicResource AccentColor}"
+            Height="{StaticResource BorderHeight}"/>
+        
+        <Image Grid.Row="0" Grid.Column="0"
+            Source="/Assets/paperless-flower.png"
             Stretch="Uniform"
             VerticalAlignment="Top"
-            HorizontalAlignment="Left"
-            Margin="10,10,0,0"
-            Width="30"
-            Height="30"/>
+            HorizontalAlignment="Center"
+            Margin="{StaticResource ImageMargin}"
+            Width="{StaticResource ImageWidth}"
+            Height="{StaticResource ImageHeight}"/>
 
-        <TextBlock
-            Grid.Row="0"
-            Grid.Column="1"
+        <TextBlock Grid.Row="0" Grid.Column="1"
             Text="Paperless-ngx"
             VerticalAlignment="Top"
             HorizontalAlignment="Left"
-            Margin="0,15,0,0"
-            Width="130"
-            Foreground="White"
+            Margin="{StaticResource PaperlessTextMargin}"
+            Width="{StaticResource PaperlessTextWidth}"
+            Foreground="{StaticResource PaperlessTextForeground}"
             FontFamily="Segoe UI"
-            FontSize="15"
+            FontSize="{StaticResource PaperlessTextFont}"
             TextOptions.TextRenderingMode="ClearType"
             TextOptions.TextFormattingMode="Ideal"/>
         
-        <Border 
-            Grid.Row="1" 
-            Grid.ColumnSpan="2" 
-            Background="#F8F9FA" 
-            BorderBrush="#DADADA" 
-            BorderThickness="0,0,1,0">
+        <Border Grid.Row="1" Grid.ColumnSpan="2" 
+            Background="{DynamicResource MaterialDesignPaper}" 
+            BorderBrush="{DynamicResource MaterialDesignBody}" 
+            BorderThickness="{StaticResource PaperlessBorderThickness}">
 
             <StackPanel>
-
                 <Button
                     x:Name="button_dashboard"
                     Style="{StaticResource SideBarButtonStyle}"
@@ -161,6 +186,14 @@
                     Tag="Tags"
                     Content="Tags"
                     Click="button_tags_Click">
+                </Button>
+
+                <Button
+                    x:Name="Button_Settings"
+                    Style="{StaticResource SideBarButtonStyle}"
+                    Tag="Settings"
+                    Content="Settings"
+                    Click="Button_Settings_Click">
                 </Button>
                 
             </StackPanel>

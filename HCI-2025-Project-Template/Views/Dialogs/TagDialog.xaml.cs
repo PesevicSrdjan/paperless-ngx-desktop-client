@@ -27,7 +27,6 @@ namespace HCI_2025_Project_Template.Views.Dialogs
             InitializeComponent();
             DataContext = _viewModel;
         }
-
         private async void SaveEdit_Click(object sender, RoutedEventArgs e)
         {
             if (DataContext is not TagsViewModel vm) return;

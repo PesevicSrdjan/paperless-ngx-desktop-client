@@ -12,42 +12,110 @@
 
     <UserControl.Resources>
 
+        <!-- ========== COLORS ========== -->
+        <SolidColorBrush x:Key="FilterBorderStyleBackground">Transparent</SolidColorBrush>
+        <SolidColorBrush x:Key="PaginationPageStyleBackground">Transparent</SolidColorBrush>
+        <SolidColorBrush x:Key="CurrentPageForeground">White</SolidColorBrush>
+        <SolidColorBrush x:Key="BadgeTextStyleForeground">White</SolidColorBrush>
+        <SolidColorBrush x:Key="TagsFilterForeground">White</SolidColorBrush>
+        <SolidColorBrush x:Key="ActiveTagForeground">White</SolidColorBrush>
+        <SolidColorBrush x:Key="ActiveDocTypeColor">LightGray</SolidColorBrush>
+        <SolidColorBrush x:Key="ActiveCorrespondentColor">LightGray</SolidColorBrush>
+        <SolidColorBrush x:Key="ActiveDocTypeForeground">Black</SolidColorBrush>
+        <SolidColorBrush x:Key="ActiveCorrespondentForeground">Black</SolidColorBrush>
+        <SolidColorBrush x:Key="LoadingTextForeground">Gray</SolidColorBrush>
+
+        <!-- ========== CONTROL SIZES ========== -->
+        <sys:Double x:Key="SearchBoxHeight">26</sys:Double>
+        <sys:Double x:Key="ProgressBarWidth">20</sys:Double>
+        <sys:Double x:Key="ProgressBarHeight">20</sys:Double>
+        <sys:Double x:Key="FilterStyleHeight">30</sys:Double>
+        <sys:Double x:Key="PaginationPageStyleWidth">30</sys:Double>
+        <sys:Double x:Key="PaginationPageStyleHeight">30</sys:Double>
+        <sys:Double x:Key="TopRightBadgeStyleWidth">20</sys:Double>
+        <sys:Double x:Key="TopRightBadgeStyleHeight">20</sys:Double>
+        <sys:Double x:Key="CardViewIconWidth">24</sys:Double>
+        <sys:Double x:Key="CardViewIconHeight">24</sys:Double>
+        <sys:Double x:Key="TableViewIconWidth">24</sys:Double>
+        <sys:Double x:Key="TableViewIconHeight">24</sys:Double>
+        <sys:Double x:Key="PageIconWidth">25</sys:Double>
+        <sys:Double x:Key="PageIconHeight">25</sys:Double>
+        <sys:Double x:Key="PageNumberButtonWidth">30</sys:Double>
+        <sys:Double x:Key="PageNumberButtonHeight">30</sys:Double>
+
+        <!-- ========== MARGINS ========== -->
+        <Thickness x:Key="SearchBoxMargins">20,12,20,0</Thickness>
+        <Thickness x:Key="ProgressBarMargins">20,0,0,0</Thickness>
+        <Thickness x:Key="ItemsBorderStyleMargins">2</Thickness>
+        <Thickness x:Key="CheckBoxFilterMargin">0,0,4,0</Thickness>
+        <Thickness x:Key="TopRightBadgeStyleMargins">0,0,2,0</Thickness>
+        <Thickness x:Key="TitleMargins">20,20,0,0</Thickness>
+        <Thickness x:Key="StackPanelMargins">0,20,20,0</Thickness>
+        <Thickness x:Key="CardViewMargins">0,0,10,0</Thickness>
+        <Thickness x:Key="GridFiltersMargin">20,5,20,0</Thickness>
+        <Thickness x:Key="WrapPanelMargins">20,40,20,10</Thickness>
+        <Thickness x:Key="ActiveFilterMargins">2</Thickness>
+        <Thickness x:Key="LoadingTextMargins">10,10,0,0</Thickness>
+        <Thickness x:Key="NumberOfDocMargins">20,0,0,0</Thickness>
+        <Thickness x:Key="PageButtonMargins">0,0,20,0</Thickness>
+        <Thickness x:Key="PageNumberButtonMargins">2</Thickness>
+
+        <!-- ========== BORDER THICKNESS ========== -->
+        <Thickness x:Key="DefaultBorderThickness">1</Thickness>
+
+        <!-- ========== PADDING ========== -->
+        <Thickness x:Key="SearchBoxPadding">5,2,5,2</Thickness>
+        <Thickness x:Key="FilterStylePadding">5,2,4,2</Thickness>
+        <Thickness x:Key="FilterBorderStylePadding">2</Thickness>
+        <Thickness x:Key="ItemsBorderStylePadding">4,2</Thickness>
+        <Thickness x:Key="PaginationPageStylePadding">0</Thickness>
+        <Thickness x:Key="ActiveFilterPadding">4,2</Thickness>
+        <Thickness x:Key="ClearFilterButtonPadding">5,2</Thickness>
+        <Thickness x:Key="PageButtonPadding">2</Thickness>
+
+        <!-- ========== CORNER RADIUS ========== -->
+        <CornerRadius x:Key="ItemsBorderStyleCornerRadius">6</CornerRadius>
+        <CornerRadius x:Key="TopRightBadgeStyleCornerRadius">10</CornerRadius>
+        <CornerRadius x:Key="ActiveFilterCornerRadius">6</CornerRadius>
+
+        <!-- ========== FONT SIZE ========== -->
+        <sys:Double x:Key="SearchBoxFont">15</sys:Double>
+        <sys:Double x:Key="FilterStyleFont">13</sys:Double>
+        <sys:Double x:Key="TagsFilterFont">10</sys:Double>
+
         <Style x:Key="SearchTextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource MaterialDesignOutlinedTextBox}">
-            
-            <Setter Property="Height" Value="26"/>
+            <Setter Property="Height" Value="{StaticResource SearchBoxHeight}"/>
             <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="Margin" Value="20,12,20,0"/>
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="Padding" Value="5,2,5,2"/>
-            <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="FontSize" Value="15"/>
-            <Setter Property="BorderBrush" Value="#666"/>
-
+            <Setter Property="Margin" Value="{StaticResource SearchBoxMargins}"/>
+            <Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}"/>
+            <Setter Property="Padding" Value="{StaticResource SearchBoxPadding}"/>
+            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}"/>
+            <Setter Property="FontSize" Value="{StaticResource SearchBoxFont}"/>
             <Setter Property="materialDesign:HintAssist.Hint" Value="Search"/>
             <Setter Property="materialDesign:TextFieldAssist.HasLeadingIcon" Value="True"/>
             <Setter Property="materialDesign:TextFieldAssist.HasClearButton" Value="True"/>
             <Setter Property="materialDesign:TextFieldAssist.LeadingIcon" Value="Search"/>
-
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentColor}"/>
             <Setter Property="IsEnabled" Value="True"/>
-
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsLoading}" Value="True">
                     <Setter Property="IsReadOnly" Value="True"/>
-                    <Setter Property="Background" Value="#EEE"/>
-                    <Setter Property="Foreground" Value="#888"/>
-                    
+                    <Setter Property="IsEnabled" Value="False"/>
+                    <Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource AccentColor}"/>
                     <Setter Property="IsHitTestVisible" Value="False"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
 
         <Style x:Key="LoadingCircularProgressBar" TargetType="ProgressBar" BasedOn="{StaticResource MaterialDesignCircularProgressBar}">
-            <Setter Property="Width" Value="20"/>
-            <Setter Property="Height" Value="20"/>
+            <Setter Property="Width" Value="{StaticResource ProgressBarWidth}"/>
+            <Setter Property="Height" Value="{StaticResource ProgressBarHeight}"/>
             <Setter Property="IsIndeterminate" Value="True"/>
             <Setter Property="Visibility" Value="Collapsed"/>
-            <Setter Property="Margin" Value="20,0,0,0"/>
+            <Setter Property="Foreground" Value="{DynamicResource AccentColor}"/>
+            <Setter Property="Margin" Value="{StaticResource ProgressBarMargins}"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsLoading}" Value="True">
                     <Setter Property="Visibility" Value="Visible"/>
@@ -58,12 +126,12 @@
         <Style x:Key="FiltersStyle" TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignOutlinedComboBox}">
             <Setter Property="materialDesign:TextFieldAssist.HasLeadingIcon" Value="True"></Setter>
             <Setter Property="materialDesign:HintAssist.IsFloating" Value="False"></Setter>
-            <Setter Property="Background" Value="White"></Setter>
-            <Setter Property="Foreground" Value="#17541F"></Setter>
-            <Setter Property="BorderBrush" Value="#17541F"></Setter>
-            <Setter Property="Height" Value="30"></Setter>
-            <Setter Property="FontSize" Value="13"></Setter>
-            <Setter Property="Padding" Value="5,2,4,2"></Setter>
+            <Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}"></Setter>
+            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}"></Setter>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentColor}"></Setter>
+            <Setter Property="Height" Value="{StaticResource FilterStyleHeight}"></Setter>
+            <Setter Property="FontSize" Value="{StaticResource FilterStyleFont}"></Setter>
+            <Setter Property="Padding" Value="{StaticResource FilterStylePadding}"></Setter>
             <Setter Property="Grid.Row" Value="2"></Setter>
             <Setter Property="Grid.Column" Value="2"></Setter>
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
@@ -78,38 +146,85 @@
         </Style>
 
         <Style x:Key="FilterBorderStyle" TargetType="Border">
-            <Setter Property="Background" Value="Transparent"></Setter>
-            <Setter Property="Padding" Value="2"></Setter>
+            <Setter Property="Background" Value="{StaticResource FilterBorderStyleBackground}"></Setter>
+            <Setter Property="Padding" Value="{StaticResource FilterBorderStylePadding}"></Setter>
         </Style>
 
         <Style x:Key="ItemsBorderStyle" TargetType="Border">
-            <Setter Property="CornerRadius" Value="6"></Setter>
-            <Setter Property="Padding" Value="4,2"></Setter>
-            <Setter Property="Margin" Value="2"></Setter>
+            <Setter Property="CornerRadius" Value="{StaticResource ItemsBorderStyleCornerRadius}"></Setter>
+            <Setter Property="Padding" Value="{StaticResource ItemsBorderStylePadding}"></Setter>
+            <Setter Property="Margin" Value="{StaticResource ItemsBorderStyleMargins}"></Setter>
         </Style>
 
         <Style x:Key="CheckBoxFilter" TargetType="CheckBox">
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="Margin" Value="0,0,4,0"></Setter>
+            <Setter Property="Margin" Value="{StaticResource CheckBoxFilterMargin}"></Setter>
         </Style>
 
         <Style x:Key="PaginationPageStyle" TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
-            <Setter Property="IsEnabled" Value="True"/>
+            <Setter Property="Background" Value="{StaticResource PaginationPageStyleBackground}"/>
+            <Setter Property="Foreground" Value="{DynamicResource AccentColor}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentColor}"/>
+            <Setter Property="BorderThickness" Value="{StaticResource DefaultBorderThickness}"/>
+            <Setter Property="Padding" Value="{StaticResource PaginationPageStylePadding}"/>
+            <Setter Property="Width" Value="{StaticResource PaginationPageStyleWidth}"/>
+            <Setter Property="Height" Value="{StaticResource PaginationPageStyleHeight}"/>
+            <Setter Property="materialDesign:RippleAssist.IsCentered" Value="True"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            
             <Style.Triggers>
-                <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                <!-- Kada je loading -->
+                <DataTrigger Binding="{Binding DataContext.IsLoading, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+                
+                <!-- Aktivna stranica -->
+                <DataTrigger Binding="{Binding IsCurrent}" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource AccentColor}"/>
+                    <Setter Property="Foreground" Value="{StaticResource CurrentPageForeground}"/>
+                    <Setter Property="IsHitTestVisible" Value="False"/>
+                </DataTrigger>
+            </Style.Triggers>
+
+        </Style>
+
+
+        <Style x:Key="ButtonViewsStyle" TargetType="Button" BasedOn="{StaticResource MaterialDesignToolButton}">
+            <Setter Property="Foreground" Value="{DynamicResource AccentColor}"></Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding DataContext.IsLoading, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
                     <Setter Property="IsEnabled" Value="False"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
 
+        <Style x:Key="TopRightBadgeStyle" TargetType="Border">
+            <Setter Property="Width" Value="{StaticResource TopRightBadgeStyleWidth}"/>
+            <Setter Property="Height" Value="{StaticResource TopRightBadgeStyleHeight}"/>
+            <Setter Property="CornerRadius" Value="{StaticResource TopRightBadgeStyleCornerRadius}"/>
+            <Setter Property="Background" Value="{DynamicResource AccentColor}"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Margin" Value="{StaticResource TopRightBadgeStyleMargins}"/>
+        </Style>
+
+        <Style x:Key="BadgeTextStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource BadgeTextStyleForeground}"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="{StaticResource BodyFontSizeExtraSmall}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
 
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
 
     </UserControl.Resources>
 
-    <Grid Background="White">
-        
+    <Grid Background="{DynamicResource MaterialDesignPaper}">
+
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -120,222 +235,267 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/> 
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock 
+        <TextBlock
+           Style="{StaticResource BodyTextStyle}"
            Text="Documents" 
-           FontSize="30"
+           FontSize="{StaticResource FontSizeTitle}"
            HorizontalAlignment="Left"
-           Margin="20,20,0,0"
+           Margin="{StaticResource TitleMargins}"
            FontWeight="SemiBold"/>
 
-        <StackPanel
-            Grid.Row="0"
-            Grid.Column="2"
+        <StackPanel Grid.Row="0" Grid.Column="2"
             Orientation="Horizontal" 
             HorizontalAlignment="Right" 
-            Margin="0,20,20,0">
+            Margin="{StaticResource StackPanelMargins}">
 
             <Button 
-                Style="{StaticResource MaterialDesignToolButton}"
+                Style="{StaticResource ButtonViewsStyle}"
                 ToolTip="Card View"
-                Margin="0,0,10,0"
+                Margin="{StaticResource CardViewMargins}"
                 Click="cardView_Click">
 
                 <materialDesign:PackIcon 
                     Kind="ViewModule" 
-                    Width="24" 
-                    Height="24"
-                    Foreground="#17541F"/>
+                    Width="{StaticResource CardViewIconWidth}" 
+                    Height="{StaticResource CardViewIconHeight}"/>
             </Button>
-            
+
             <Button 
-                Style="{StaticResource MaterialDesignToolButton}"
+                Style="{StaticResource ButtonViewsStyle}"
                 ToolTip="Table View"
                 Click="tableView_Click">
 
                 <materialDesign:PackIcon 
                     Kind="ViewList" 
-                    Width="24" 
-                    Height="24"
-                    Foreground="#17541F"/>
+                    Width="{StaticResource TableViewIconWidth}" 
+                    Height="{StaticResource TableViewIconHeight}"/>
             </Button>
         </StackPanel>
 
-        <TextBox
-            Grid.Row="1"
-            Grid.ColumnSpan="3"
+        <TextBox Grid.Row="1" Grid.ColumnSpan="3"
             x:Name="textBox_search"
             Style="{StaticResource SearchTextBoxStyle}"
             Text="{Binding SearchTitle, UpdateSourceTrigger=PropertyChanged}"
             TextChanged="textBox_search_TextChanged"/>
 
         <!--Ostavljen prostor za filtere-->
-        <ComboBox
-            x:Name="ComboBoxTags"
-            Style="{StaticResource FiltersStyle}"
-            materialDesign:HintAssist.Hint="Tags"
-            materialDesign:TextFieldAssist.LeadingIcon="Tag"
-            Margin="0,5,315,10"
-            ItemsSource="{Binding TagsList}"
-            SelectionChanged="ComboBoxTags_SelectionChanged">
 
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <Border 
-                        Style="{StaticResource FilterBorderStyle}"
-                        MouseLeftButtonDown="Item_Click"
-                        PreviewMouseLeftButtonDown="Item_Click">
-                        
-                        <StackPanel 
-                            Orientation="Horizontal">
-                            <CheckBox 
-                                Style="{StaticResource CheckBoxFilter}"
-                                Checked="CheckBox_Checked_Tag"
-                                Unchecked="CheckBox_Unchecked_Tag"/>
+        <Grid Grid.Row="2" Grid.Column="2" Margin="{StaticResource GridFiltersMargin}" Width="Auto" HorizontalAlignment="Left">
+
+            <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+            <!-- ComboBox -->
+                <ComboBox 
+                    x:Name="ComboBoxTags"
+                    Style="{StaticResource FiltersStyle}"
+                    materialDesign:HintAssist.Hint="Tags"
+                    materialDesign:TextFieldAssist.LeadingIcon="Tag"
+                    ItemsSource="{Binding TagsList}"
+                    SelectionChanged="ComboBoxTags_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
                             <Border 
-                                Style="{StaticResource ItemsBorderStyle}"
-                                Background="{Binding Color}">
-                            <TextBlock 
-                                Text="{Binding Name}" 
-                                Foreground="White" 
-                                FontSize="10"/>
+                                Style="{StaticResource FilterBorderStyle}"
+                                MouseLeftButtonDown="Item_Click"
+                                PreviewMouseLeftButtonDown="Item_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <CheckBox 
+                                        Style="{StaticResource CheckBoxFilter}"
+                                        Checked="CheckBox_Checked_Tag"
+                                        Unchecked="CheckBox_Unchecked_Tag"/>
+                                    <Border 
+                                        Style="{StaticResource ItemsBorderStyle}" 
+                                        Background="{Binding Color}">
+                                        <TextBlock 
+                                            Text="{Binding Name}" 
+                                            Foreground="{StaticResource TagsFilterForeground}" 
+                                            FontSize="{StaticResource TagsFilterFont}"/>
+                                    </Border>
+                                </StackPanel>
                             </Border>
-                        </StackPanel>
-                    </Border>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
 
-        <ComboBox
-            x:Name="ComboBoxCorrespondents"
-            Style="{StaticResource FiltersStyle}"
-            materialDesign:HintAssist.Hint="Correspondent"
-            materialDesign:TextFieldAssist.LeadingIcon="Account"
-            ItemsSource="{Binding CorrespondentsList}"
-            SelectionChanged="ComboBoxCorrespondents_SelectionChanged"
-            Width="140"
-            Margin="0,5,170,10">
+                <!-- Badge na vrhu desno -->
+                <Border 
+                    Style="{StaticResource TopRightBadgeStyle}"
+                    Visibility="{Binding HasSelectedTags, Converter={StaticResource BoolToVis}}">
+                    <TextBlock
+                        Style="{StaticResource BadgeTextStyle}"
+                        Text="{Binding SelectedTags.Count}"/>
+                </Border>
+                
+            </Grid>
+                <Grid Grid.Column="2">
+                    <ComboBox
+                        x:Name="ComboBoxCorrespondents"
+                        Style="{StaticResource FiltersStyle}"
+                        materialDesign:HintAssist.Hint="Correspondent"
+                        materialDesign:TextFieldAssist.LeadingIcon="Account"
+                        ItemsSource="{Binding CorrespondentsList}"
+                        SelectionChanged="ComboBoxCorrespondents_SelectionChanged"
+                        Width="Auto">
 
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border 
+                                    Style="{StaticResource FilterBorderStyle}"
+                                    MouseLeftButtonDown="Item_Click"
+                                    PreviewMouseLeftButtonDown="Item_Click">
+
+                                    <StackPanel Orientation="Horizontal">
+                                        <CheckBox 
+                                            Style="{StaticResource CheckBoxFilter}"
+                                            Checked="CheckBox_Checked_Corr"
+                                            Unchecked="CheckBox_Unchecked_Corr"/>
+                                        <Border 
+                                            Style="{StaticResource ItemsBorderStyle}"
+                                            Background="{Binding Color}">
+                                            <TextBlock 
+                                                Text="{Binding Name}" 
+                                                Foreground="{DynamicResource MaterialDesignBody}" 
+                                                FontSize="{StaticResource BodyFontSizeExtraSmall}"/>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    
                     <Border 
-                        Style="{StaticResource FilterBorderStyle}"
-                        MouseLeftButtonDown="Item_Click"
-                        PreviewMouseLeftButtonDown="Item_Click">
-                        
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox 
-                                Style="{StaticResource CheckBoxFilter}"
-                                Checked="CheckBox_Checked_Corr"
-                                Unchecked="CheckBox_Unchecked_Corr"/>
-                            <Border 
-                                Style="{StaticResource ItemsBorderStyle}"
-                                Background="{Binding Color}">
-                                <TextBlock 
-                                    Text="{Binding Name}" 
-                                    Foreground="Black" 
-                                    FontSize="12"/>
-                            </Border>
-                        </StackPanel>
+                        Style="{StaticResource TopRightBadgeStyle}"
+                        Visibility="{Binding HasSelectedCorrespondent, Converter={StaticResource BoolToVis}}">
+                        <TextBlock 
+                            Text="{Binding SelectedCorrespondents.Count}" 
+                            Style="{StaticResource BadgeTextStyle}"/>
                     </Border>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
 
-        <ComboBox
-             x:Name="ComboBoxTypes"
-             Style="{StaticResource FiltersStyle}"
-             materialDesign:HintAssist.Hint="Document Type"
-             materialDesign:TextFieldAssist.LeadingIcon="FileDocument"
-             Width="145"
-             Margin="0,5,20,10"
-             ItemsSource="{Binding TypesList}"
-             SelectionChanged="ComboBoxTypes_SelectionChanged">
+                </Grid>
 
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
+                <Grid Grid.Column="4">
+                    <ComboBox
+                        x:Name="ComboBoxTypes"
+                        Style="{StaticResource FiltersStyle}"
+                        materialDesign:HintAssist.Hint="Document Type"
+                        materialDesign:TextFieldAssist.LeadingIcon="FileDocument"
+                        Width="Auto"
+                        ItemsSource="{Binding TypesList}"
+                        SelectionChanged="ComboBoxTypes_SelectionChanged" VerticalAlignment="Center">
+
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border 
+                                    Style="{StaticResource FilterBorderStyle}"
+                                    MouseLeftButtonDown="Item_Click"
+                                    PreviewMouseLeftButtonDown="Item_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <CheckBox 
+                                            Style="{StaticResource CheckBoxFilter}"
+                                            Checked="CheckBox_Checked_Type"
+                                            Unchecked="CheckBox_Unchecked_Type"/>
+                                        <Border Style="{StaticResource ItemsBorderStyle}">
+                                            <TextBlock 
+                                                Text="{Binding Name}" 
+                                                Foreground="{DynamicResource MaterialDesignBody}" 
+                                                FontSize="{StaticResource BodyFontSizeExtraSmall}"/>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
                     <Border 
-                        Style="{StaticResource FilterBorderStyle}"
-                        MouseLeftButtonDown="Item_Click"
-                        PreviewMouseLeftButtonDown="Item_Click">
-                        <StackPanel 
-                            Orientation="Horizontal">
-                            <CheckBox 
-                                Style="{StaticResource CheckBoxFilter}"
-                                Checked="CheckBox_Checked_Type"
-                                Unchecked="CheckBox_Unchecked_Type"/>
-                            <Border 
-                                Style="{StaticResource ItemsBorderStyle}">
-                                <TextBlock 
-                                    Text="{Binding Name}" 
-                                    Foreground="Black" 
-                                    FontSize="12"/>
-                            </Border>
-                        </StackPanel>
+                        Style="{StaticResource TopRightBadgeStyle}"
+                        Visibility="{Binding HasSelectedDocType, Converter={StaticResource BoolToVis}}">
+                        <TextBlock 
+                            Text="{Binding SelectedTypes.Count}" 
+                            Style="{StaticResource BadgeTextStyle}"/>
                     </Border>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
+                </Grid>
+        </Grid>
 
-        <WrapPanel Grid.Row="2" Grid.ColumnSpan="2" Margin="20,40,20,10" VerticalAlignment="Top" HorizontalAlignment="Left">
+
+        <WrapPanel Grid.Row="3" Grid.ColumnSpan="2" Margin="{StaticResource WrapPanelMargins}" VerticalAlignment="Top" HorizontalAlignment="Left">
             <!-- ItemsControl za aktivne filtere -->
             <ItemsControl ItemsSource="{Binding ActiveFilters}">
                 <ItemsControl.Resources>
                     <DataTemplate 
                         DataType="{x:Type models:TagInfo}">
                         <Border 
-                            Background="{Binding Color}" CornerRadius="6" Padding="4,2" Margin="2">
+                            Background="{Binding Color}" 
+                            CornerRadius="{StaticResource ActiveFilterCornerRadius}" 
+                            Padding="{StaticResource ActiveFilterPadding}" 
+                            Margin="{StaticResource ActiveFilterMargins}">
                             <TextBlock 
                                 Text="{Binding Name}" 
-                                Foreground="White" 
-                                FontSize="10"/>
+                                Foreground="{StaticResource ActiveTagForeground}" 
+                                FontSize="{StaticResource TagsFilterFont}"/>
                         </Border>
                     </DataTemplate>
+                    
                     <DataTemplate 
                         DataType="{x:Type models:DocTypeInfo}">
                         <Border 
-                            Background="LightGray" CornerRadius="6" Padding="4,2" Margin="2">
+                            Background="{StaticResource ActiveDocTypeColor}" 
+                            CornerRadius="{StaticResource ActiveFilterCornerRadius}" 
+                            Padding="{StaticResource ActiveFilterPadding}" 
+                            Margin="{StaticResource ActiveFilterMargins}">
                             <TextBlock 
                                 Text="{Binding Name}" 
-                                Foreground="Black" 
-                                FontSize="12"/>
+                                Foreground="{StaticResource ActiveDocTypeForeground}" 
+                                FontSize="{StaticResource BodyFontSizeExtraSmall}"/>
                         </Border>
                     </DataTemplate>
 
                     <DataTemplate 
                         DataType="{x:Type models:CorrespondentsInfo}">
                         <Border 
-                            Background="LightGray" CornerRadius="6" Padding="4,2" Margin="2">
+                            Background="{StaticResource ActiveCorrespondentColor}" 
+                            CornerRadius="{StaticResource ActiveFilterCornerRadius}" 
+                            Padding="{StaticResource ActiveFilterPadding}" 
+                            Margin="{StaticResource ActiveFilterMargins}">
                             <TextBlock 
                                 Text="{Binding Name}" 
-                                Foreground="Black" 
-                                FontSize="12"/>
+                                Foreground="{StaticResource ActiveCorrespondentForeground}" 
+                                FontSize="{StaticResource BodyFontSizeExtraSmall}"/>
                         </Border>
                     </DataTemplate>
+                    
                 </ItemsControl.Resources>
+                
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel IsItemsHost="True"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
+                
             </ItemsControl>
         </WrapPanel>
 
         <!-- Clear Filters dugme -->
-        <Button
-            Grid.Row="3"
-            Grid.Column="1"
+        <Button Grid.Row="4" Grid.Column="1"
             VerticalAlignment="Center"
             HorizontalAlignment="Left"
             Content="Clear Filters"
-            Padding="5,2"
+            Padding="{StaticResource ClearFilterButtonPadding}"
             Click="ClearFilters_Click">
             <Button.Style>
                 <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
                     <Setter Property="Visibility" Value="Collapsed"/>
-                    
+
                     <Style.Triggers>
                         <!-- Dugme je vidljivo samo kada nije loading i ima filtere -->
                         <MultiDataTrigger>
@@ -350,7 +510,7 @@
             </Button.Style>
         </Button>
 
-        <StackPanel Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" Orientation="Horizontal">
+        <StackPanel Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left" Orientation="Horizontal">
 
             <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                 <!-- ProgressBar za učitavanje -->
@@ -362,9 +522,9 @@
                 <TextBlock
                     Text="Loading..."
                     FontStyle="Italic"
-                    Foreground="Gray"
-                    Margin="10,10,0,0">
-                    
+                    Foreground="{StaticResource LoadingTextForeground}"
+                    Margin="{StaticResource LoadingTextMargins}">
+
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -381,10 +541,11 @@
             <!-- TextBlock sa brojem dokumenata -->
             <TextBlock 
                 FontWeight="SemiBold"
-                FontSize="14"
-                Margin="20,0,0,0"
+                FontSize="{StaticResource BodyFontSizeSmall}"
+                Margin="{StaticResource NumberOfDocMargins}"
                 VerticalAlignment="Center"
-                Text="{Binding DocumentCountDisplay}">
+                Text="{Binding DocumentCountDisplay}"
+                Foreground="{DynamicResource MaterialDesignBody}">
 
                 <TextBlock.Style>
                     <Style TargetType="TextBlock">
@@ -399,51 +560,59 @@
             </TextBlock>
         </StackPanel>
 
-        <StackPanel 
+        <StackPanel Grid.Row="4" Grid.Column="2"
             Orientation="Horizontal" 
-            HorizontalAlignment="Right"
-            Grid.Row="3" 
-            Grid.Column="2">
+            HorizontalAlignment="Right">
 
             <Button 
                 Style="{StaticResource PaginationPageStyle}" 
-                Padding="2" Margin="0,0,0,0"
-                Width="28" Height="28"
+                Padding="{StaticResource PageButtonPadding}"
                 Click="PreviousPage_Click">
 
                 <materialDesign:PackIcon 
                     Kind="ChevronDoubleLeft" 
-                    Width="25" 
-                    Height="25"/>
+                    Width="{StaticResource PageIconWidth}" 
+                    Height="{StaticResource PageIconHeight}"/>
             </Button>
+            
+            <ItemsControl ItemsSource="{Binding Pages}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
 
-            <Button 
-                Style="{StaticResource MaterialDesignFlatDarkBgButton}" 
-                Padding="0"
-                Width="30" 
-                Height="30"
-                Foreground="Black"
-                Background="White">
-
-                <TextBlock Text="{Binding CurrentPage}"
-                    Foreground="Black"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"/>
-            </Button>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button
+                            Width="{StaticResource PageNumberButtonWidth}" 
+                            Height="{StaticResource PageNumberButtonHeight}" 
+                            Margin="{StaticResource PageNumberButtonMargins}"
+                            Command="{Binding DataContext.GoToPageCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            CommandParameter="{Binding}"
+                            Style="{StaticResource PaginationPageStyle}">
+                                <TextBlock 
+                                    Text="{Binding Number, TargetNullValue=…}" 
+                                    HorizontalAlignment="Center" 
+                                    VerticalAlignment="Center"/>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                
+            </ItemsControl>
 
             <Button 
                 Style="{StaticResource PaginationPageStyle}"
-                Padding="2"
-                Margin="0,0,20,0"
-                Width="28" Height="28"
+                Padding="{StaticResource PageButtonPadding}"
+                Margin="{StaticResource PageButtonMargins}"
                 Click="NextPage_Click">
 
                 <materialDesign:PackIcon 
                     Kind="ChevronDoubleRight" 
-                    Width="25" 
-                    Height="25"/>
+                    Width="{StaticResource PageIconWidth}" 
+                    Height="{StaticResource PageIconHeight}"/>
             </Button>
         </StackPanel>
-        <ContentControl x:Name="DocumentContentControl" Grid.Row="4" Grid.ColumnSpan="3"></ContentControl>
+        <ContentControl x:Name="DocumentContentControl" Grid.Row="5" Grid.ColumnSpan="3"></ContentControl>
     </Grid>
 </UserControl>

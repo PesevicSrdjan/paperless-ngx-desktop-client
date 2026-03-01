@@ -1,0 +1,184 @@
+﻿<UserControl x:Class="HCI_2025_Project_Template.Views.UserControls.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HCI_2025_Project_Template.Views.UserControls"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+
+        <!-- ========== COLORS ========== -->
+        <SolidColorBrush x:Key="ElipseFill">Transparent</SolidColorBrush>
+
+        <!-- ========== CONTROL SIZES ========== -->
+        <sys:Double x:Key="ModernRadioStyleGridWidth">26</sys:Double>
+        <sys:Double x:Key="ModernRadioStyleGridHeight">26</sys:Double>
+        <sys:Double x:Key="ElipseDotWidth">12</sys:Double>
+        <sys:Double x:Key="ElipseDotHeight">12</sys:Double>
+        <sys:Double x:Key="AccentColorBorderWidth">36</sys:Double>
+        <sys:Double x:Key="AccentColorBorderHeight">36</sys:Double>
+        <sys:Double x:Key="LanguageComboBoxWidth">200</sys:Double>
+        <sys:Double x:Key="ElipseStrokeThickness">2</sys:Double>
+
+        <!-- ========== MARGINS ========== -->
+        <Thickness x:Key="ModernRadioStyleGridMargins">0,0,15,0</Thickness>
+        <Thickness x:Key="TitleMargins">20,20,0,20</Thickness>
+        <Thickness x:Key="RadioButtonMargins">0,0,0,20</Thickness>
+        <Thickness x:Key="ThemeMargins">30,30,0,10</Thickness>
+        <Thickness x:Key="RadioButtonStackPanelMargins">30,0,0,0</Thickness>
+        <Thickness x:Key="RadioButtonThemeMargins">0,0,0,30</Thickness>
+        <Thickness x:Key="AccentColorMargins">30,30,0,10</Thickness>
+        <Thickness x:Key="AccentColorStackPanelMargins">30,0,0,30</Thickness>
+        <Thickness x:Key="AccentColorBorderMargins">0,0,20,0</Thickness>
+        <Thickness x:Key="ResetMargins">10,0,0,0</Thickness>
+        <Thickness x:Key="LanguageMargins">30,0,0,10</Thickness>
+        <Thickness x:Key="LanguageComboBoxMargins">30,0,0,30</Thickness>
+
+        <!-- ========== CORNER RADIUS ========== -->
+        <CornerRadius x:Key="AccentColorBorderCornerRadius">18</CornerRadius>
+
+        <!-- ========== FONT SIZE ========== -->
+        <sys:Double x:Key="SubtitleFont">20</sys:Double>
+        <sys:Double x:Key="RadioButtonFont">18</sys:Double>
+
+
+        <!-- Modern RadioButton Style -->
+        <Style x:Key="ModernRadioStyle" TargetType="RadioButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <StackPanel Orientation="Horizontal">
+                            <Grid 
+                                Width="{StaticResource ModernRadioStyleGridWidth}" 
+                                Height="{StaticResource ModernRadioStyleGridHeight}" 
+                                Margin="{StaticResource ModernRadioStyleGridMargins}">
+                                <Ellipse 
+                                    Stroke="{DynamicResource MaterialDesignBody}"
+                                    StrokeThickness="{StaticResource ElipseStrokeThickness}"
+                                    Fill="{StaticResource ElipseFill}"/>
+                                <Ellipse 
+                                    x:Name="Dot"
+                                    Width="{StaticResource ElipseDotWidth}"
+                                    Height="{StaticResource ElipseDotHeight}"
+                                    Fill="{DynamicResource MaterialDesignBody}"
+                                    Visibility="Collapsed"/>
+                            </Grid>
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="Dot" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SettingsTextBlock" TargetType="TextBlock" BasedOn="{StaticResource BodyTextStyle}">
+            <Setter Property="FontSize" Value="{StaticResource SubtitleFont}"></Setter>           
+            <Setter Property="FontWeight" Value="SemiBold"></Setter>           
+        </Style>
+        
+    </UserControl.Resources>
+
+    <materialDesign:DialogHost Identifier="AccentColorDialog" materialDesign:TransitionAssist.DisableTransitions="True">
+        <Grid Background="{DynamicResource MaterialDesignPaper}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- HEADER -->
+            <TextBlock Grid.Row="0"
+                Style="{StaticResource BodyTextStyle}"
+                Text="Settings"
+                Margin="{StaticResource TitleMargins}"
+                FontSize="{StaticResource FontSizeTitle}"
+                FontWeight="SemiBold"/>
+
+            <!-- SCROLLABLE CONTENT -->
+            <ScrollViewer Grid.Row="1"
+                VerticalScrollBarVisibility="Auto"
+                HorizontalScrollBarVisibility="Disabled">
+
+                <StackPanel Margin="{StaticResource RadioButtonThemeMargins}">
+
+                    <!-- THEME -->
+                    <TextBlock 
+                        Text="Theme"
+                        Style="{StaticResource SettingsTextBlock}"
+                        Margin="{StaticResource ThemeMargins}"/>
+
+                    <StackPanel Margin="{StaticResource RadioButtonStackPanelMargins}">
+                        <RadioButton 
+                            x:Name="LightRadio"
+                            Content="Light"
+                            GroupName="ThemeGroup"
+                            FontSize="{StaticResource RadioButtonFont}"
+                            Margin="{StaticResource RadioButtonMargins}"
+                            Style="{StaticResource ModernRadioStyle}" 
+                            Foreground="{DynamicResource MaterialDesignBody}"
+                            Click="RadioButton_Click"/>
+                        <RadioButton 
+                            x:Name="DarkRadio"
+                            Content="Dark"
+                            GroupName="ThemeGroup"
+                            FontSize="{StaticResource RadioButtonFont}"
+                            Style="{StaticResource ModernRadioStyle}" 
+                            Foreground="{DynamicResource MaterialDesignBody}"
+                            Click="RadioButton_Click"/>
+                    </StackPanel>
+
+                    <!-- ACCENT COLOR -->
+                    <TextBlock 
+                        Text="Accent color"
+                        Style="{StaticResource SettingsTextBlock}"
+                        Margin="{StaticResource AccentColorMargins}"/>
+
+                    <StackPanel 
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center"
+                        Margin="{StaticResource AccentColorStackPanelMargins}">
+                        <Border 
+                            x:Name="AccentColorPreview"
+                            Width="{StaticResource AccentColorBorderWidth}"
+                            Height="{StaticResource AccentColorBorderHeight}"
+                            CornerRadius="{StaticResource AccentColorBorderCornerRadius}"
+                            Background="{DynamicResource AccentColor}"
+                            Margin="{StaticResource AccentColorBorderMargins}"/>
+                        <Button 
+                            Content="Choose color"
+                            Click="ChooseColor_Click"/>
+                        <Button
+                            Content="Reset"
+                            Margin="{StaticResource ResetMargins}"
+                            Click="ResetButton_Click"/>
+                    </StackPanel>
+
+                    <!-- LANGUAGE -->
+                    <TextBlock 
+                        Text="Language"
+                        Style="{StaticResource SettingsTextBlock}"
+                        Margin="{StaticResource LanguageMargins}"/>
+
+                    <ComboBox 
+                        Width="{StaticResource LanguageComboBoxWidth}"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource MaterialDesignComboBox}"
+                        Foreground="{DynamicResource MaterialDesignBody}"
+                        SelectedIndex="0"
+                        Margin="{StaticResource LanguageComboBoxMargins}">
+                        <ComboBoxItem Content="English"/>
+                        <ComboBoxItem Content="Serbian"/>
+                    </ComboBox>
+
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </materialDesign:DialogHost>
+</UserControl>

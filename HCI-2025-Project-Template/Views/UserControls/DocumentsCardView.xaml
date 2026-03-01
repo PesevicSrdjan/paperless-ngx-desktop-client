@@ -4,16 +4,62 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HCI_2025_Project_Template.Views.UserControls"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              d:DesignHeight="450" d:DesignWidth="800">
 
+    <UserControl.Resources>
 
-    <Grid Background="White">
+        <!-- ========== COLORS ========== -->
+        <SolidColorBrush x:Key="ListBoxItemColor">White</SolidColorBrush>
+        <SolidColorBrush x:Key="ListBoxColor">Transparent</SolidColorBrush>
+        <SolidColorBrush x:Key="ListBoxItemBorderBrush">#DDD</SolidColorBrush>
+        <SolidColorBrush x:Key="SeparatorBackground">#DDD</SolidColorBrush>
+        <SolidColorBrush x:Key="TypeForeground">#777</SolidColorBrush>
+        <SolidColorBrush x:Key="TitleForeground">Black</SolidColorBrush>
+        <SolidColorBrush x:Key="TagForeground">#444</SolidColorBrush>
+        <SolidColorBrush x:Key="BorderBrushHover">#4C9AFF</SolidColorBrush>
+        <SolidColorBrush x:Key="DropShadowHover">#4C9AFF</SolidColorBrush>
+        
+        <Color x:Key="DropShadowEffectColor">#888</Color>
+
+        <!-- ========== BORDER THICKNESS ========== -->
+        <Thickness x:Key="BorderThicknessListBox">0</Thickness>
+        <Thickness x:Key="DefaultBorderThickness">1</Thickness>
+
+        <!-- ========== MARGINS ========== -->
+        <Thickness x:Key="ListBoxItemMargins">10</Thickness>
+        <Thickness x:Key="TitleMargins">8,6,8,0</Thickness>
+        <Thickness x:Key="SeparatorMargins">8,2,8,2</Thickness>
+        <Thickness x:Key="TypeMargins">8,2,8,4</Thickness>
+        <Thickness x:Key="TagsMargins">8,0,8,8</Thickness>
+        <Thickness x:Key="TagMargins">2</Thickness>
+
+        <!-- ========== CONTROL SIZES ========== -->
+        <sys:Double x:Key="ListBoxItemWidth">160</sys:Double>
+        <sys:Double x:Key="ThumbnailImageHeight">180</sys:Double>
+        <sys:Double x:Key="SeparatorHeight">1</sys:Double>
+
+        <!-- ========== CORNER RADIUS ========== -->
+        <CornerRadius x:Key="ListBoxItemCornerRadius">12</CornerRadius>
+        <CornerRadius x:Key="CardCornerRadius">5</CornerRadius>
+        <CornerRadius x:Key="ThumbnailCornerRadius">12,12,0,0</CornerRadius>
+        <CornerRadius x:Key="TagCornerRadius">6</CornerRadius>
+
+        <!-- ========== FONT SIZE ========== -->
+        <sys:Double x:Key="TagFont">10</sys:Double>
+
+        <!-- ========== PADDING ========== -->
+        <Thickness x:Key="TagPadding">4,2</Thickness>
+
+    </UserControl.Resources>
+
+    <Grid Background="{DynamicResource MaterialDesignPaper}">
 
         <ListBox 
             ItemsSource="{Binding Documents}" 
-            BorderThickness="0"
-            Background="Transparent">
+            BorderThickness="{StaticResource BorderThicknessListBox}"
+            Background="{StaticResource ListBoxColor}">
 
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -26,29 +72,26 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Border 
-                        Margin="10"
-                        Width="160"
-                        CornerRadius="12"
-                        Background="White"
-                        BorderBrush="#DDD"
-                        BorderThickness="1">
+                        Margin="{StaticResource ListBoxItemMargins}"
+                        Width="{StaticResource ListBoxItemWidth}"
+                        CornerRadius="{StaticResource ListBoxItemCornerRadius}"
+                        Background="{StaticResource ListBoxItemColor}"
+                        BorderBrush="{StaticResource ListBoxItemBorderBrush}"
+                        BorderThickness="{StaticResource DefaultBorderThickness}">
 
                         <Border.Effect>
                             <DropShadowEffect 
-                                Color="#888" 
-                                BlurRadius="8" 
-                                ShadowDepth="2" 
-                                Opacity="0.25"/>
+                                Color="{StaticResource DropShadowEffectColor}" BlurRadius="8" ShadowDepth="2" Opacity="0.25"/>
                         </Border.Effect>
 
                         <StackPanel>
                             <!-- Thumbnail -->
                             <Border 
-                                CornerRadius="12,12,0,0" 
+                                CornerRadius="{StaticResource ThumbnailCornerRadius}" 
                                 ClipToBounds="True">
                                 <Image 
                                     Source="{Binding Thumbnail}"
-                                    Height="180"
+                                    Height="{StaticResource ThumbnailImageHeight}"
                                     Stretch="UniformToFill"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"/>
@@ -56,28 +99,29 @@
 
                             <!-- Title -->
                             <TextBlock 
+                                Foreground="{StaticResource TitleForeground}"
                                 Text="{Binding Title}"
-                                FontSize="14"
+                                FontSize="{StaticResource BodyFontSizeSmall}"
                                 FontWeight="SemiBold"
                                 TextWrapping="Wrap"
-                                Margin="8,6,8,0"/>
+                                Margin="{StaticResource TitleMargins}"/>
 
                             <Separator 
-                                Margin="8,2,8,2" 
-                                Background="#DDD" 
-                                Height="1"/>
+                                Margin="{StaticResource SeparatorMargins}" 
+                                Background="{StaticResource SeparatorBackground}" 
+                                Height="{StaticResource SeparatorHeight}"/>
 
                             <!-- Type -->
                             <TextBlock 
                                 Text="{Binding Type}"
-                                Foreground="#777"
-                                FontSize="12"
-                                Margin="8,2,8,4"/>
+                                Foreground="{StaticResource TypeForeground}"
+                                FontSize="{StaticResource BodyFontSizeExtraSmall}"
+                                Margin="{StaticResource TypeMargins}"/>
 
                             <!-- Tags -->
                             <ItemsControl 
                                 ItemsSource="{Binding Tags}"
-                                Margin="8,0,8,8">
+                                Margin="{StaticResource TagsMargins}">
 
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
@@ -89,13 +133,13 @@
                                     <DataTemplate>
                                         <Border 
                                             Background="{Binding Color}"
-                                            CornerRadius="6"
-                                            Padding="4,2"
-                                            Margin="2">
+                                            CornerRadius="{StaticResource TagCornerRadius}"
+                                            Padding="{StaticResource TagPadding}"
+                                            Margin="{StaticResource TagMargins}">
                                             <TextBlock 
                                                 Text="{Binding Name}" 
-                                                FontSize="10" 
-                                                Foreground="#444"/>
+                                                FontSize="{StaticResource TagFont}" 
+                                                Foreground="{StaticResource TagForeground}"/>
                                         </Border>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
@@ -112,7 +156,6 @@
                                             ScaleY="1"/>
                                     </Setter.Value>
                                 </Setter>
-
                                 <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
@@ -121,7 +164,7 @@
                                                 <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
                                             </Setter.Value>
                                         </Setter>
-                                        <Setter Property="BorderBrush" Value="#4C9AFF"/>
+                                        <Setter Property="BorderBrush" Value="{StaticResource BorderBrushHover}"/>
                                         <Setter Property="Effect">
                                             <Setter.Value>
                                                 <DropShadowEffect Color="#4C9AFF" BlurRadius="12" ShadowDepth="2" Opacity="0.35"/>
@@ -131,11 +174,9 @@
                                 </Style.Triggers>
                             </Style>
                         </Border.Style>
-
                     </Border>
                 </DataTemplate>
             </ListBox.ItemTemplate>
-
         </ListBox>
     </Grid>
 </UserControl>

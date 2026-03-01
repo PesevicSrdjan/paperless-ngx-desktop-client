@@ -4,28 +4,50 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HCI_2025_Project_Template.Views.UserControls"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              d:DesignHeight="450" d:DesignWidth="800">
-<UserControl.Resources>
-    
-    <Style x:Key="LoadingCircularProgressBar" TargetType="ProgressBar" BasedOn="{StaticResource MaterialDesignCircularProgressBar}">
-        <Setter Property="Width" Value="20"/>
-        <Setter Property="Height" Value="20"/>
-        <Setter Property="IsIndeterminate" Value="True"/>
-        <Setter Property="Visibility" Value="Collapsed"/>
-        <Setter Property="Margin" Value="20,0,0,0"/>
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding IsLoading}" Value="True">
-                <Setter Property="Visibility" Value="Visible"/>
-            </DataTrigger>
-        </Style.Triggers>
-    </Style>
 
-</UserControl.Resources>
+    <UserControl.Resources>
+
+        <!-- ========== COLORS ========== -->
+        <SolidColorBrush x:Key="LoadingForeground">Gray</SolidColorBrush>
+
+        <!-- ========== CONTROL SIZES ========== -->
+        <sys:Double x:Key="ProgressBarWidth">20</sys:Double>
+        <sys:Double x:Key="ProgressBarHeight">20</sys:Double>
+        <sys:Double x:Key="CreateIconWidth">16</sys:Double>
+        <sys:Double x:Key="CreateIconHeight">19</sys:Double>
+        <sys:Double x:Key="CreateButtonWidth">80</sys:Double>
+
+        <!-- ========== MARGINS ========== -->
+        <Thickness x:Key="ProgressBarMargins">20,0,0,0</Thickness>
+        <Thickness x:Key="TitleMargins">20,20,0,0</Thickness>
+        <Thickness x:Key="CreateIconMargins">0,0,4,0</Thickness>
+        <Thickness x:Key="CreateButtonMargins">0,20,30,0</Thickness>
+        <Thickness x:Key="LoadingTextMargins">10,10,0,0</Thickness>
+
+        <!-- ========== PADDING ========== -->
+        <Thickness x:Key="CreateButtonPadding">5,2</Thickness>
+
+        <Style x:Key="LoadingCircularProgressBar" TargetType="ProgressBar" BasedOn="{StaticResource MaterialDesignCircularProgressBar}">
+            <Setter Property="Width" Value="{StaticResource ProgressBarWidth}"/>
+            <Setter Property="Height" Value="{StaticResource ProgressBarHeight}"/>
+            <Setter Property="IsIndeterminate" Value="True"/>
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Setter Property="Margin" Value="{StaticResource ProgressBarMargins}"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+    </UserControl.Resources>
 
     <Grid 
-        Background="White">
+        Background="{DynamicResource MaterialDesignPaper}">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -37,28 +59,29 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock
-            Grid.Row="0"
-            Grid.Column="0"
+        <TextBlock Grid.Row="0" Grid.Column="0"
+            Style="{StaticResource BodyTextStyle}"
             Text="Tags"
-            FontSize="25"
+            FontSize="{StaticResource FontSizeTitle}"
             FontWeight="SemiBold"
-            Margin="20,20,0,0"/>
+            Margin="{StaticResource TitleMargins}"/>
 
-        <Button 
+        <Button Grid.Row="0"
             Style="{StaticResource MaterialDesignOutlinedButton}"
-            Grid.Row="0"
-            Width="80"
+            BorderBrush="{DynamicResource AccentColor}"
+            Foreground="{DynamicResource AccentColor}"
+            Width="{StaticResource CreateButtonWidth}"
             HorizontalAlignment="Right"
-            Margin="20,4,50,0"
-            Padding="5,2"
+            Margin="{StaticResource CreateButtonMargins}"
+            Padding="{StaticResource CreateButtonPadding}"
             Click="CreateTag_Click">
+            
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                 <materialDesign:PackIcon 
                     Kind="Plus" 
-                    Width="16" 
-                    Height="16" 
-                    Margin="0,0,4,0"/>
+                    Width="{StaticResource CreateIconWidth}" 
+                    Height="{StaticResource CreateIconHeight}" 
+                    Margin="{StaticResource CreateIconMargins}"/>
                 <TextBlock 
                     Text="Create"/>
             </StackPanel>
@@ -74,8 +97,8 @@
             <TextBlock
                 Text="Loading..."
                 FontStyle="Italic"
-                Foreground="Gray"
-                Margin="10,10,0,0"> 
+                Foreground="{StaticResource LoadingForeground}"
+                Margin="{StaticResource LoadingTextMargins}"> 
 
                 <TextBlock.Style>
                     <Style TargetType="TextBlock">

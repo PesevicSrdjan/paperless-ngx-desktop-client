@@ -1,6 +1,7 @@
 ﻿using HCI_2025_Project_Template.Core.Interfaces;
 using HCI_2025_Project_Template.Core.Models.Api;
 using HCI_2025_Project_Template.Core.Models.Responses;
+using HCI_2025_Project_Template.Core.Models.Ui;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -200,6 +201,106 @@ namespace HCI_2025_Project_Template.Core.Services
             bitmap.Freeze();
 
             return bitmap;
+        }
+
+        public async Task<string?> UploadDocumentAsync(FileMetadata file, IProgress<double>? progress = null)
+        {
+            try
+            {
+                var client = ApiClient.Instance;
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", AuthSession.Token);
+
+                using var content = new MultipartFormDataContent();
+
+                var fileStream = File.OpenRead(file.FilePath);
+                var fileContent = new StreamContent(fileStream);
+                fileContent.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
+                content.Add(fileContent, "document", Path.GetFileName(file.FilePath));
+
+                if (file.DocumentName != null)
+                    content.Add(new StringContent(file.DocumentName), "title");
+
+                if (file.DocumentDate.HasValue)
+                    content.Add(new StringContent(file.DocumentDate.Value.ToString("yyyy-MM-dd")), "created");
+
+                if (file.DocumentType != null)
+                    content.Add(new StringContent(file.DocumentType.Id.ToString()), "document_type");
+
+                if (file.Correspondent != null)
+                    content.Add(new StringContent(file.Correspondent.Id.ToString()), "correspondent");
+
+                if (file.SelectedTags.Any())
+                    foreach (var tag in file.SelectedTags)
+                        content.Add(new StringContent(tag.Id.ToString()), "tags");
+
+                var progressContent = new ProgressableStreamContent(content, 4096, progress);
+
+                var response = await client.PostAsync("api/documents/post_document/", progressContent);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsStringAsync();
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task<(List<DocumentJson> Results, int Count)> GetDocumentsAsync(
+            int page = 1,
+            int pageSize = 50,
+            List<int>? tagIds = null,
+            List<int>? typeIds = null,
+            List<int>? corrIds = null,
+            string? title = null)
+        {
+            try
+            {
+                var client = ApiClient.Instance;
+                client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Token", AuthSession.Token);
+
+                List<string> query = new();
+
+                if (tagIds?.Count > 0)
+                    query.Add($"tags__id__all={string.Join(",", tagIds)}");
+
+                if (typeIds?.Count > 0)
+                    query.Add($"document_type__id__in={string.Join(",", typeIds)}");
+
+                if (corrIds?.Count > 0)
+                    query.Add($"correspondent__id__in={string.Join(",", corrIds)}");
+
+                if (!string.IsNullOrWhiteSpace(title))
+                    query.Add($"title_content={WebUtility.UrlEncode(title)}");
+
+                query.Add($"page={page}");
+                query.Add($"page_size={pageSize}");
+
+                string url = $"api/documents/?{string.Join("&", query)}";
+
+                var response = await client.GetAsync(url);
+
+                if (response.StatusCode == HttpStatusCode.NotFound)
+                    return (new List<DocumentJson>(), 0);
+
+                response.EnsureSuccessStatusCode();
+
+                var data = await response.Content.ReadFromJsonAsync<DocumentsResponse>();
+
+                return (data?.results ?? new List<DocumentJson>(), data?.count ?? 0);
+            }
+            catch
+            {
+                return (new List<DocumentJson>(), 0);
+            }
         }
     }
 }

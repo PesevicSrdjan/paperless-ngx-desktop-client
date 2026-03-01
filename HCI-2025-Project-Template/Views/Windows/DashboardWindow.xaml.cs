@@ -30,6 +30,7 @@ namespace HCI_2025_Project_Template.Views
 
             Loaded += dashboardWindow_Loaded;
         }
+
         private void dashboardWindow_Loaded(object sender, RoutedEventArgs e)
         {
             setNewSelectedButton(_selectedSidebarButton);
@@ -42,36 +43,27 @@ namespace HCI_2025_Project_Template.Views
         {
             MainContentControl.Content = new DocumentsView();
         }
+
         private void resetPrevSelectedButton()
         {
             if (_selectedSidebarButton != null)
             {
-                var prevTextBlock = _selectedSidebarButton.Template.FindName("ButtonText", _selectedSidebarButton) as TextBlock;
-                if (prevTextBlock != null)
-                {
-                    prevTextBlock.FontWeight = FontWeights.Normal;
-                    prevTextBlock.Foreground = Brushes.Black;
-                }
+                _selectedSidebarButton.FontWeight = FontWeights.Normal;
+                _selectedSidebarButton.ClearValue(Button.ForegroundProperty);
             }
         }
+
         private void setNewSelectedButton(Button? newButton)
         {
             if (newButton == null) return;
 
             _selectedSidebarButton = newButton;
-            var currTextBlock = _selectedSidebarButton.Template.FindName("ButtonText", _selectedSidebarButton) as TextBlock;
-            if (currTextBlock != null)
-            {
-                currTextBlock.FontWeight = FontWeights.Bold;
 
-                var brush = new BrushConverter().ConvertFromString("#17541F") as Brush;
+            _selectedSidebarButton.FontWeight = FontWeights.Bold;
 
-                if (brush != null)
-                {
-                    currTextBlock.Foreground = brush;
-
-                }
-            }
+            _selectedSidebarButton.SetResourceReference(
+                Button.ForegroundProperty,
+                "AccentColor");
         }
         private void SidebarButton_Click(object sender, RoutedEventArgs e)
         {
@@ -81,6 +73,22 @@ namespace HCI_2025_Project_Template.Views
         private void button_tags_Click(object sender, RoutedEventArgs e)
         {
             MainContentControl.Content = new TagsView();
+        }
+        private void Button_Settings_Click(object sender, RoutedEventArgs e)
+        { 
+             MainContentControl.Content = new SettingsView();
+        }
+        public void RefreshSidebarButtonColors()
+        {
+            if (_selectedSidebarButton == null)
+                return;
+
+            _selectedSidebarButton.ClearValue(Button.ForegroundProperty);
+
+            _selectedSidebarButton.Foreground =
+                (Brush)Application.Current.Resources["AccentColor"];
+
+            _selectedSidebarButton.FontWeight = FontWeights.Bold;
         }
     }
 }

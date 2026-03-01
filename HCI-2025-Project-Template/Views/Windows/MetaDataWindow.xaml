@@ -1,0 +1,534 @@
+﻿<Window x:Class="HCI_2025_Project_Template.Views.Windows.MetaDataWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="Upload Files"
+        Icon="/Assets/paperless.ico"
+        Height="600"
+        Width="800"
+        Background="{DynamicResource MaterialDesignPaper}">
+
+    <Window.Resources>
+
+        <!-- ========== COLORS ========== -->
+        <SolidColorBrush x:Key="CancelFileButtonStyleBackground">#E53935</SolidColorBrush>
+        <SolidColorBrush x:Key="CancelFileButtonStyleForeground">White</SolidColorBrush>
+        <SolidColorBrush x:Key="CancelFileButtonStyleHoverBackground">#E53935</SolidColorBrush>
+        <SolidColorBrush x:Key="CancelFileButtonStyleIsPressedBackground">#D32F2F</SolidColorBrush>
+        <SolidColorBrush x:Key="FilePanelBorderBrush">Gray</SolidColorBrush>
+        <SolidColorBrush x:Key="RequiredColor">Red</SolidColorBrush>
+        <SolidColorBrush x:Key="TagForeground">White</SolidColorBrush>
+        <SolidColorBrush x:Key="CancelTagButtonBackground">Transparent</SolidColorBrush>
+        <SolidColorBrush x:Key="CancelTagButtonForeground">White</SolidColorBrush>
+        <SolidColorBrush x:Key="RemoveFileButtonBackground">#E53935</SolidColorBrush>
+        <SolidColorBrush x:Key="RemoveFileButtonForeground">White</SolidColorBrush>
+        <SolidColorBrush x:Key="UploadTextForeground">Gray</SolidColorBrush>
+        <SolidColorBrush x:Key="BorderUploadPanelBorderBrush">Gray</SolidColorBrush>
+        <SolidColorBrush x:Key="ProgressBarBorderBrush">LightGray</SolidColorBrush>
+        <SolidColorBrush x:Key="SubmitButtonBackground">#FF4CAF50</SolidColorBrush>
+        <SolidColorBrush x:Key="HeadButtonsForeground">White</SolidColorBrush>
+        <SolidColorBrush x:Key="UploadButtonBackground">#FF2196F3</SolidColorBrush>
+        <SolidColorBrush x:Key="AddMoreFilesButtonBackground">#FFFFC107</SolidColorBrush>
+
+
+        <!-- ========== CONTROL SIZES ========== -->
+        <sys:Double x:Key="CancelFileButtonStyleWidth">15</sys:Double>
+        <sys:Double x:Key="CancelFileButtonStyleHeight">20</sys:Double>
+        <sys:Double x:Key="FileIconWidth">80</sys:Double>
+        <sys:Double x:Key="FileIconHeight">80</sys:Double>
+        <sys:Double x:Key="CancelTagButtonWidth">8</sys:Double>
+        <sys:Double x:Key="CancelTagButtonHeight">15</sys:Double>
+        <sys:Double x:Key="RemoveFileButtonWidth">20</sys:Double>
+        <sys:Double x:Key="RemoveFileButtonHeight">20</sys:Double>
+        <sys:Double x:Key="ProgressBarHeight">20</sys:Double>
+        <sys:Double x:Key="ProgressBarMinimum">0</sys:Double>
+        <sys:Double x:Key="ProgressBarMaximum">100</sys:Double>
+        <sys:Double x:Key="SubmitButtonWidth">120</sys:Double>
+        <sys:Double x:Key="SubmitButtonHeight">35</sys:Double>
+        <sys:Double x:Key="HeadButtonsIconWidth">20</sys:Double>
+        <sys:Double x:Key="HeadButtonsIconHeight">20</sys:Double>
+        <sys:Double x:Key="UploadButtonWidth">120</sys:Double>
+        <sys:Double x:Key="UploadButtonHeight">35</sys:Double>
+        <sys:Double x:Key="AddMoreFilesButtonWidth">150</sys:Double>
+        <sys:Double x:Key="AddMoreFilesButtonHeight">35</sys:Double>
+
+        <!-- ========== CORNER RADIUS ========== -->
+        <CornerRadius x:Key="ItemsBorderStyleCornerRadius">6</CornerRadius>
+        <CornerRadius x:Key="TagCornerRadiusBorder">6</CornerRadius>
+        <CornerRadius x:Key="FilePanelCornerRadius">5</CornerRadius>
+        <CornerRadius x:Key="BorderUploadPanelCornerRadius">5</CornerRadius>
+        <CornerRadius x:Key="HeadButtonsCornerRadius">4</CornerRadius>
+
+        <!-- ========== PADDING ========== -->
+        <Thickness x:Key="ItemsBorderStylePadding">4,2</Thickness>
+        <Thickness x:Key="CancelFileButtonStylePadding">0</Thickness>
+        <Thickness x:Key="FilePanelPadding">10</Thickness>
+        <Thickness x:Key="TagPaddingBorder">6,2</Thickness>
+        <Thickness x:Key="CancelTagButtonPadding">0</Thickness>
+        <Thickness x:Key="RemoveFileButtonPadding">0</Thickness>
+        <Thickness x:Key="BorderUploadPanelPadding">10</Thickness>
+
+        <!-- ========== BORDER THICKNESS ========== -->
+        <Thickness x:Key="CancelFileButtonStyleBorderThickness">0</Thickness>
+        <Thickness x:Key="FilePanelBorderThickness">1</Thickness>
+        <Thickness x:Key="CancelTagButtonBorderThickness">0</Thickness>
+        <Thickness x:Key="RemoveFileButtonBorderThickness">0</Thickness>
+        <Thickness x:Key="BorderUploadPanelBorderThickness">1</Thickness>
+
+        <!-- ========== FONT SIZE ========== -->
+        <sys:Double x:Key="CancelFileButtonStyleFont">10</sys:Double>
+        <sys:Double x:Key="TagFont">11</sys:Double>
+        <sys:Double x:Key="CancelTagButtonFont">8</sys:Double>
+        <sys:Double x:Key="UploadStatusFont">10</sys:Double>
+        <sys:Double x:Key="AddMoreFilesButtonFont">13</sys:Double>
+
+        <!-- ========== MARGINS ========== -->
+        <Thickness x:Key="ItemsBorderStyleMargin">2</Thickness>
+        <Thickness x:Key="MetaDataWindowGrid">10</Thickness>
+        <Thickness x:Key="FilePanelMargin">0,0,0,10</Thickness>
+        <Thickness x:Key="MetadataMarginStackPanel">10,0,0,0</Thickness>
+        <Thickness x:Key="MetadataMargin">0,4</Thickness>
+        <Thickness x:Key="TagMarginBorder">2</Thickness>
+        <Thickness x:Key="CancelTagButtonMargin">3,0,0,0</Thickness>
+        <Thickness x:Key="RemoveFileButtonMargin">5,0,0,0</Thickness>
+        <Thickness x:Key="BorderUploadPanelMargin">0,0,0,10</Thickness>
+        <Thickness x:Key="UploadFilesPanelGridMargin">0,5</Thickness>
+        <Thickness x:Key="FileNameMargin">0,0,5,0</Thickness>
+        <Thickness x:Key="PorgressBarMargin">5,0</Thickness>
+        <Thickness x:Key="CancelFileInUploadMargin">5,0</Thickness>
+        <Thickness x:Key="UploadStatusMargin">5,0</Thickness>
+        <Thickness x:Key="SubmitButtonMargin">0,10,0,0</Thickness>
+        <Thickness x:Key="HeadButtonsIconMargin">0,0,5,0</Thickness>
+        <Thickness x:Key="UploadButtonMargin">0,10,130,0</Thickness>
+        <Thickness x:Key="AddMoreFilesButtonMargin">0,10,260,0</Thickness>
+        
+        
+
+        <Style x:Key="ItemsBorderStyle" TargetType="Border">
+            <Setter Property="CornerRadius" Value="{StaticResource ItemsBorderStyleCornerRadius}"></Setter>
+            <Setter Property="Padding" Value="{StaticResource ItemsBorderStylePadding}"></Setter>
+            <Setter Property="Margin" Value="{StaticResource ItemsBorderStyleMargin}"></Setter>
+        </Style>
+
+        <Style x:Key="CancelFileButtonStyle" TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
+            <Setter Property="Width" Value="{StaticResource CancelFileButtonStyleWidth}"/>
+            <Setter Property="Height" Value="{StaticResource CancelFileButtonStyleHeight}"/>
+            <Setter Property="Background" Value="{StaticResource CancelFileButtonStyleBackground}"/>
+            <Setter Property="Foreground" Value="{StaticResource CancelFileButtonStyleForeground}"/>
+            <Setter Property="BorderThickness" Value="{StaticResource CancelFileButtonStyleBorderThickness}"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="{StaticResource CancelFileButtonStyleFont}"/>
+            <Setter Property="Padding" Value="{StaticResource CancelFileButtonStylePadding}"/>
+            <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="3"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding materialDesign:ButtonAssist.CornerRadius}">
+                                <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Content="{TemplateBinding Content}"/>
+                            </Border>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="{StaticResource CancelFileButtonStyleHoverBackground}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="{StaticResource CancelFileButtonStyleIsPressedBackground}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Opacity" Value="0.5"/>
+                            </Trigger>
+
+                            <DataTrigger Binding="{Binding Stage}" Value="Uploading">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Stage}" Value="Uploaded">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+
+    <Grid Background="{DynamicResource MaterialDesignPaper}" 
+        Margin="{StaticResource MetaDataWindowGrid}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- LISTA FAJLOVA -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <Grid Background="{DynamicResource MaterialDesignPaper}">
+                <ItemsControl ItemsSource="{Binding FilesMetadata}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border 
+                                BorderBrush="{StaticResource FilePanelBorderBrush}"
+                                BorderThickness="{StaticResource FilePanelBorderThickness}"
+                                Margin="{StaticResource FilePanelMargin}"
+                                Padding="{StaticResource FilePanelPadding}"
+                                CornerRadius="{StaticResource FilePanelCornerRadius}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- IKONA -->
+                                    <Image 
+                                        Source="{Binding FileIconPath}"
+                                        Width="{StaticResource FileIconWidth}"
+                                        Height="{StaticResource FileIconHeight}"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        IsEnabled="{Binding IsEnabled}"/>
+
+                                    <!-- METADATA -->
+                                    <StackPanel Grid.Column="1"
+                                        Margin="{StaticResource MetadataMarginStackPanel}"
+                                        Orientation="Vertical">
+
+                                        <!-- DOCUMENT NAME -->
+                                        <TextBox
+                                            Text="{Binding DocumentName, UpdateSourceTrigger=PropertyChanged}"
+                                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                            Margin="{StaticResource MetadataMargin}"
+                                            Foreground="{DynamicResource MaterialDesignBody}"
+                                            IsEnabled="{Binding IsEnabled}">
+                                            <materialDesign:HintAssist.Hint>
+                                                <TextBlock>
+                                                <Run Text="Document Name"/>
+                                                <Run Text=" *" Foreground="{StaticResource RequiredColor}"/>
+                                                </TextBlock>
+                                            </materialDesign:HintAssist.Hint>
+                                        </TextBox>
+
+                                        <!-- CORRESPONDENT -->
+                                        <ComboBox
+                                            Foreground="{DynamicResource MaterialDesignBody}"
+                                            materialDesign:HintAssist.Hint="Correspondent"
+                                            ItemsSource="{Binding DataContext.CorrespondentsList, RelativeSource={RelativeSource AncestorType=Window}}"
+                                            SelectedItem="{Binding Correspondent, Mode=TwoWay}"
+                                            DisplayMemberPath="Name"
+                                            Style="{StaticResource MaterialDesignComboBox}"
+                                            Margin="{StaticResource MetadataMargin}"
+                                            IsEnabled="{Binding IsEnabled}"/>
+
+                                        <!-- DOCUMENT TYPE -->
+                                        <ComboBox
+                                            Foreground="{DynamicResource MaterialDesignBody}"
+                                            ItemsSource="{Binding DataContext.TypesList, RelativeSource={RelativeSource AncestorType=Window}}"
+                                            SelectedItem="{Binding DocumentType, Mode=TwoWay}"
+                                            DisplayMemberPath="Name"
+                                            Style="{StaticResource MaterialDesignComboBox}"
+                                            Margin="{StaticResource MetadataMargin}"
+                                            IsEnabled="{Binding IsEnabled}">
+                                            <materialDesign:HintAssist.Hint>
+                                                <TextBlock>
+                                                <Run Text="Document Type"/>
+                                                <Run Text=" *" Foreground="{StaticResource RequiredColor}"/>
+                                                </TextBlock>
+                                            </materialDesign:HintAssist.Hint>
+                                        </ComboBox>
+
+                                        <!-- TAG -->
+                                        <ComboBox
+                                            Foreground="{DynamicResource MaterialDesignBody}"
+                                            materialDesign:HintAssist.Hint="Add Tag"
+                                            ItemsSource="{Binding DataContext.TagsList,
+                                            RelativeSource={RelativeSource AncestorType=Window}}"
+                                            DisplayMemberPath="Name"
+                                            Style="{StaticResource MaterialDesignComboBox}"
+                                            SelectionChanged="TagComboBox_SelectionChanged"
+                                            Margin="{StaticResource MetadataMargin}"
+                                            IsEnabled="{Binding IsEnabled}">
+
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Border
+                                                        Background="{Binding Color}"
+                                                        Style="{StaticResource ItemsBorderStyle}"
+                                                        HorizontalAlignment="Left">
+                                                        <TextBlock
+                                                            Text="{Binding Name}"
+                                                            Foreground="{StaticResource TagForeground}"
+                                                            FontSize="{StaticResource TagFont}"/>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+
+
+                                        <!-- SELECTED TAGS -->
+                                        <ItemsControl ItemsSource="{Binding SelectedTags}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <WrapPanel/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Border
+                                                        Background="{Binding Color}"
+                                                        CornerRadius="{StaticResource TagCornerRadiusBorder}"
+                                                        Padding="{StaticResource TagPaddingBorder}"
+                                                        Margin="{StaticResource TagMarginBorder}">
+                                                        
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock
+                                                            Text="{Binding Name}"
+                                                            Foreground="{StaticResource TagForeground}"
+                                                            FontSize="{StaticResource TagFont}"/>
+
+                                                            <Button
+                                                                Width="{StaticResource CancelTagButtonWidth}"
+                                                                Height="{StaticResource CancelTagButtonHeight}"
+                                                                FontSize="{StaticResource CancelTagButtonFont}"
+                                                                Margin="{StaticResource CancelTagButtonMargin}"
+                                                                Padding="{StaticResource CancelTagButtonPadding}"
+                                                                Background="{StaticResource CancelTagButtonBackground}"
+                                                                Foreground="{StaticResource CancelTagButtonForeground}"
+                                                                BorderThickness="{StaticResource CancelTagButtonBorderThickness}"
+                                                                Tag="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                                Click="RemoveTag_Click"
+                                                                IsEnabled="{Binding DataContext.IsEnabled, RelativeSource={RelativeSource AncestorType=ItemsControl}}">
+                                                                <TextBlock 
+                                                                    Text="X"
+                                                                    Foreground="{StaticResource CancelTagButtonForeground}"/>
+                                                            </Button>
+                                                        </StackPanel>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+
+                                        <!-- DATE -->
+                                        <DatePicker
+                                            SelectedDate="{Binding DocumentDate}"
+                                            Margin="{StaticResource MetadataMargin}"
+                                            Foreground="{DynamicResource MaterialDesignBody}"
+                                            IsEnabled="{Binding IsEnabled}">
+                                            <materialDesign:HintAssist.Hint>
+                                                <TextBlock>
+                                                <Run Text="Date"/>
+                                                <Run Text=" *" Foreground="{StaticResource RequiredColor}"/>
+                                                </TextBlock>
+                                            </materialDesign:HintAssist.Hint>
+                                        </DatePicker>
+                                    </StackPanel>
+                                    
+                                    <Button Grid.Column="1"
+                                        Width="{StaticResource RemoveFileButtonWidth}"
+                                        Height="{StaticResource RemoveFileButtonHeight}"
+                                        Padding="{StaticResource RemoveFileButtonPadding}"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Top"
+                                        Margin="{StaticResource RemoveFileButtonMargin}"
+                                        Background="{StaticResource RemoveFileButtonBackground}"
+                                        Foreground="{StaticResource RemoveFileButtonForeground}"
+                                        FontWeight="Bold"
+                                        FontSize="{StaticResource BodyFontSizeExtraSmall}"
+                                        BorderThickness="{StaticResource RemoveFileButtonBorderThickness}"
+                                        Click="RemoveFile_Click"
+                                        IsEnabled="{Binding IsEnabled}">
+                                        <TextBlock 
+                                            Text="X" 
+                                            Foreground="{StaticResource RemoveFileButtonForeground}"/>
+                                    </Button>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <TextBlock 
+                   Text="Paperless — start your journey by uploading files!"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="{StaticResource BodyFontSizeDefault}"
+                   FontWeight="SemiBold"
+                   Foreground="{StaticResource UploadTextForeground}">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding FilesMetadata.Count}" Value="0">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+        </ScrollViewer>
+
+        <Border 
+            x:Name="BorderUploadPanel" Grid.Row="1" 
+            BorderBrush="{StaticResource BorderUploadPanelBorderBrush}" 
+            BorderThickness="{StaticResource BorderUploadPanelBorderThickness}" 
+            Margin="{StaticResource BorderUploadPanelMargin}" 
+            Padding="{StaticResource BorderUploadPanelPadding}" 
+            CornerRadius="{StaticResource BorderUploadPanelCornerRadius}">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <!-- Po defaultu border je nevidljiv -->
+                    <Setter Property="BorderBrush" Value="Black"/>
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </Style>
+            </Border.Style>
+
+            <ItemsControl  x:Name="UploadFilesPanel"  Visibility="Collapsed">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="{StaticResource UploadFilesPanelGridMargin}" VerticalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <!-- Kolona za naziv fajla -->
+                                <ColumnDefinition Width="250"/>
+
+                                <!-- Kolona za progress bar -->
+                                <ColumnDefinition Width="220"/>
+
+                                <!-- Kolona za cancel -->
+                                <ColumnDefinition Width="Auto"/>
+
+                                <!-- Kolona za status -->
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Naziv fajla -->
+                            <TextBlock Grid.Column="0"
+                                Style="{StaticResource BodyTextStyle}"
+                                Text="{Binding DocumentName}"
+                                VerticalAlignment="Center"
+                                TextWrapping="Wrap"
+                                Margin="{StaticResource FileNameMargin}"/>
+
+                            <!-- ProgressBar -->
+                            <ProgressBar Grid.Column="1" 
+                                Height="{StaticResource ProgressBarHeight}"
+                                Margin="{StaticResource PorgressBarMargin}"
+                                Minimum="{StaticResource ProgressBarMinimum}"
+                                Maximum="{StaticResource ProgressBarMaximum}"
+                                BorderBrush="{StaticResource ProgressBarBorderBrush}"
+                                Background="{Binding ProgressBackgroundColor}"
+                                Value="{Binding UploadProgress}"
+                                Foreground="{Binding ProgressColor}"
+                                materialDesign:TransitionAssist.DisableTransitions="True"/>
+
+                            <!-- Cancel dugme -->
+                            <Button Grid.Column="2"
+                                Margin="{StaticResource CancelFileInUploadMargin}"
+                                Click="RemoveFile_Click"
+                                materialDesign:RippleAssist.IsDisabled="True"
+                                Style="{StaticResource CancelFileButtonStyle}">
+                                <TextBlock 
+                                    Text="X" 
+                                    Foreground="{StaticResource RemoveFileButtonForeground}"/>
+                            </Button>
+
+                            <!-- Status -->
+                            <TextBlock Grid.Column="3"
+                                Style="{DynamicResource BodyTextStyle}"
+                                Text="{Binding UploadStatus}"
+                                FontWeight="Bold"
+                                FontSize="{StaticResource UploadStatusFont}"
+                                Margin="{StaticResource UploadStatusMargin}"
+                                VerticalAlignment="Center"/>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
+
+        <Button Grid.Row="2"
+            x:Name="SubmitButton"
+            Width="{StaticResource SubmitButtonWidth}"
+            Height="{StaticResource SubmitButtonHeight}"
+            HorizontalAlignment="Right"
+            Margin="{StaticResource SubmitButtonMargin}"
+            Click="SubmitButton_Click"
+            materialDesign:ButtonAssist.CornerRadius="{StaticResource HeadButtonsCornerRadius}"
+            Background="{StaticResource SubmitButtonBackground}"
+            Foreground="{StaticResource HeadButtonsForeground}">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <materialDesign:PackIcon 
+                    Kind="Check" 
+                    Width="{StaticResource HeadButtonsIconWidth}" 
+                    Height="{StaticResource HeadButtonsIconHeight}" 
+                    Margin="{StaticResource HeadButtonsIconMargin}"/>
+                <TextBlock 
+                    Text="Submit" 
+                    Foreground="{StaticResource HeadButtonsForeground}"/>
+            </StackPanel>
+        </Button>
+
+        <!-- Upload -->
+        <Button Grid.Row="2"
+            x:Name="UploadButton"
+            Width="{StaticResource UploadButtonWidth}"
+            Height="{StaticResource UploadButtonHeight}"
+            HorizontalAlignment="Right"
+            Margin="{StaticResource UploadButtonMargin}"
+            Click="UploadButton_Click"
+            IsEnabled="False"
+            materialDesign:ButtonAssist.CornerRadius="{StaticResource HeadButtonsCornerRadius}"
+            Background="{StaticResource UploadButtonBackground}"
+            Foreground="{StaticResource HeadButtonsForeground}">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <materialDesign:PackIcon 
+                    Kind="CloudUpload" 
+                    Width="{StaticResource HeadButtonsIconWidth}" 
+                    Height="{StaticResource HeadButtonsIconHeight}" 
+                    Margin="{StaticResource HeadButtonsIconMargin}"/>
+                <TextBlock 
+                    Text="Upload" 
+                    Foreground="{StaticResource HeadButtonsForeground}"/>
+            </StackPanel>
+        </Button>
+
+        <!-- Add More Files -->
+        <Button Grid.Row="2"
+            x:Name="AddMoreFilesButton"
+            Width="{StaticResource AddMoreFilesButtonWidth}"
+            Height="{StaticResource AddMoreFilesButtonHeight}"
+            HorizontalAlignment="Right"
+            Margin="{StaticResource AddMoreFilesButtonMargin}"
+            Click="AddMoreFilesButton_Click"
+            FontSize="{StaticResource AddMoreFilesButtonFont}"
+            materialDesign:ButtonAssist.CornerRadius="{StaticResource HeadButtonsCornerRadius}"
+            Background="{StaticResource AddMoreFilesButtonBackground}"
+            Foreground="{StaticResource HeadButtonsForeground}">
+            
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <materialDesign:PackIcon 
+                    Kind="Plus" 
+                    Width="{StaticResource HeadButtonsIconWidth}" 
+                    Height="{StaticResource HeadButtonsIconWidth}" 
+                    Margin="{StaticResource HeadButtonsIconMargin}"/>
+                <TextBlock 
+                    Text="Add More Files" 
+                    Foreground="{StaticResource HeadButtonsForeground}"/>
+            </StackPanel>
+        </Button>
+    </Grid>
+</Window>

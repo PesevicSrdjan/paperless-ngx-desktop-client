@@ -4,111 +4,119 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:HCI_2025_Project_Template"
         mc:Ignorable="d"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         Title="Paperless_ngx"
-        Height="600" Width="800"
         WindowStartupLocation="CenterScreen"
-        Icon="./Assets/paperless.ico"
-        >
+        SizeToContent="WidthAndHeight"
+        MinWidth="500"
+        MinHeight="450"
+        Icon="./Assets/paperless.ico">
 
-    <Grid>
-        <!-- Logo -->
+    <Window.Resources>
+
+        <!-- ========== MARGINS ========== -->
+        <Thickness x:Key="ImageMargins">0,0,0,20</Thickness>
+        <Thickness x:Key="TitleMargins">0,0,0,20</Thickness>
+        <Thickness x:Key="UsernameMargins">0,0,0,20</Thickness>
+        <Thickness x:Key="PasswordMargins">0,0,0,20</Thickness>
+
+        <!-- ========== CONTROL SIZES ========== -->
+        <sys:Double x:Key="ImageMaxWidth">350</sys:Double>
+        <sys:Double x:Key="ImageMinWidth">350</sys:Double>
+        <sys:Double x:Key="StackPanelWidth">350</sys:Double>
+        <sys:Double x:Key="PopupMaxHeight">200</sys:Double>
+
+        <!-- ========== BORDER THICKNESS ========== -->
+        <Thickness x:Key="DefaultBorderThickness">1</Thickness>
+
+        <!-- ========== COLORS ========== -->
+        <SolidColorBrush x:Key="PopupBorderBrush">Gray</SolidColorBrush>
+
+    </Window.Resources>
+
+    <Grid Background="{DynamicResource MaterialDesignPaper}">
+
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <!-- Tekst -->
             <RowDefinition Height="Auto" />
-            <!-- Username -->
-            <RowDefinition Height="Auto" />
-            <!-- Password -->
-            <RowDefinition Height="Auto" />
-            <!-- Dugme -->
-            <RowDefinition Height="Auto" />
-            <!-- Prazan prostor -->
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <!-- LOGO -->
-        <Image 
-                Grid.Row="0"
-                Source="Assets/Paperless-Ngx_Black_Logo.png"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Bottom"
-                Stretch="Uniform"
-                MaxWidth="350"
-                MaxHeight="200"/>
+        <Image Grid.Row="0"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Bottom"
+               Source="{DynamicResource Logo}"
+               Stretch="Uniform"
+               MaxWidth="{StaticResource ImageMaxWidth}"
+               MinWidth="{StaticResource ImageMinWidth}"
+               Margin="{StaticResource ImageMargins}"/>
 
-        <!-- TEKST -->
-        <TextBlock 
-                Grid.Row="1"
+        <!-- CENTRAL PANEL -->
+        <StackPanel Grid.Row="1"
+            Width="{StaticResource StackPanelWidth}"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+
+            <TextBlock
                 Text="Please sign in."
                 HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                FontSize="18"
-                FontWeight="SemiBold"
-                TextAlignment="Center"
-                Margin="0,10,0,10"/>
+                Margin="{StaticResource TitleMargins}"
+                FontSize="{DynamicResource BodyFontSizeDefault}"
+                Style="{StaticResource BodyTextStyle}" />
 
-        <!-- USERNAME -->
-        <TextBox 
-                Grid.Row="2"
+            <!-- USERNAME -->
+            <TextBox
                 x:Name="txtBox_username"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Width="350"
-                Margin="5"
+                Margin="{StaticResource UsernameMargins}"
+                FontSize="{DynamicResource BodyFontSizeSmall}"
                 materialDesign:HintAssist.Hint="Username"
                 materialDesign:TextFieldAssist.HasClearButton="True"
                 materialDesign:TextFieldAssist.HasLeadingIcon="True"
                 materialDesign:TextFieldAssist.LeadingIcon="Account"
                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                FontSize="16"
+                Foreground="{DynamicResource MaterialDesignBody}"
                 TextChanged="txtBox_username_TextChanged"
                 GotFocus="txtBox_username_GotFocus"
-                LostFocus="txtBox_username_LostFocus">
-        </TextBox>
+                LostFocus="txtBox_username_LostFocus"/>
 
-        <!-- POPUP -->
-        <Popup 
-                x:Name="popupSuggestions"
-                PlacementTarget="{Binding ElementName=txtBox_username}"
-                Placement="Top"
-                StaysOpen="False">
-            <Border 
-                    Background="White" BorderBrush="Gray" BorderThickness="1">
-                <ListBox 
-                        x:Name="listSuggestions"
-                        SelectionChanged="listSuggestions_SelectionChanged"
-                        MaxHeight="200"
-                        FontSize="16" />
-            </Border>
-        </Popup>
-
-        <!-- PASSWORD -->
-        <PasswordBox 
-                Grid.Row="3"
+            <!-- PASSWORD -->
+            <PasswordBox
                 x:Name="passwordBox_password"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Width="350"
+                Margin="{StaticResource PasswordMargins}"
+                FontSize="{DynamicResource BodyFontSizeSmall}"
+                Style="{StaticResource MaterialDesignOutlinedRevealPasswordBox}"
+                Foreground="{DynamicResource MaterialDesignBody}"
                 materialDesign:HintAssist.Hint="Password"
                 materialDesign:PasswordBoxAssist.Password="{Binding Password1, Mode=TwoWay}"
                 materialDesign:TextFieldAssist.HasClearButton="True"
                 materialDesign:TextFieldAssist.HasLeadingIcon="True"
-                materialDesign:TextFieldAssist.LeadingIcon="Key"
-                Style="{StaticResource MaterialDesignOutlinedRevealPasswordBox}"
-                FontSize="16"/>
+                materialDesign:TextFieldAssist.LeadingIcon="Key"/>
 
-        <!-- BUTTON -->
-        <Button 
-                Grid.Row="4"
-                x:Name="button_login"
+            <!-- SIGN IN BUTTON -->
+            <Button
                 Content="Sign in"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Width="350" Height="40"
                 IsDefault="True"
-                Click="Button_Click"
-                />
+                Click="Button_Click"/>
+
+        </StackPanel>
+
+        <!-- POPUP -->
+        <Popup 
+            x:Name="popupSuggestions"
+            PlacementTarget="{Binding ElementName=txtBox_username}"
+            Placement="Top"
+            StaysOpen="False">
+            <Border Background="{DynamicResource MaterialDesignPaper}"
+                    BorderBrush="{StaticResource PopupBorderBrush}"
+                    BorderThickness="{StaticResource DefaultBorderThickness}">
+                <ListBox 
+                    x:Name="listSuggestions"
+                    SelectionChanged="listSuggestions_SelectionChanged"
+                    MaxHeight="{StaticResource PopupMaxHeight}" 
+                    FontSize="{DynamicResource BodyFontSizeSmall}"/>
+            </Border>
+        </Popup>
     </Grid>
 </Window>

@@ -5,5 +5,11 @@
     <Setting Name="SavedUser" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="AppTheme" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Light</Value>
+    </Setting>
+    <Setting Name="AccentColor" Type="System.String" Scope="User">
+      <Value Profile="(Default)">#17541F</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

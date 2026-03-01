@@ -5,31 +5,50 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HCI_2025_Project_Template.Views.Dialogs"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <StackPanel Margin="24">
+    <UserControl.Resources>
+
+        <!-- ========== FONT SIZES ========== -->
+        <sys:Double x:Key="DeleteTagTitleFontSize">18</sys:Double>
+
+        <!-- ========== COLORS ========== -->
+        <SolidColorBrush x:Key="DeleteTagDescriptionForeground">#6B7280</SolidColorBrush>
+        <SolidColorBrush x:Key="DeleteTagConfirmButtonBackground">#EF4444</SolidColorBrush>
+
+        <!-- ========== MARGINS ========== -->
+        <Thickness x:Key="DeleteTagMainMargin">24</Thickness>
+        <Thickness x:Key="DeleteTagTitleMargin">0,0,0,8</Thickness>
+        <Thickness x:Key="DeleteTagDescriptionMargin">0,0,0,20</Thickness>
+        <Thickness x:Key="DeleteTagCancelButtonMargin">0,0,8,0</Thickness>
+
+    </UserControl.Resources>
+
+    <StackPanel Margin="{StaticResource DeleteTagMainMargin}">
         <TextBlock 
             Text="Delete tag?" 
-            FontSize="18" 
+            FontSize="{StaticResource DeleteTagTitleFontSize}" 
             FontWeight="SemiBold" 
-            Margin="0,0,0,8"/>
+            Margin="{StaticResource DeleteTagTitleMargin}"/>
 
         <TextBlock 
             Text="Are you sure you want to delete this tag? This action cannot be undone."
             TextWrapping="Wrap" 
-            Foreground="#6B7280" 
-            Margin="0,0,0,20"/>
+            Foreground="{StaticResource DeleteTagDescriptionForeground}" 
+            Margin="{StaticResource DeleteTagDescriptionMargin}"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button 
+            <Button
                 Content="Cancel"
                 Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                Margin="0,10,8,0"/>
+                Margin="{StaticResource DeleteTagCancelButtonMargin}">
+            </Button>
             <Button 
-                Content="Delete"
-                Background="#EF4444"
-                Foreground="White"
-                Click="Delete_Click"/>
+                Content="Save"
+                Background="{StaticResource DeleteTagConfirmButtonBackground}"
+                Click="Delete_Click">
+            </Button>
         </StackPanel>
     </StackPanel>
 </UserControl>

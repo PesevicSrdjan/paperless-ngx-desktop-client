@@ -40,12 +40,10 @@ namespace HCI_2025_Project_Template.Views.UserControls
             this.DataContext = _viewModel;
             TagsContentControl.Content = _tableView;
         }
-
         private async Task loadDataAsyncHelper()
         {
             await _viewModel!.LoadInitialAsync();
         }
-
         private async void CreateTag_Click(object sender, RoutedEventArgs e)
         {
             _viewModel!.Mode = TagsViewModel.TagDialogMode.Create;

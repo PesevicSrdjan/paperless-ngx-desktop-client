@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="HCI_2025_Project_Template.Views.Dialogs.AccentColorDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             Height="200" Width="400">
+
+    <UserControl.Resources>
+
+        <!-- ========== SIZES ========== -->
+        <sys:Double x:Key="AccentDialogHeight">200</sys:Double>
+        <sys:Double x:Key="AccentDialogWidth">400</sys:Double>
+        <sys:Double x:Key="AccentDialogTitleFontSize">18</sys:Double>
+        <sys:Double x:Key="AccentDialogButtonWidth">100</sys:Double>
+
+        <!-- ========== MARGINS ========== -->
+        <Thickness x:Key="AccentDialogMainMargin">24</Thickness>
+        <Thickness x:Key="AccentDialogTitleMargin">0,0,0,16</Thickness>
+        <Thickness x:Key="AccentDialogColorPickerMargin">0,0,0,20</Thickness>
+        <Thickness x:Key="AccentDialogCancelButtonMargin">0,0,8,0</Thickness>
+
+        <!-- ========== COLORS ========== -->
+        <SolidColorBrush x:Key="AccentDialogButtonForeground">White</SolidColorBrush>
+
+    </UserControl.Resources>
+
+    <StackPanel Margin="{StaticResource AccentDialogMainMargin}">
+        <TextBlock 
+            Text="Choose Accent Color"
+            FontSize="{StaticResource AccentDialogTitleFontSize}"
+            FontWeight="SemiBold"
+            Margin="{StaticResource AccentDialogTitleMargin}"/>
+
+        <!-- ColorPicker sa bindingom -->
+        <materialDesign:ColorPicker
+            x:Name="ColorPickerControl"
+            Color="{Binding SelectedColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            Margin="{StaticResource AccentDialogColorPickerMargin}"/>
+
+        <!-- Dugmad poravnata i iste veličine -->
+        <Grid HorizontalAlignment="Right">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0"
+                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                Margin="{StaticResource AccentDialogCancelButtonMargin}"
+                Style="{StaticResource MaterialDesignRaisedButton}">
+                <TextBlock 
+                    Text="Cancel" 
+                    Foreground="{StaticResource AccentDialogButtonForeground}" 
+                    HorizontalAlignment="Center"/>
+            </Button>
+
+            <Button Grid.Column="1"
+                IsDefault="True"
+                Click="Save_Click"
+                Style="{StaticResource MaterialDesignRaisedButton}">
+                <TextBlock 
+                    Text="Save" 
+                    Foreground="{StaticResource AccentDialogButtonForeground}" 
+                    HorizontalAlignment="Center"/>
+            </Button>
+        </Grid>
+    </StackPanel>
+</UserControl>

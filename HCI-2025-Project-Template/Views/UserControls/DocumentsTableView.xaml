@@ -4,78 +4,112 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HCI_2025_Project_Template.Views.UserControls"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+
+        <!-- ========== COLORS ========== -->
+        <SolidColorBrush x:Key="TagsForeground">White</SolidColorBrush>
+
+        <!-- ========== MARGINS ========== -->
+        <Thickness x:Key="TableViewGridMargins">20</Thickness>
+        <Thickness x:Key="DataGridMargins">0,0,0,10</Thickness>
+        <Thickness x:Key="TagsMargins">2</Thickness>
+
+        <!-- ========== BORDER THICKNESS ========== -->
+        <Thickness x:Key="CellBorderThickness">0</Thickness>
+
+        <!-- ========== CORNER RADIUS ========== -->
+        <CornerRadius x:Key="TagCornerRadius">6</CornerRadius>
+
+        <!-- ========== PADDING ========== -->
+        <Thickness x:Key="TagPadding">4,2</Thickness>
+
+        <!-- ========== FONT SIZE ========== -->
+        <sys:Double x:Key="TagsFont">10</sys:Double>
+
+    </UserControl.Resources>
+    
     <Grid 
-        Background="White" 
-        Margin="20">
+        Background="{DynamicResource MaterialDesignPaper}" 
+        Margin="{StaticResource TableViewGridMargins}">
         
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <DataGrid
+        <DataGrid Grid.Row="0"
             x:Name="documentsGrid"
             HorizontalAlignment="Stretch"
             HorizontalContentAlignment="Stretch"
             ItemsSource="{Binding Documents}"
-            Grid.Row="0"
-            Margin="0,0,0,10"
+            Margin="{StaticResource DataGridMargins}"
+            SelectionUnit="FullRow"
+            SelectionMode="Single"
             AutoGenerateColumns="False"
             CanUserAddRows="False"
             CanUserDeleteRows="False"
             IsReadOnly="True">
 
-        <DataGrid.Columns>
-            <DataGridTextColumn
-                Width="2*"
-                Binding="{Binding Title}"
-                Header="Title" />
-            <DataGridTextColumn
-                Width="*"
-                Binding="{Binding DateOnly}"
-                Header="Date" />
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                    <Setter Property="BorderThickness" Value="{StaticResource CellBorderThickness}"/>
+                </Style>
+            </DataGrid.CellStyle>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Width="2*"
+                    Binding="{Binding Title}"
+                    Header="Title" />
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding DateOnly}"
+                    Header="Date" />
             
-                <DataGridTemplateColumn Header="Tags" Width="2*">
+                    <DataGridTemplateColumn Header="Tags" Width="2*">
                     
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <ItemsControl ItemsSource="{Binding Tags}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ItemsControl ItemsSource="{Binding Tags}">
                                 
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <WrapPanel />
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
                                 
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        
-                                        <Border 
-                                            Background="{Binding Color}" 
-                                            CornerRadius="6" 
-                                            Padding="4,2" 
-                                            Margin="2">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+
+                                            <Border 
+                                                Background="{Binding Color}" 
+                                                CornerRadius="{StaticResource TagCornerRadius}" 
+                                                Padding="{StaticResource TagPadding}" 
+                                                Margin="{StaticResource TagsMargins}">
                                             
-                                            <TextBlock 
-                                                Text="{Binding Name}" 
-                                                Foreground="White" 
-                                                FontSize="10"/>
-                                        </Border>
+                                                <TextBlock 
+                                                    Text="{Binding Name}" 
+                                                    Foreground="{StaticResource TagsForeground}" 
+                                                    FontSize="{StaticResource TagsFont}"/>
+                                            </Border>
                                         
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
                                 
-                            </ItemsControl>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            
-            <DataGridTextColumn
-                Width="*"
-                Binding="{Binding Type}"
-                Header="Type" />
+                                </ItemsControl>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding Type}"
+                    Header="Type" />
             </DataGrid.Columns>
      </DataGrid>
     </Grid>

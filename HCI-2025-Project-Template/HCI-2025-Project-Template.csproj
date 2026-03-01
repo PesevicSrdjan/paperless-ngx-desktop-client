@@ -10,15 +10,33 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\dahsboard_logo.png" />
+    <None Remove="Assets\FileIcons\doc.png" />
+    <None Remove="Assets\FileIcons\file.png" />
+    <None Remove="Assets\FileIcons\image.png" />
+    <None Remove="Assets\FileIcons\pdf.png" />
+    <None Remove="Assets\FileIcons\xls.png" />
     <None Remove="Assets\paperless-dashboard.png" />
+    <None Remove="Assets\paperless-flower.png" />
     <None Remove="Assets\paperless-ico.white.png" />
     <None Remove="Assets\paperless-logo.png" />
     <None Remove="Assets\Paperless-Ngx_Black_Logo.png" />
+    <None Remove="Assets\Paperless-Ngx_White_Logo.png" />
     <None Remove="Assets\paperless.ico" />
+    <None Remove="Assets\pdf.png" />
     <None Remove="Assets\placeholder.png" />
     <None Remove="Assets\plholder.png" />
     <None Remove="Assets\Screenshot_2.png" />
     <None Remove="Assets\unnamed.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\FileIcons\file.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\FileIcons\image.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
@@ -28,6 +46,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\FileIcons\doc.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\FileIcons\pdf.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\FileIcons\xls.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\paperless-flower.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\paperless-ico.white.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -37,10 +67,10 @@
     <Resource Include="Assets\Paperless-Ngx_Black_Logo.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Assets\paperless.ico">
+    <Resource Include="Assets\Paperless-Ngx_White_Logo.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Assets\placeholder.png">
+    <Resource Include="Assets\paperless.ico">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\plholder.png">

@@ -46,7 +46,6 @@ namespace HCI_2025_Project_Template.Views.UserControls
                 await DialogHost.Show(dialog, "MainDialog");
             }
         }
-
         private async void EditButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button button && button.DataContext is TagInfo tag)

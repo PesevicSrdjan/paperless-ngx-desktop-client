@@ -44,6 +44,23 @@ namespace HCI_2025_Project_Template
             {
                 listSuggestions.ItemsSource = _viewModel.previousUsers;
             }
+
+            bool isDarkTheme = Settings.Default.AppTheme == "Dark";
+
+            SetLogoForTheme(isDarkTheme);
+        }
+
+        /// <summary>
+        /// Postavljanje logo - a u zavisnosti od teme primjenjene na app.
+        /// </summary>
+        /// <param name="isDarkTheme"></param>
+        private void SetLogoForTheme(bool isDarkTheme)
+        {
+            string logoUri = isDarkTheme
+                    ? "pack://application:,,,/Assets/Paperless-Ngx_White_Logo.png"
+                    : "pack://application:,,,/Assets/Paperless-Ngx_Black_Logo.png";
+
+            Application.Current.Resources["Logo"] = new BitmapImage(new Uri(logoUri));
         }
 
         /// <summary>
@@ -153,6 +170,7 @@ namespace HCI_2025_Project_Template
                 // Otvori Dashboard
                 DashboardWindow dbw = new DashboardWindow();
                 dbw.Show();
+                this.Close();
             }
             else
             {
