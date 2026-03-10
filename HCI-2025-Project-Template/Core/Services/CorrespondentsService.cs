@@ -14,6 +14,9 @@ namespace HCI_2025_Project_Template.Core.Services
 {
     public class CorrespondentsService : ICorrespondentsService
     {
+        // TODO
+        // - Popravak dohvatanja Korespondenata
+        // - Omogućavanje paginacije kao kod 'TagService'
         public async Task<List<Correspondents>> getCorrespondentsAsync()
         {
             try
@@ -38,7 +41,6 @@ namespace HCI_2025_Project_Template.Core.Services
             {
                 return new List<Correspondents>();
             }
-
         }
     }
 }

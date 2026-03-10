@@ -14,6 +14,9 @@ namespace HCI_2025_Project_Template.Core.Services
 {
     public class DocTypeService : IDocTypeService
     {
+        // TODO
+        // - Popravak dohvatanja Tipova
+        // - Omogućavanje paginacije kao kod 'TagService'
         public async Task<List<DocType>> getDocTypeAsync()
         {
             try

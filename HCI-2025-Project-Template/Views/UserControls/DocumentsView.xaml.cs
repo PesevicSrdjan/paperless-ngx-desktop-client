@@ -1,20 +1,16 @@
-﻿using HCI_2025_Project_Template.Core.Models.Ui;
+﻿using HCI_2025_Project_Template.Core.Interfaces;
+using HCI_2025_Project_Template.Core.Models.Api;
+using HCI_2025_Project_Template.Core.Models.Ui;
 using HCI_2025_Project_Template.Core.Services;
 using HCI_2025_Project_Template.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -35,6 +31,16 @@ namespace HCI_2025_Project_Template.Views.UserControls
         public DocumentsView()
         {
             InitializeComponent();
+
+            if (_tableView is DocumentsTableView tableViewControl)
+            {
+                tableViewControl.OnDocumentDoubleClicked += OpenPreview;
+            }
+
+            if (_cardView is DocumentsCardView cardViewControl)
+            {
+                cardViewControl.OnDocumentDoubleClicked += OpenPreview;
+            }
 
             _viewModel = new DocumentsViewModel(new DocumentLoaderService());
 
@@ -182,5 +188,50 @@ namespace HCI_2025_Project_Template.Views.UserControls
             }
             return null;
         }
+
+        private async void OpenPreview(object document)
+        {
+            if (document is not Document doc) return;
+
+            var preview = new DocumentPreviewView(_viewModel.Loader);
+            PreviewContentControl.Content = preview;
+            PreviewOverlay.Visibility = Visibility.Visible;
+
+            await preview.LoadDocumentAsync(doc);
+
+            preview.OnClose += () =>
+            {
+                PreviewOverlay.Visibility = Visibility.Collapsed;
+                PreviewContentControl.Content = null;
+
+                CollectionViewSource.GetDefaultView(_viewModel.Documents).Refresh();
+            };
+
+            preview.OnSaved += (request) =>
+            {
+                doc.Title = request.title;
+                doc.Date = DateTime.Parse(request.created);
+
+                if (request.document_type != null)
+                    doc.Type = _viewModel.Loader.TypesDict[request.document_type.Value].Name;
+
+                if (request.correspondent != null)
+                    doc.Correspondent = _viewModel.Loader.CorrespondentsDict[request.correspondent.Value].Name;
+
+                doc.Tags.Clear();
+
+                foreach (var tagId in request.tags)
+                {
+                    var tag = _viewModel.Loader.TagsDict[tagId];
+                    doc.Tags.Add(new TagInfo
+                    {
+                        Id = tag.Id,
+                        Name = tag.Name,
+                        Color = tag.Color
+                    });
+                }
+            };
+        }
+
     }
 }

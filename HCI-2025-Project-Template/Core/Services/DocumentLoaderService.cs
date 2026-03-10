@@ -1,5 +1,6 @@
 ﻿using HCI_2025_Project_Template.Core.Interfaces;
 using HCI_2025_Project_Template.Core.Models.Api;
+using HCI_2025_Project_Template.Core.Models.Responses;
 using HCI_2025_Project_Template.Core.Models.Ui;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,8 @@ namespace HCI_2025_Project_Template.Core.Services
         private CancellationTokenSource? _thumbCts;
         private readonly SemaphoreSlim _thumbnailSemaphore = new SemaphoreSlim(2);
         private Task? _currentThumbnailTask;
+
+        public IDocumentService DocumentService => _documentService;
         public Dictionary<int, TagInfo> TagsDict { get; set; } = new();
         public Dictionary<int, DocTypeInfo> TypesDict { get; set; } = new();
         public Dictionary<int, CorrespondentsInfo> CorrespondentsDict { get; set; } = new();
@@ -35,29 +38,9 @@ namespace HCI_2025_Project_Template.Core.Services
             _docTypeService = new DocTypeService();
             _correspondentsService = new CorrespondentsService();
         }
-
-        public async Task<(List<DocumentJson> Results, int Count)> GetDocumentsAsync(
-            int page,
-            int pageSize,
-            List<int>? tagIds = null,
-            List<int>? typeIds = null,
-            List<int>? corrIds = null,
-            string? title = null)
-        {
-            return await _documentService.GetDocumentsAsync
-            (
-                page,
-                pageSize,
-                tagIds,
-                typeIds,
-                corrIds,
-                title
-            );
-        }
-
         public async Task InitializeAsync()
         {
-            var tagsTask = _tagService.getTagsAsync();
+            var tagsTask = _tagService.GetAllTagsAsync();
             var typesTask = _docTypeService.getDocTypeAsync();
             var corrTask = _correspondentsService.getCorrespondentsAsync();
 
@@ -97,13 +80,13 @@ namespace HCI_2025_Project_Template.Core.Services
             );
         }
 
-        public async Task<(List<Document> Documents, int Count)> LoadPageAsync(
-        int page,
-        int pageSize,
-        List<int>? tagIds = null,
-        List<int>? typeIds = null,
-        List<int>? corrIds = null,
-        string? title = null)
+        public async Task<List<Document>> LoadPageAsync(
+            int page,
+            int pageSize,
+            List<int>? tagIds = null,
+            List<int>? typeIds = null,
+            List<int>? corrIds = null,
+            string? title = null)
         {
             if (_thumbCts != null)
             {
@@ -119,14 +102,12 @@ namespace HCI_2025_Project_Template.Core.Services
             _thumbCts = new CancellationTokenSource();
             var token = _thumbCts.Token;
 
-            var (rawDocs, totalCount) = await _documentService.GetDocumentsAsync(
-                page, pageSize, tagIds, typeIds, corrIds, title
-            );
+            var response = await _documentService.GetDocumentsAsync(page, pageSize, tagIds, typeIds, corrIds, title);
 
-            if (rawDocs == null || rawDocs.Count == 0)
-                return (new List<Document>(), totalCount);
+            if (response.results == null || response.results.Count == 0)
+                return new List<Document>();
 
-            var docs = rawDocs.Select(d => new Document
+            var docs = response.results.Select(d => new Document
             {
                 Id = d.Id,
                 Title = d.Title,
@@ -140,7 +121,14 @@ namespace HCI_2025_Project_Template.Core.Services
                 Thumbnail = _thumbnailCache.ContainsKey(d.Id) && _thumbnailCache[d.Id] != null
                            ? _thumbnailCache[d.Id]
                            : PlaceholderImage,
-                IsThumbnailLoading = !_thumbnailCache.ContainsKey(d.Id) || _thumbnailCache[d.Id] == null
+                IsThumbnailLoading = !_thumbnailCache.ContainsKey(d.Id) || _thumbnailCache[d.Id] == null,
+                MimeType = d.MimeType,
+                TotalCount = response.count,
+
+                Correspondent = d.CorrespondentId.HasValue && CorrespondentsDict.ContainsKey(d.CorrespondentId.Value)
+                    ? CorrespondentsDict[d.CorrespondentId.Value].Name
+                    : "Nepoznato",
+
             }).ToList();
 
             var docsWithoutThumbnails = docs.Where(d => !_thumbnailCache.ContainsKey(d.Id) || _thumbnailCache[d.Id] == null).ToList();
@@ -150,7 +138,7 @@ namespace HCI_2025_Project_Template.Core.Services
                 _currentThumbnailTask = LoadThumbnailsAsync(docsWithoutThumbnails, token);
             }
 
-            return (docs, totalCount);
+            return docs;
         }
 
         private async Task LoadThumbnailsAsync(List<Document> docs, CancellationToken token)

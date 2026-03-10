@@ -52,7 +52,8 @@
             AutoGenerateColumns="False"
             CanUserAddRows="False"
             CanUserDeleteRows="False"
-            IsReadOnly="True">
+            IsReadOnly="True"
+            MouseDoubleClick="DocumentsGrid_MouseDoubleClick">
 
             <DataGrid.CellStyle>
                 <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
@@ -65,13 +66,13 @@
                 <DataGridTextColumn
                     Width="2*"
                     Binding="{Binding Title}"
-                    Header="Title" />
+                    Header="{Binding Source={StaticResource LStrings}, Path=[Title]}" />
                 <DataGridTextColumn
                     Width="*"
                     Binding="{Binding DateOnly}"
-                    Header="Date" />
-            
-                    <DataGridTemplateColumn Header="Tags" Width="2*">
+                    Header="{Binding Source={StaticResource LStrings}, Path=[Date]}" />
+
+                <DataGridTemplateColumn Header="{Binding Source={StaticResource LStrings}, Path=[Tags]}" Width="2*">
                     
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -109,7 +110,7 @@
                 <DataGridTextColumn
                     Width="*"
                     Binding="{Binding Type}"
-                    Header="Type" />
+                    Header="{Binding Source={StaticResource LStrings}, Path=[Type]}" />
             </DataGrid.Columns>
      </DataGrid>
     </Grid>

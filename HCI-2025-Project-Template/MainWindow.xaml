@@ -60,7 +60,8 @@
             VerticalAlignment="Center">
 
             <TextBlock
-                Text="Please sign in."
+                x:Name="LoginTitle"
+                Text="{Binding Source={StaticResource LStrings}, Path=[LoginTitle]}"
                 HorizontalAlignment="Center"
                 Margin="{StaticResource TitleMargins}"
                 FontSize="{DynamicResource BodyFontSizeDefault}"
@@ -71,7 +72,7 @@
                 x:Name="txtBox_username"
                 Margin="{StaticResource UsernameMargins}"
                 FontSize="{DynamicResource BodyFontSizeSmall}"
-                materialDesign:HintAssist.Hint="Username"
+                materialDesign:HintAssist.Hint="{Binding Source={StaticResource LStrings}, Path=[Username]}"
                 materialDesign:TextFieldAssist.HasClearButton="True"
                 materialDesign:TextFieldAssist.HasLeadingIcon="True"
                 materialDesign:TextFieldAssist.LeadingIcon="Account"
@@ -88,7 +89,7 @@
                 FontSize="{DynamicResource BodyFontSizeSmall}"
                 Style="{StaticResource MaterialDesignOutlinedRevealPasswordBox}"
                 Foreground="{DynamicResource MaterialDesignBody}"
-                materialDesign:HintAssist.Hint="Password"
+                materialDesign:HintAssist.Hint="{Binding Source={StaticResource LStrings}, Path=[Password]}"
                 materialDesign:PasswordBoxAssist.Password="{Binding Password1, Mode=TwoWay}"
                 materialDesign:TextFieldAssist.HasClearButton="True"
                 materialDesign:TextFieldAssist.HasLeadingIcon="True"
@@ -96,7 +97,8 @@
 
             <!-- SIGN IN BUTTON -->
             <Button
-                Content="Sign in"
+                x:Name="SignInButton"
+                Content="{Binding Source={StaticResource LStrings}, Path=[SignButtonText]}"
                 IsDefault="True"
                 Click="Button_Click"/>
 

@@ -75,10 +75,10 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn
                        Width="*"
-                       Header="Name" 
+                       Header="{Binding Source={StaticResource LStrings}, Path=[NameTagText]}" 
                        Binding="{Binding Name}"/>
 
-                    <DataGridTemplateColumn Header="Color" Width="*">
+                    <DataGridTemplateColumn Header="{Binding Source={StaticResource LStrings}, Path=[ColorTagText]}" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Border
@@ -100,10 +100,10 @@
 
                     <DataGridTextColumn
                        Width="*"
-                       Header="Documents count" 
+                       Header="{Binding Source={StaticResource LStrings}, Path=[DocumentsCountText]}" 
                        Binding="{Binding DocumentCount}"/>
 
-                    <DataGridTemplateColumn Header="Actions" Width="*">
+                    <DataGridTemplateColumn Header="{Binding Source={StaticResource LStrings}, Path=[ActionsText]}" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Grid>
@@ -127,7 +127,7 @@
                                                 Width="{StaticResource IconWidth}"
                                                 Height="{StaticResource IconHeight}"
                                                 Margin="{StaticResource IconMargins}"/>
-                                            <TextBlock Text="Edit"/>
+                                            <TextBlock Text="{Binding Source={StaticResource LStrings}, Path=[EditTagText]}"/>
                                         </StackPanel>
                                     </Button>
 
@@ -144,8 +144,8 @@
                                                 Kind="Delete"
                                                 Width="{StaticResource IconWidth}"
                                                 Height="{StaticResource IconHeight}"
-                                                Margin="{StaticResource IconMargins}"/>      
-                                            <TextBlock Text="Delete"/>
+                                                Margin="{StaticResource IconMargins}"/>
+                                            <TextBlock Text="{Binding Source={StaticResource LStrings}, Path=[DeleteTagText]}"/>
                                         </StackPanel>
                                     </Button>
                                 </Grid>

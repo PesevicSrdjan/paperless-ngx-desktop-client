@@ -1,0 +1,120 @@
+﻿<UserControl x:Class="HCI_2025_Project_Template.Views.UserControls.PaginationControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:HCI_2025_Project_Template.Views.UserControls"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+
+    <UserControl.Resources>
+
+        <!-- ========== COLORS ========== -->
+        <SolidColorBrush x:Key="PaginationPageStyleBackground">Transparent</SolidColorBrush>
+        <SolidColorBrush x:Key="CurrentPageForeground">White</SolidColorBrush>
+
+        <!-- ========== CONTROL SIZES ========== -->
+        <sys:Double x:Key="PaginationPageStyleWidth">30</sys:Double>
+        <sys:Double x:Key="PaginationPageStyleHeight">30</sys:Double>
+        <sys:Double x:Key="PageIconWidth">25</sys:Double>
+        <sys:Double x:Key="PageIconHeight">25</sys:Double>
+        <sys:Double x:Key="PageNumberButtonWidth">30</sys:Double>
+        <sys:Double x:Key="PageNumberButtonHeight">30</sys:Double>
+
+        <!-- ========== MARGINS ========== -->
+        <Thickness x:Key="PageButtonMargins">0,0,20,0</Thickness>
+        <Thickness x:Key="PageNumberButtonMargins">2</Thickness>
+
+        <!-- ========== BORDER THICKNESS ========== -->
+        <Thickness x:Key="DefaultBorderThickness">1</Thickness>
+
+        <!-- ========== PADDING ========== -->
+        <Thickness x:Key="PaginationPageStylePadding">0</Thickness>
+        <Thickness x:Key="PageButtonPadding">2</Thickness>
+
+        <Style x:Key="PaginationPageStyle" TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
+            <Setter Property="Background" Value="{StaticResource PaginationPageStyleBackground}"/>
+            <Setter Property="Foreground" Value="{DynamicResource AccentColor}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentColor}"/>
+            <Setter Property="BorderThickness" Value="{StaticResource DefaultBorderThickness}"/>
+            <Setter Property="Padding" Value="{StaticResource PaginationPageStylePadding}"/>
+            <Setter Property="Width" Value="{StaticResource PaginationPageStyleWidth}"/>
+            <Setter Property="Height" Value="{StaticResource PaginationPageStyleHeight}"/>
+            <Setter Property="materialDesign:RippleAssist.IsCentered" Value="True"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+
+            <Style.Triggers>
+                <!-- Kada je loading -->
+                <DataTrigger Binding="{Binding DataContext.IsLoading, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+
+                <!-- Aktivna stranica -->
+                <DataTrigger Binding="{Binding IsCurrent}" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource AccentColor}"/>
+                    <Setter Property="Foreground" Value="{StaticResource CurrentPageForeground}"/>
+                    <Setter Property="IsHitTestVisible" Value="False"/>
+                </DataTrigger>
+            </Style.Triggers>
+
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <StackPanel
+            Orientation="Horizontal" 
+            HorizontalAlignment="Right">
+            <Button 
+                Style="{StaticResource PaginationPageStyle}" 
+                Padding="{StaticResource PageButtonPadding}"
+                Command="{Binding PreviousPageCommand}">
+
+                <materialDesign:PackIcon 
+                    Kind="ChevronDoubleLeft" 
+                    Width="{StaticResource PageIconWidth}" 
+                    Height="{StaticResource PageIconHeight}"/>
+            </Button>
+
+            <ItemsControl ItemsSource="{Binding Pages}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button
+                            Width="{StaticResource PageNumberButtonWidth}" 
+                            Height="{StaticResource PageNumberButtonHeight}" 
+                            Margin="{StaticResource PageNumberButtonMargins}"
+                            Command="{Binding DataContext.GoToPageCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            CommandParameter="{Binding}"
+                            Style="{StaticResource PaginationPageStyle}">
+                            <TextBlock 
+                            Text="{Binding Number, TargetNullValue=…}" 
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Center"/>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <Button 
+                Style="{StaticResource PaginationPageStyle}"
+                Padding="{StaticResource PageButtonPadding}"
+                Margin="{StaticResource PageButtonMargins}"
+                Command="{Binding NextPageCommand}">
+
+                <materialDesign:PackIcon 
+                    Kind="ChevronDoubleRight" 
+                    Width="{StaticResource PageIconWidth}" 
+                    Height="{StaticResource PageIconHeight}"/>
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

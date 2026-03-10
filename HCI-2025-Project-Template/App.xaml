@@ -4,19 +4,22 @@
              xmlns:local="clr-namespace:HCI_2025_Project_Template"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:helpers="clr-namespace:HCI_2025_Project_Template.Helpers"
              StartupUri="MainWindow.xaml">
 
     <Application.Resources>
 
         <ResourceDictionary>
-
+            
             <ResourceDictionary.MergedDictionaries>
-
+                
                 <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="Green" SecondaryColor="Lime" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml" />
-
+                <ResourceDictionary Source="/Styles/ProgressBarControl.xaml"/>
+                
             </ResourceDictionary.MergedDictionaries>
             
+            <helpers:LocalizedStrings x:Key="LStrings"/>
             <BitmapImage x:Key="Logo" UriSource="pack://application:,,,/Assets/Paperless-Ngx_Black_Logo.png"/>
 
             <!-- ========== ACCENT COLORS ========== -->
@@ -30,14 +33,17 @@
             <sys:Double x:Key="BodyFontSizeLarge">20</sys:Double>
             <sys:Double x:Key="FontSizeTitle">30</sys:Double>
 
+            <!-- ========== ACCENT COLOR ========== -->
             <SolidColorBrush x:Key="AccentColor" Color="{DynamicResource AccentColorLight}"/>
 
+            <!-- ========== DEFAULT BUTTON STYLE IN APP ========== -->
             <Style TargetType="Button" BasedOn= "{StaticResource MaterialDesignFlatDarkBgButton}">
                 <Setter Property="Background" Value="{DynamicResource AccentColor}"/>
                 <Setter Property="FontSize" Value="16"/>
                 <Setter Property="Foreground" Value="White"/>
             </Style>
 
+            <!-- ========== BODY TEXT STYLE IN APP ========== -->
             <Style x:Key="BodyTextStyle" TargetType="TextBlock">
                 <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}"/>
             </Style>

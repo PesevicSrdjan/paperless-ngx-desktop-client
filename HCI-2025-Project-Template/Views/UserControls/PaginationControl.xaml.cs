@@ -12,28 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using HCI_2025_Project_Template.Core.Models.Ui;
 
 namespace HCI_2025_Project_Template.Views.UserControls
 {
     /// <summary>
-    /// Interaction logic for DocumentsCardView.xaml
+    /// Interaction logic for PaginationControl.xaml
     /// </summary>
-    public partial class DocumentsCardView : UserControl
+    public partial class PaginationControl : UserControl
     {
-        public DocumentsCardView()
+        public PaginationControl()
         {
             InitializeComponent();
-        }
-
-        public event Action<Document> OnDocumentDoubleClicked;
-
-        private void DocumentsListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if ((sender as ListBox)?.SelectedItem is Document doc)
-            {
-                OnDocumentDoubleClicked?.Invoke(doc);
-            }
         }
     }
 }

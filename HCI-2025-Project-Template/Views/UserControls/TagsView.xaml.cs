@@ -42,8 +42,9 @@ namespace HCI_2025_Project_Template.Views.UserControls
         }
         private async Task loadDataAsyncHelper()
         {
-            await _viewModel!.LoadInitialAsync();
+            await _viewModel!.LoadPageAsync(1);
         }
+
         private async void CreateTag_Click(object sender, RoutedEventArgs e)
         {
             _viewModel!.Mode = TagsViewModel.TagDialogMode.Create;

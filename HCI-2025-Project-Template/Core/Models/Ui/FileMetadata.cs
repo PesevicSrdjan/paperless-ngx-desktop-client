@@ -12,6 +12,13 @@ namespace HCI_2025_Project_Template.Core.Models.Ui
 {
     public class FileMetadata : INotifyPropertyChanged
     {
+        private SolidColorBrush _progressColor;
+        private bool _isEnabled = true;
+        private double _uploadProgress;
+        private string _uploadStatus = "";
+        private FileStage _stage = FileStage.Waiting;
+        private SolidColorBrush _progressBackgroundColor = Brushes.LightGray;
+
         public string FilePath { get; set; }
         public string DocumentName { get; set; }
         public CorrespondentsInfo Correspondent { get; set; }
@@ -19,7 +26,16 @@ namespace HCI_2025_Project_Template.Core.Models.Ui
         public DateTime? DocumentDate { get; set; }
         public ObservableCollection<TagInfo> SelectedTags { get; } = new ObservableCollection<TagInfo>();
 
-        private SolidColorBrush _progressColor;
+        public enum FileStage
+        {
+            Waiting,
+            ReadyToUpload,
+            Uploading,
+            Uploaded,
+            Failed,
+            FailedInPreparing
+        }
+
         public SolidColorBrush ProgressColor
         {
             get => _progressColor;
@@ -32,17 +48,6 @@ namespace HCI_2025_Project_Template.Core.Models.Ui
                 }
             }
         }
-        public enum FileStage
-        {
-            Waiting,
-            ReadyToUpload,
-            Uploading,
-            Uploaded,
-            Failed, 
-            FailedInPreparing
-        }
-
-        private bool _isEnabled = true;
         public bool IsEnabled
         {
             get => _isEnabled;
@@ -55,8 +60,6 @@ namespace HCI_2025_Project_Template.Core.Models.Ui
                 }
             }
         }
-       
-        private double _uploadProgress;
         public double UploadProgress
         {
             get => _uploadProgress;
@@ -70,9 +73,6 @@ namespace HCI_2025_Project_Template.Core.Models.Ui
                 }
             }
         }
-        private string _uploadStatus = "";
-
-        private FileStage _stage = FileStage.Waiting;
         public FileStage Stage
         {
             get => _stage;
@@ -83,8 +83,6 @@ namespace HCI_2025_Project_Template.Core.Models.Ui
                 UpdateUploadStatus();
             }
         }
-
-        private SolidColorBrush _progressBackgroundColor = Brushes.LightGray;
         public SolidColorBrush ProgressBackgroundColor
         {
             get => _progressBackgroundColor;
@@ -128,7 +126,6 @@ namespace HCI_2025_Project_Template.Core.Models.Ui
                 };
             }
         }
-
         private void UpdateUploadStatus()
         {
 

@@ -26,7 +26,7 @@
 
     <StackPanel Margin="{StaticResource AccentDialogMainMargin}">
         <TextBlock 
-            Text="Choose Accent Color"
+            Text="{Binding Source={StaticResource LStrings}, Path=[ChooseAccentColorText]}"
             FontSize="{StaticResource AccentDialogTitleFontSize}"
             FontWeight="SemiBold"
             Margin="{StaticResource AccentDialogTitleMargin}"/>
@@ -49,7 +49,7 @@
                 Margin="{StaticResource AccentDialogCancelButtonMargin}"
                 Style="{StaticResource MaterialDesignRaisedButton}">
                 <TextBlock 
-                    Text="Cancel" 
+                    Text="{Binding Source={StaticResource LStrings}, Path=[Cancel]}" 
                     Foreground="{StaticResource AccentDialogButtonForeground}" 
                     HorizontalAlignment="Center"/>
             </Button>
@@ -59,7 +59,7 @@
                 Click="Save_Click"
                 Style="{StaticResource MaterialDesignRaisedButton}">
                 <TextBlock 
-                    Text="Save" 
+                    Text="{Binding Source={StaticResource LStrings}, Path=[Save]}" 
                     Foreground="{StaticResource AccentDialogButtonForeground}" 
                     HorizontalAlignment="Center"/>
             </Button>

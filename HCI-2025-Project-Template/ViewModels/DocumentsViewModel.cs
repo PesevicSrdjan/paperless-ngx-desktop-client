@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using HCI_2025_Project_Template.Core.Models.Ui;
 using HCI_2025_Project_Template.Core.Services;
+using HCI_2025_Project_Template.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,16 +9,16 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using System.Windows.Threading;
 
 namespace HCI_2025_Project_Template.ViewModels
 {
-    public class DocumentsViewModel : INotifyPropertyChanged
+    public class DocumentsViewModel : PaginationViewModel
     {
         private readonly DocumentLoaderService _loader;
 
         private bool _isLoading;
-        private int _currentPage = 1;
         private DispatcherTimer? _searchTimer;
         private DispatcherTimer? _filterTimer;
         private string _searchTitle = "";
@@ -26,6 +27,14 @@ namespace HCI_2025_Project_Template.ViewModels
         private bool _suppressLoading = false;
         private bool _isFilteredAfterLoad = false;
         private bool _isPageLoading;
+        private int _totalDocumentsUnfiltered;
+
+        public ICommand NextPageCommand { get; }
+        public ICommand PreviousPageCommand { get; }
+
+        public IRelayCommand<PageItem> GoToPageCommand { get; }
+
+        public DocumentLoaderService Loader => _loader;
 
         public int PageSize { get; set; } = 50;
         public List<Document> DocumentsAll { get; set; } = new();
@@ -76,19 +85,6 @@ namespace HCI_2025_Project_Template.ViewModels
                 }
             }
         }
-        public int CurrentPage
-        {
-            get => _currentPage;
-            private set
-            {
-                if (_currentPage != value)
-                {
-                    _currentPage = value;
-                    OnPropertyChanged(nameof(CurrentPage));
-                    UpdatePages();
-                }
-            }
-        }
 
         public string SearchTitle
         {
@@ -104,14 +100,24 @@ namespace HCI_2025_Project_Template.ViewModels
                 _searchTimer?.Start();
             }
         }
+
         public string DocumentCountDisplay
         {
             get
             {
+                var loc = LocalizationManager.Strings;
+
                 if (HasActiveFilters)
-                    return $"Documents: {TotalDocuments} (filtered)";
-                else
-                    return $"Documents: {TotalDocuments}";
+                {
+                    return string.Format(
+                        loc["DocumentsFilteredFormat"],
+                        TotalDocuments,
+                        _totalDocumentsUnfiltered);
+                }
+
+                return string.Format(
+                    loc["DocumentsFormat"],
+                    TotalDocuments);
             }
         }
         #endregion
@@ -119,6 +125,10 @@ namespace HCI_2025_Project_Template.ViewModels
         public DocumentsViewModel(DocumentLoaderService loader)
         {
             _loader = loader;
+
+            NextPageCommand = new AsyncRelayCommand(NextPageAsync);
+            PreviousPageCommand = new AsyncRelayCommand(PreviousPageAsync);
+            GoToPageCommand = new AsyncRelayCommand<PageItem>(GoToPageAsync);
 
             #region Timer za Search
             _searchTimer = new DispatcherTimer
@@ -156,11 +166,6 @@ namespace HCI_2025_Project_Template.ViewModels
         }
 
         #region Public Methods
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         public async Task LoadInitialAsync()
         {
@@ -181,9 +186,11 @@ namespace HCI_2025_Project_Template.ViewModels
                 CorrespondentsList.Add(corr);
 
             // Load prve stranice i total count kroz loader
-            var (documents, total) = await _loader.LoadPageAsync(1, PageSize);
+            var documents = await _loader.LoadPageAsync(1, PageSize);
             DocumentsAll = documents;
-            TotalDocuments = total;
+            TotalDocuments = documents.FirstOrDefault()?.TotalCount ?? 0;
+            _totalDocumentsUnfiltered = TotalDocuments;
+
             TotalPages = (int)Math.Ceiling(TotalDocuments / (double)PageSize);
 
             Debug.WriteLine($"TotalDocuments: {TotalDocuments}");
@@ -221,7 +228,7 @@ namespace HCI_2025_Project_Template.ViewModels
                 string? effectiveTitle = title ?? _currentSearchTitle;
 
                 // Load stranice i mapiranje kroz loader
-                var (documents, total) = await _loader.LoadPageAsync(
+                var documents = await _loader.LoadPageAsync(
                     page,
                     PageSize,
                     tagIds.Count > 0 ? tagIds : null,
@@ -231,7 +238,7 @@ namespace HCI_2025_Project_Template.ViewModels
                 );
 
                 DocumentsAll = documents;
-                TotalDocuments = total;
+                TotalDocuments = documents.FirstOrDefault()?.TotalCount ?? 0; ;
                 TotalPages = (int)Math.Ceiling(TotalDocuments / (double)PageSize);
 
                 if (DocumentsAll != null && DocumentsAll.Count > 0)
@@ -294,16 +301,6 @@ namespace HCI_2025_Project_Template.ViewModels
             await ReloadWithCurrentFilters();
         }
 
-        public async Task NextPageAsync()
-        {
-            await LoadPageAsync(CurrentPage + 1, title: _currentSearchTitle, isPagination: true);
-        }
-
-        public async Task PreviousPageAsync()
-        {
-            if (CurrentPage > 1)
-                await LoadPageAsync(CurrentPage - 1, title: _currentSearchTitle, isPagination: true);
-        }
         #endregion
 
         #region Private Methods
@@ -334,77 +331,22 @@ namespace HCI_2025_Project_Template.ViewModels
         }
         #endregion
 
-        public ObservableCollection<PageItem> Pages { get; set; } = new ObservableCollection<PageItem>();
 
-        private int _totalPages;
-        public int TotalPages
+        private async Task GoToPageAsync(PageItem page)
         {
-            get => _totalPages;
-            set
-            {
-                if (_totalPages != value)
-                {
-                    _totalPages = value;
-                    OnPropertyChanged(nameof(TotalPages));
-                    UpdatePages();
-                }
-            }
+            if (page?.Number != null)
+                await LoadPageAsync(page.Number.Value);
         }
 
-        public class PageItem
+        public async Task NextPageAsync()
         {
-            public int? Number { get; set; }   // ako je null, to je "..."
-            public bool IsCurrent { get; set; }
-            public bool IsEllipsis => Number == null;
-            public bool IsEnabled => !IsEllipsis;
+            await LoadPageAsync(CurrentPage + 1);
         }
 
-        private void UpdatePages()
+        public async Task PreviousPageAsync()
         {
-            Pages.Clear();
-
-            if (TotalPages <= 5)
-            {
-                for (int i = 1; i <= TotalPages; i++)
-                    Pages.Add(new PageItem { Number = i, IsCurrent = i == CurrentPage });
-                return;
-            }
-
-            int windowSize = 3;
-
-            if (CurrentPage <= 3)
-            {
-                for (int i = 1; i <= windowSize; i++)
-                    Pages.Add(new PageItem { Number = i, IsCurrent = i == CurrentPage });
-
-                Pages.Add(new PageItem { Number = null }); // "..."
-                Pages.Add(new PageItem { Number = TotalPages, IsCurrent = false });
-            }
-            else if (CurrentPage >= TotalPages - 2)
-            {
-                Pages.Add(new PageItem { Number = 1, IsCurrent = false });
-                Pages.Add(new PageItem { Number = null }); // "..."
-
-                for (int i = TotalPages - windowSize + 1; i <= TotalPages; i++)
-                    Pages.Add(new PageItem { Number = i, IsCurrent = i == CurrentPage });
-            }
-            else
-            {
-                Pages.Add(new PageItem { Number = 1, IsCurrent = false });
-                Pages.Add(new PageItem { Number = null }); // "..."
-
-                for (int i = CurrentPage - 1; i <= CurrentPage + 1; i++)
-                    Pages.Add(new PageItem { Number = i, IsCurrent = i == CurrentPage });
-
-                Pages.Add(new PageItem { Number = null }); // "..."
-                Pages.Add(new PageItem { Number = TotalPages, IsCurrent = false });
-            }
+            if (CurrentPage > 1)
+                await LoadPageAsync(CurrentPage - 1);
         }
-
-        public RelayCommand<PageItem> GoToPageCommand => new RelayCommand<PageItem>(async page =>
-        {
-            if (page.Number.HasValue)
-                await LoadPageAsync(page.Number.Value, title: _currentSearchTitle, isPagination: true);
-        });
     }
 }

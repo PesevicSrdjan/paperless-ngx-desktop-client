@@ -15,34 +15,20 @@
         <SolidColorBrush x:Key="LoadingForeground">Gray</SolidColorBrush>
 
         <!-- ========== CONTROL SIZES ========== -->
-        <sys:Double x:Key="ProgressBarWidth">20</sys:Double>
-        <sys:Double x:Key="ProgressBarHeight">20</sys:Double>
         <sys:Double x:Key="CreateIconWidth">16</sys:Double>
         <sys:Double x:Key="CreateIconHeight">19</sys:Double>
         <sys:Double x:Key="CreateButtonWidth">80</sys:Double>
 
         <!-- ========== MARGINS ========== -->
-        <Thickness x:Key="ProgressBarMargins">20,0,0,0</Thickness>
         <Thickness x:Key="TitleMargins">20,20,0,0</Thickness>
         <Thickness x:Key="CreateIconMargins">0,0,4,0</Thickness>
         <Thickness x:Key="CreateButtonMargins">0,20,30,0</Thickness>
         <Thickness x:Key="LoadingTextMargins">10,10,0,0</Thickness>
+        <Thickness x:Key="PaginationControlMargins">10,10,10,10</Thickness>
+        <Thickness x:Key="NumberOfTagsMargins">25,0,10,0</Thickness>
 
         <!-- ========== PADDING ========== -->
         <Thickness x:Key="CreateButtonPadding">5,2</Thickness>
-
-        <Style x:Key="LoadingCircularProgressBar" TargetType="ProgressBar" BasedOn="{StaticResource MaterialDesignCircularProgressBar}">
-            <Setter Property="Width" Value="{StaticResource ProgressBarWidth}"/>
-            <Setter Property="Height" Value="{StaticResource ProgressBarHeight}"/>
-            <Setter Property="IsIndeterminate" Value="True"/>
-            <Setter Property="Visibility" Value="Collapsed"/>
-            <Setter Property="Margin" Value="{StaticResource ProgressBarMargins}"/>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding IsLoading}" Value="True">
-                    <Setter Property="Visibility" Value="Visible"/>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
 
     </UserControl.Resources>
 
@@ -50,6 +36,7 @@
         Background="{DynamicResource MaterialDesignPaper}">
 
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -61,7 +48,7 @@
 
         <TextBlock Grid.Row="0" Grid.Column="0"
             Style="{StaticResource BodyTextStyle}"
-            Text="Tags"
+            Text="{Binding Source={StaticResource LStrings}, Path=[Tags]}"
             FontSize="{StaticResource FontSizeTitle}"
             FontWeight="SemiBold"
             Margin="{StaticResource TitleMargins}"/>
@@ -83,11 +70,29 @@
                     Height="{StaticResource CreateIconHeight}" 
                     Margin="{StaticResource CreateIconMargins}"/>
                 <TextBlock 
-                    Text="Create"/>
+                    Text="{Binding Source={StaticResource LStrings}, Path=[CreateTagText]}"/>
             </StackPanel>
         </Button>
 
-        <StackPanel Grid.Row="1" HorizontalAlignment="Left" Orientation="Horizontal">
+        <TextBlock Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" 
+            Margin="{StaticResource NumberOfTagsMargins}"
+            FontSize="{StaticResource BodyFontSizeSmall}"
+            FontWeight="SemiBold"
+            Foreground="{DynamicResource MaterialDesignBody}"
+            Text="{Binding TotalTagsText}">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsLoading}" Value="False">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+
+        <StackPanel Grid.Row="2" HorizontalAlignment="Left" Orientation="Horizontal">
             <!-- ProgressBar za učitavanje -->
             <ProgressBar 
                 x:Name="loadingBar"
@@ -95,10 +100,12 @@
             </ProgressBar>
 
             <TextBlock
-                Text="Loading..."
+                Text="{Binding Source={StaticResource LStrings}, Path=[LoadingText]}"
                 FontStyle="Italic"
                 Foreground="{StaticResource LoadingForeground}"
-                Margin="{StaticResource LoadingTextMargins}"> 
+                Margin="{StaticResource LoadingTextMargins}"
+                VerticalAlignment="Center"> 
+                
 
                 <TextBlock.Style>
                     <Style TargetType="TextBlock">
@@ -113,6 +120,8 @@
             </TextBlock>
         </StackPanel>
 
-        <ContentControl x:Name="TagsContentControl" Grid.Row="2"></ContentControl>
+        <local:PaginationControl Grid.Row="2" Margin="{StaticResource PaginationControlMargins}"/>
+
+        <ContentControl x:Name="TagsContentControl" Grid.Row="3"></ContentControl>
     </Grid>
 </UserControl>

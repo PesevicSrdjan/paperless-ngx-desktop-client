@@ -96,7 +96,7 @@
             <!-- HEADER -->
             <TextBlock Grid.Row="0"
                 Style="{StaticResource BodyTextStyle}"
-                Text="Settings"
+                Text="{Binding Source={StaticResource LStrings}, Path=[Settings]}"
                 Margin="{StaticResource TitleMargins}"
                 FontSize="{StaticResource FontSizeTitle}"
                 FontWeight="SemiBold"/>
@@ -110,14 +110,15 @@
 
                     <!-- THEME -->
                     <TextBlock 
-                        Text="Theme"
+                        Text="{Binding Source={StaticResource LStrings}, Path=[Theme]}"
                         Style="{StaticResource SettingsTextBlock}"
                         Margin="{StaticResource ThemeMargins}"/>
 
                     <StackPanel Margin="{StaticResource RadioButtonStackPanelMargins}">
                         <RadioButton 
                             x:Name="LightRadio"
-                            Content="Light"
+                            Tag="Light"
+                            Content="{Binding Source={StaticResource LStrings}, Path=[Light]}"
                             GroupName="ThemeGroup"
                             FontSize="{StaticResource RadioButtonFont}"
                             Margin="{StaticResource RadioButtonMargins}"
@@ -126,7 +127,8 @@
                             Click="RadioButton_Click"/>
                         <RadioButton 
                             x:Name="DarkRadio"
-                            Content="Dark"
+                            Tag="Dark"
+                            Content="{Binding Source={StaticResource LStrings}, Path=[Dark]}"
                             GroupName="ThemeGroup"
                             FontSize="{StaticResource RadioButtonFont}"
                             Style="{StaticResource ModernRadioStyle}" 
@@ -136,7 +138,7 @@
 
                     <!-- ACCENT COLOR -->
                     <TextBlock 
-                        Text="Accent color"
+                        Text="{Binding Source={StaticResource LStrings}, Path=[AccentColorText]}"
                         Style="{StaticResource SettingsTextBlock}"
                         Margin="{StaticResource AccentColorMargins}"/>
 
@@ -152,29 +154,30 @@
                             Background="{DynamicResource AccentColor}"
                             Margin="{StaticResource AccentColorBorderMargins}"/>
                         <Button 
-                            Content="Choose color"
+                            Content="{Binding Source={StaticResource LStrings}, Path=[ChooseColorText]}"
                             Click="ChooseColor_Click"/>
                         <Button
-                            Content="Reset"
+                            Content="{Binding Source={StaticResource LStrings}, Path=[ResetColorText]}"
                             Margin="{StaticResource ResetMargins}"
                             Click="ResetButton_Click"/>
                     </StackPanel>
 
                     <!-- LANGUAGE -->
                     <TextBlock 
-                        Text="Language"
+                        Text="{Binding Source={StaticResource LStrings}, Path=[LanguageText]}"
                         Style="{StaticResource SettingsTextBlock}"
                         Margin="{StaticResource LanguageMargins}"/>
 
-                    <ComboBox 
+                    <ComboBox
+                        x:Name="LanguageComboBox"
                         Width="{StaticResource LanguageComboBoxWidth}"
                         HorizontalAlignment="Left"
                         Style="{StaticResource MaterialDesignComboBox}"
                         Foreground="{DynamicResource MaterialDesignBody}"
-                        SelectedIndex="0"
-                        Margin="{StaticResource LanguageComboBoxMargins}">
-                        <ComboBoxItem Content="English"/>
-                        <ComboBoxItem Content="Serbian"/>
+                        Margin="{StaticResource LanguageComboBoxMargins}"
+                        SelectionChanged="LanguageComboBox_SelectionChanged">
+                        <ComboBoxItem Content="English" Tag="en"/>
+                        <ComboBoxItem Content="Serbian" Tag="sr"/>
                     </ComboBox>
 
                 </StackPanel>

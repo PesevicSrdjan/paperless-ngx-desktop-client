@@ -16,7 +16,7 @@ namespace HCI_2025_Project_Template.Core.Services
 {
     public class TagService : ITagService
     {
-        public async Task<List<Tag>> getTagsAsync()
+        public async Task<TagResponse> getTagsAsync(int page = 1, int pageSize = 25)
         {
             try
             {
@@ -24,27 +24,49 @@ namespace HCI_2025_Project_Template.Core.Services
 
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", AuthSession.Token);
 
-                string url = "api/tags/";
+                string url = $"api/tags/?page={page}&page_size={pageSize}";
 
                 var response = await client.GetAsync(url);
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    return new List<Tag>();
+                    return null;
                 }
 
-                var data = await response.Content.ReadFromJsonAsync<TagResponse>();
+                return await response.Content.ReadFromJsonAsync<TagResponse>();
 
-                if(data != null)
-                    return data.Results;
-
-                return new List<Tag>();
             }
             catch (HttpRequestException)
             {
-                return new List<Tag>();
+                return null;
             }
         }
+
+        // Metoda koja je potrebna za postavljanje tagova (oznaka) u ComboBox (DocumentsView).
+        public async Task<List<Tag>> GetAllTagsAsync()
+        {
+            var allTags = new List<Tag>();
+            int page = 1;
+            int pageSize = 25;
+
+            TagResponse? response;
+
+            do
+            {
+                response = await getTagsAsync(page, pageSize);
+
+                if (response == null || response.Results.Count == 0)
+                    break;
+
+                allTags.AddRange(response.Results);
+
+                page++;
+
+            }while (allTags.Count < response.Count);
+
+            return allTags;
+        }
+
         public async Task<bool> DeleteTagAsync(int tagId)
         {
             try
@@ -90,7 +112,6 @@ namespace HCI_2025_Project_Template.Core.Services
                 return false;
             }
         }
-
         public async Task<Tag?> CreateTagAsync(TagInfo tag)
         {
             if (tag == null) return null;

@@ -1,8 +1,10 @@
-﻿using HCI_2025_Project_Template.Views.Dialogs;
+﻿using HCI_2025_Project_Template.Helpers;
+using HCI_2025_Project_Template.Views.Dialogs;
 using MaterialDesignThemes.Wpf;
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -19,13 +21,27 @@ namespace HCI_2025_Project_Template.Views.UserControls
         {
             InitializeComponent();
             SyncRadioButtonsWithTheme();
+            SyncLanguageComboBox();
 
+        }
+        private void SyncLanguageComboBox()
+        {
+            string lang = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
+
+            foreach (ComboBoxItem item in LanguageComboBox.Items)
+            {
+                if (item.Tag?.ToString() == lang)
+                {
+                    LanguageComboBox.SelectedItem = item;
+                    break;
+                }
+            }
         }
         private void RadioButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is RadioButton rb)
             {
-                string theme = rb.Content.ToString(); // "Light" ili "Dark"
+                string theme = rb.Tag.ToString(); // "Light" ili "Dark"
                 ChangeTheme(theme);
             }
         }
@@ -130,6 +146,15 @@ namespace HCI_2025_Project_Template.Views.UserControls
 
             if (Application.Current.MainWindow is DashboardWindow dashboard)
                 dashboard.RefreshSidebarButtonColors();
+        }
+
+        private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (LanguageComboBox.SelectedItem is ComboBoxItem item &&
+                item.Tag is string culture)
+            {
+                LocalizationManager.ChangeCulture(culture);
+            }
         }
     }
 }

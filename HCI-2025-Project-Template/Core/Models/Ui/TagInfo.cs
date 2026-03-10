@@ -33,6 +33,5 @@ namespace HCI_2025_Project_Template.Core.Models.Ui
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
 }

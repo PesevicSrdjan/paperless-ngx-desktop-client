@@ -59,7 +59,8 @@
         <ListBox 
             ItemsSource="{Binding Documents}" 
             BorderThickness="{StaticResource BorderThicknessListBox}"
-            Background="{StaticResource ListBoxColor}">
+            Background="{StaticResource ListBoxColor}"
+            MouseDoubleClick="DocumentsListBox_MouseDoubleClick">
 
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>

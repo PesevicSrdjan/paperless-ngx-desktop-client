@@ -1,0 +1,319 @@
+﻿<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av" x:Class="HCI_2025_Project_Template.Views.UserControls.DocumentPreviewView"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    av:DesignWidth="617.843">
+
+
+    <UserControl.Resources>
+
+        <!-- ========== COLORS ========== -->
+        <SolidColorBrush x:Key="TagRemoveButtonBackground">Transparent</SolidColorBrush>
+        <SolidColorBrush x:Key="TagRemoveButtonForeground">White</SolidColorBrush>
+        <SolidColorBrush x:Key="TagRemoveButtonText">White</SolidColorBrush>
+        <SolidColorBrush x:Key="TagsForegroundText">White</SolidColorBrush>
+        <SolidColorBrush x:Key="PreviewPanelBackground">White</SolidColorBrush>
+        <SolidColorBrush x:Key="PreviewPanelBorderBrush">#E0E0E0</SolidColorBrush>
+        <SolidColorBrush x:Key="LoadingOverlayBackground">#80FFFFFF</SolidColorBrush>
+        <SolidColorBrush x:Key="SaveButtonForeground">White</SolidColorBrush>
+
+        <!-- ========== MARGINS ========== -->
+        <Thickness x:Key="ScrollViewerMargin">15</Thickness>
+        <Thickness x:Key="CloseButtonMargin">0,0,0,15</Thickness>
+        <Thickness x:Key="MetadataPanelControlsMargin">0,5,0,10</Thickness>
+        <Thickness x:Key="TagsTitleMargin">0,10,0,5</Thickness>
+        <Thickness x:Key="TagsBorderMargin">3</Thickness>
+        <Thickness x:Key="TagsNameMargin">0,0,5,0</Thickness>
+        <Thickness x:Key="TagRemoveButtonMargin">3,0,0,0</Thickness>
+        <Thickness x:Key="AddTagComboboxMargin">0,5,0,0</Thickness>
+        <Thickness x:Key="TagComboboxMargin">1</Thickness>
+        <Thickness x:Key="PreviewPanelMargin">15</Thickness>
+        <Thickness x:Key="StackPanelBottomButtonsMargin">15</Thickness>
+        <Thickness x:Key="ButtonsMargin">5</Thickness>
+
+        <!-- ========== CONTROL SIZES ========== -->
+        <sys:Double x:Key="CloseButtonWidth">93</sys:Double>
+        <sys:Double x:Key="TagRemoveButtonWidth">10</sys:Double>
+        <sys:Double x:Key="TagRemoveButtonHeight">16</sys:Double>
+        <sys:Double x:Key="ProgressBarWidth">60</sys:Double>
+        <sys:Double x:Key="ProgressBarHeight">60</sys:Double>
+
+        <!-- ========== BORDER THICKNESS ========== -->
+        <Thickness x:Key="TagRemoveButtonBorderThickness">0</Thickness>
+        <Thickness x:Key="PreviewPanelBorderThickness">1</Thickness>
+
+        <!-- ========== FONT SIZE ========== -->
+        <sys:Double x:Key="TagRemoveButtonFontSize">8</sys:Double>
+
+        <!-- ========== CORNER RADIUS ========== -->
+        <CornerRadius x:Key="DefaultCornerRadius">6</CornerRadius>
+
+        <!-- ========== PADDING ========== -->
+        <Thickness x:Key="DefaultPadding">6,3</Thickness>
+        <Thickness x:Key="TagRemoveButtonPadding">0</Thickness>
+        <Thickness x:Key="PreviewPanelPadding">6</Thickness>
+
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="{StaticResource BodyFontSizeSmall}"></Setter>
+            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}"></Setter>
+        </Style>
+        <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}">
+            <Setter Property="FontSize" Value="{StaticResource BodyFontSizeSmall}"></Setter>
+            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}"></Setter>
+        </Style>
+        <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignComboBox}">
+            <Setter Property="FontSize" Value="{StaticResource BodyFontSizeSmall}"></Setter>
+            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}"></Setter>
+        </Style>
+
+        <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
+            <Setter Property="Foreground" Value="{DynamicResource AccentColor}"></Setter>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentColor}"></Setter>
+        </Style>
+    </UserControl.Resources>
+    
+    <Grid Background="{DynamicResource MaterialDesignPaper}">
+
+        <!-- MAIN GRID -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- ================= METADATA PANEL ================= -->
+
+        <ScrollViewer Grid.Row="0" Grid.Column="0" 
+                      Margin="{StaticResource ScrollViewerMargin}">
+
+            <StackPanel>
+                
+                <!-- CLOSE BUTTON -->
+                <Button 
+                    Content="{Binding Source={StaticResource LStrings}, Path=[CloseText]}"
+                    HorizontalAlignment="Left"
+                    Width="{StaticResource CloseButtonWidth}"
+                    Margin="{StaticResource CloseButtonMargin}"
+                    Click="CloseButton_Click"/>
+
+                <!-- TITLE -->
+                <TextBlock 
+                    Text="{Binding Source={StaticResource LStrings}, Path=[Title]}" 
+                    FontWeight="SemiBold"/>
+                <TextBox 
+                    Text="{Binding Title}" 
+                    Margin="{StaticResource MetadataPanelControlsMargin}"/>
+
+                <!-- DATE -->
+                <TextBlock 
+                    Text="{Binding Source={StaticResource LStrings}, Path=[DateCreated]}" 
+                    FontWeight="SemiBold"/>
+                
+                <DatePicker 
+                    SelectedDate="{Binding DateCreated}" 
+                    Margin="{StaticResource MetadataPanelControlsMargin}"
+                    Foreground="{StaticResource MaterialDesignBody}"
+                    FontSize="{StaticResource BodyFontSizeSmall}"/>
+
+                <!-- CORRESPONDENT -->
+                <TextBlock 
+                    Text="{Binding Source={StaticResource LStrings}, Path=[Correspondent]}" 
+                    FontWeight="SemiBold"/>
+                
+                <ComboBox 
+                    ItemsSource="{Binding Correspondents}"
+                    DisplayMemberPath="Name"
+                    SelectedItem="{Binding SelectedCorrespondent}"
+                    Margin="{StaticResource MetadataPanelControlsMargin}"/>
+
+                <!-- DOCUMENT TYPE -->
+                <TextBlock 
+                    Text="{Binding Source={StaticResource LStrings}, Path=[DocumentType]}" 
+                    FontWeight="SemiBold"/>
+                
+                <ComboBox 
+                    ItemsSource="{Binding DocumentTypes}"
+                    DisplayMemberPath="Name"
+                    SelectedItem="{Binding SelectedDocumentType}"
+                    Margin="{StaticResource MetadataPanelControlsMargin}"/>
+
+                <!-- TAGS -->
+                <TextBlock 
+                    Text="{Binding Source={StaticResource LStrings}, Path=[Tags]}" 
+                    FontWeight="SemiBold" 
+                    Margin="{StaticResource TagsTitleMargin}"/>
+
+                <ItemsControl ItemsSource="{Binding SelectedTags}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+
+                            <Border 
+                                Background="{Binding Color}"
+                                CornerRadius="{StaticResource DefaultCornerRadius}"
+                                Padding="{StaticResource DefaultPadding}"
+                                Margin="{StaticResource TagsBorderMargin}">
+
+                                <StackPanel Orientation="Horizontal">
+
+                                    <TextBlock 
+                                        Text="{Binding Name}"
+                                        Foreground="{StaticResource TagsForegroundText}"
+                                        Margin="{StaticResource TagsNameMargin}"/>
+
+                                    <Button
+                                        Width="{StaticResource TagRemoveButtonWidth}"
+                                        Height="{StaticResource TagRemoveButtonHeight}"
+                                        FontSize="{StaticResource TagRemoveButtonFontSize}"
+                                        Margin="{StaticResource TagRemoveButtonMargin}"
+                                        Padding="{StaticResource TagRemoveButtonPadding}"
+                                        Background="{StaticResource TagRemoveButtonBackground}"
+                                        Foreground="{StaticResource TagRemoveButtonForeground}"
+                                        BorderThickness="{StaticResource TagRemoveButtonBorderThickness}"
+                                        Tag="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                        Click="RemoveTag_Click">
+                                        <TextBlock 
+                                            Text="X" 
+                                            Foreground="{StaticResource TagRemoveButtonText}"/>
+                                    </Button>
+
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!-- ADD TAG -->
+                <ComboBox 
+                    ItemsSource="{Binding AvailableTagsView}"
+                    SelectedItem="{Binding SelectedTagToAdd}"
+                    materialDesign:HintAssist.Hint="{Binding Source={StaticResource LStrings}, Path=[AddTagsText]}"
+                    Margin="{StaticResource AddTagComboboxMargin}"
+                    SelectionChanged="TagComboBox_SelectionChanged">
+
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border 
+                                Background="{Binding Color}"
+                                CornerRadius="{StaticResource DefaultCornerRadius}"
+                                Padding="{StaticResource DefaultPadding}"
+                                Margin="{StaticResource TagComboboxMargin}"> 
+                                <TextBlock 
+                                    Text="{Binding Name}" 
+                                    Foreground="{StaticResource TagsForegroundText}"/>
+                            </Border>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+
+
+                    <!-- Prikaz izabranog taga -->
+                    <ComboBox.ItemContainerStyle>
+                        <Style TargetType="ComboBoxItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                        </Style>
+                    </ComboBox.ItemContainerStyle>
+
+                </ComboBox>
+
+            </StackPanel>
+
+        </ScrollViewer>
+
+
+        <!-- ================= PREVIEW PANEL ================= -->
+
+        <Border Grid.Row="0" Grid.Column="1"
+            x:Name="PreviewScroll" 
+            Background="{StaticResource PreviewPanelBackground}"
+            CornerRadius="{StaticResource DefaultCornerRadius}"
+            Margin="{StaticResource PreviewPanelMargin}"
+            Padding="{StaticResource PreviewPanelPadding}"
+            BorderBrush="{StaticResource PreviewPanelBorderBrush}"
+            BorderThickness="{StaticResource PreviewPanelBorderThickness}"
+            Effect="{DynamicResource MaterialDesignElevation2}">
+
+            <Grid>
+                <!-- PREVIEW CONTENT -->
+
+                <wv2:WebView2 
+                    x:Name="PreviewBrowser"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"/>
+
+                <Image 
+                    x:Name="PreviewImage"
+                    Visibility="Collapsed"
+                    Stretch="Uniform"/>
+
+                <TextBox 
+                    x:Name="PreviewText"
+                    Visibility="Collapsed"
+                    IsReadOnly="True"
+                    TextWrapping="Wrap"
+                    VerticalScrollBarVisibility="Auto"
+                    HorizontalScrollBarVisibility="Auto"/>
+
+                <!-- LOADING OVERLAY -->
+
+                <Grid 
+                    x:Name="LoadingOverlay"
+                    Background="{StaticResource LoadingOverlayBackground}"
+                    Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
+
+                    <ProgressBar
+                        Style="{StaticResource MaterialDesignCircularProgressBar}"
+                        Width="{StaticResource ProgressBarWidth}"
+                        Height="{StaticResource ProgressBarHeight}"
+                        IsIndeterminate="True"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"/>
+                </Grid>
+            </Grid>
+        </Border>
+        
+        <!-- ================= BOTTOM BUTTONS ================= -->
+
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2"   
+            Orientation="Horizontal"
+            HorizontalAlignment="Right"
+            Margin="{StaticResource StackPanelBottomButtonsMargin}">
+
+            <Button 
+                Content="{Binding Source={StaticResource LStrings}, Path=[Discard]}"
+                Margin="{StaticResource ButtonsMargin}"
+                IsEnabled="{Binding IsEdited}"
+                Click="DiscardButton_Click"/>
+
+            <Button 
+                Content="{Binding Source={StaticResource LStrings}, Path=[SaveAndClose]}"
+                Margin="{StaticResource ButtonsMargin}"
+                Click="SaveAndClose_Click"
+                IsEnabled="{Binding IsEdited}"/>
+
+            <Button 
+                Margin="{StaticResource ButtonsMargin}"
+                Background="{DynamicResource AccentColor}"
+                Style="{StaticResource MaterialDesignRaisedButton}"
+                Click="SaveButton_Click"
+                IsEnabled="{Binding IsEdited}">
+
+                <TextBlock 
+                    Text="{Binding Source={StaticResource LStrings}, Path=[Save]}" 
+                    Foreground="{StaticResource SaveButtonForeground}"/>
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

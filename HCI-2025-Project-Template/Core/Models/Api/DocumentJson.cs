@@ -23,5 +23,11 @@ namespace HCI_2025_Project_Template.Core.Models.Api
 
         [JsonPropertyName("document_type")]
         public int? Type { get; set; }
+
+        [JsonPropertyName("correspondent")]
+        public int? CorrespondentId { get; set; }
+
+        [JsonPropertyName("mime_type")]
+        public string? MimeType { get; set; }
     }
 }

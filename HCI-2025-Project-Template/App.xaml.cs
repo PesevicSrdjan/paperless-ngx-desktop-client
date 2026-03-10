@@ -1,4 +1,5 @@
-﻿using MaterialDesignThemes.Wpf;
+﻿using HCI_2025_Project_Template.Helpers;
+using MaterialDesignThemes.Wpf;
 using System.Configuration;
 using System.Data;
 
@@ -34,6 +35,13 @@ namespace HCI_2025_Project_Template
             }
 
             paletteHelper.SetTheme(theme);
+
+            string language = Settings.Default.Language;
+
+            if (string.IsNullOrEmpty(language))
+                language = "en";
+
+            LocalizationManager.ChangeCulture(language);
         }
     }
 }

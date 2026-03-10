@@ -1,4 +1,5 @@
 ﻿using HCI_2025_Project_Template.ViewModels;
+using HCI_2025_Project_Template.Core.Models.Ui;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,16 @@ namespace HCI_2025_Project_Template.Views.UserControls
         public DocumentsTableView()
         {
             InitializeComponent();
+        }
+
+        public event Action<Document> OnDocumentDoubleClicked;
+
+        private void DocumentsGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (documentsGrid.SelectedItem is Document selectedDocument)
+            {
+                OnDocumentDoubleClicked?.Invoke(selectedDocument);
+            }
         }
     }
 }

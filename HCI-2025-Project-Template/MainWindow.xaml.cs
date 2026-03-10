@@ -170,7 +170,7 @@ namespace HCI_2025_Project_Template
                 // Otvori Dashboard
                 DashboardWindow dbw = new DashboardWindow();
                 dbw.Show();
-                this.Close();
+                //this.Close();
             }
             else
             {

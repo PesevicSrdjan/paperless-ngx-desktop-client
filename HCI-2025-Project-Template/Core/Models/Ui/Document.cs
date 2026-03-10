@@ -16,8 +16,14 @@ namespace HCI_2025_Project_Template.Core.Models.Ui
         public DateTime Date { get; set; }
         public List<TagInfo> Tags { get; set; } = new();
         public required string Type {  get; set; }
+        public required string Correspondent {  get; set; }
+
+        public int TotalCount { get; set; }
+
+        public string? MimeType { get; set; }
 
         private BitmapImage? _thumbnail;
+        private bool _isThumbnailLoading = false;
         public BitmapImage? Thumbnail
         {
             get => _thumbnail;
@@ -30,20 +36,18 @@ namespace HCI_2025_Project_Template.Core.Models.Ui
                 }
             }
         }
-
-        private bool _isThumbnailLoading = false;
         public bool IsThumbnailLoading
         {
             get => _isThumbnailLoading;
             set { _isThumbnailLoading = value; OnPropertyChanged(nameof(IsThumbnailLoading)); }
         }
 
+        public string TagsString => Tags.Count > 0 ? string.Join(", ", Tags.Select(t => t.Name)) : "None";
+        public string DateOnly => Date.ToShortDateString();
+
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged(string propertyName)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
-        public string TagsString => Tags.Count > 0 ? string.Join(", ", Tags.Select(t => t.Name)) : "None";
-        public string DateOnly => Date.ToShortDateString();
 
     }
 }

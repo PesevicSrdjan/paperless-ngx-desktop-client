@@ -13,6 +13,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -22,143 +23,6 @@ namespace HCI_2025_Project_Template.Core.Services
 {
     public class DocumentService : IDocumentService
     {
-        public async Task<List<DocumentJson>> getAllDocumentsAsync(
-            int page = 1, int pageSize = 50,
-            List<int>? tagIds = null, 
-            List<int>? typeIds = null, 
-            List<int>? corrIds = null,
-            string? title = null)
-        {
-            try
-            {
-                // 1. Dohvatanje HTTP instance.
-                var client = ApiClient.Instance;
-
-                // 2. Postavljanje Tokena u Header HTTP zaglavlja.
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", AuthSession.Token);
-
-                List<string> query = new();
-
-                // 3. Konstrukcija URL- a.
-                if (tagIds != null && tagIds.Count > 0)
-                {
-                    string tagParam = string.Join(",", tagIds);
-                    query.Add($"tags__id__all={tagParam}");
-                }
-
-                if (typeIds != null && typeIds.Count > 0)
-                {
-                    string typeParam = string.Join(",", typeIds);
-                    query.Add($"document_type__id__in={typeParam}");
-                }
-
-                if (corrIds != null && corrIds.Count > 0)
-                {
-                    string corrParam = string.Join(",", corrIds);
-                    query.Add($"correspondent__id__in={corrParam}");
-                }
-
-                if (!string.IsNullOrWhiteSpace(title))
-                {
-                    string encodedTitle = WebUtility.UrlEncode(title);
-                    query.Add($"title_content={encodedTitle}");
-                }
-
-                query.Add($"page={page}");
-                query.Add($"page_size={pageSize}");
-
-                string finalQuery = string.Join("&", query);
-                string url = $"api/documents/?{finalQuery}";
-
-
-                // 4. Slanje zahtjeva.
-                var response = await client.GetAsync(url);
-
-                // 5. Provjera statusnog koda.
-                if (response.StatusCode == HttpStatusCode.NotFound)
-                {
-                    return new List<DocumentJson>();
-                }
-
-                response.EnsureSuccessStatusCode();
-
-                //6. Čitaj JSON
-                var data = await response.Content.ReadFromJsonAsync<DocumentsResponse>();
-
-                if (data != null && data.results != null)
-                {
-                    return data.results;
-                }
-                else
-                {
-                    return new List<DocumentJson>();
-                }
-            }
-            catch (HttpRequestException)
-            {
-                return new List<DocumentJson>();
-            }
-        }
-
-        public async Task<int> getTotalDocumentsAsync(
-            List<int>? tagIds = null,
-            List<int>? typeIds = null,
-            List<int>? corrIds = null,
-            string? title = null)
-        {
-            try
-            {
-                var client = ApiClient.Instance;
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", AuthSession.Token);
-
-                List<string> query = new();
-
-                if (tagIds != null && tagIds.Count > 0)
-                {
-                    string tagParam = string.Join(",", tagIds);
-                    query.Add($"tags__id__all={tagParam}");
-                }
-
-                if (typeIds != null && typeIds.Count > 0)
-                {
-                    string typeParam = string.Join(",", typeIds);
-                    query.Add($"document_type__id__in={typeParam}");
-                }
-
-                if (corrIds != null && corrIds.Count > 0)
-                {
-                    string corrParam = string.Join(",", corrIds);
-                    query.Add($"correspondent__id__in={corrParam}");
-                }
-
-                if (!string.IsNullOrWhiteSpace(title))
-                {
-                    string encodedTitle = WebUtility.UrlEncode(title);
-                    query.Add($"title_content={encodedTitle}");
-                }
-
-                query.Add($"page=1");
-                query.Add($"page_size=1");
-
-                string finalQuery = string.Join("&", query);
-                string url = $"api/documents/?{finalQuery}";
-
-                var response = await client.GetAsync(url);
-
-                if (response.StatusCode == HttpStatusCode.NotFound)
-                    return 0;
-
-                response.EnsureSuccessStatusCode();
-
-                var data = await response.Content.ReadFromJsonAsync<DocumentsResponse>();
-                return data?.count ?? 0;
-            }
-            catch (HttpRequestException)
-            {
-                return 0;
-            }
-        }
-
         public async Task<BitmapImage?> getDocumentThumbAsync(int idDoc)
         {
             try
@@ -253,7 +117,7 @@ namespace HCI_2025_Project_Template.Core.Services
             }
         }
 
-        public async Task<(List<DocumentJson> Results, int Count)> GetDocumentsAsync(
+        public async Task<DocumentsResponse> GetDocumentsAsync(
             int page = 1,
             int pageSize = 50,
             List<int>? tagIds = null,
@@ -289,17 +153,70 @@ namespace HCI_2025_Project_Template.Core.Services
                 var response = await client.GetAsync(url);
 
                 if (response.StatusCode == HttpStatusCode.NotFound)
-                    return (new List<DocumentJson>(), 0);
+                    return new DocumentsResponse();
 
                 response.EnsureSuccessStatusCode();
 
                 var data = await response.Content.ReadFromJsonAsync<DocumentsResponse>();
 
-                return (data?.results ?? new List<DocumentJson>(), data?.count ?? 0);
+                return data ?? new DocumentsResponse();
             }
             catch
             {
-                return (new List<DocumentJson>(), 0);
+                return new DocumentsResponse();
+            }
+        }
+
+        public async Task<byte[]> GetDocumentPreviewAsync(int documentId)
+        {
+            try
+            {
+                var client = ApiClient.Instance;
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", AuthSession.Token);
+
+                var response = await client.GetAsync($"api/documents/{documentId}/preview/");
+
+                if (!response.IsSuccessStatusCode)
+                    return null;
+
+                return await response.Content.ReadAsByteArrayAsync();
+            }
+            catch (HttpRequestException)
+            {
+                return null;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+
+        public async Task<bool> UpdateDocMetadataAsync(int documentId, DocumentUpdateRequest request)
+        {
+            try
+            {
+                var client = ApiClient.Instance;
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", AuthSession.Token);
+
+                var json = JsonSerializer.Serialize(request);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await client.PutAsync(
+                    $"api/documents/{documentId}/",
+                    content
+                );
+                if (!response.IsSuccessStatusCode)
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                }
+
+                return response.IsSuccessStatusCode;
+            }
+            catch
+            {
+                return false;
             }
         }
     }

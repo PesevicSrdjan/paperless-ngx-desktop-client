@@ -101,6 +101,7 @@
             <Setter Property="HorizontalAlignment" Value="Left"></Setter>
         </Style>
 
+
     </Window.Resources>
 
     <Grid>
@@ -156,7 +157,7 @@
                     x:Name="button_dashboard"
                     Style="{StaticResource SideBarButtonStyle}"
                     Tag="Home"
-                    Content="Dashboard"
+                    Content="{Binding Source={StaticResource LStrings}, Path=[Dashboard]}"
                     Click="button_dashboard_Click">
                 </Button>
 
@@ -164,12 +165,13 @@
                     x:Name="button_documents"
                     Style="{StaticResource SideBarButtonStyle}"
                     Tag="DriveDocument"
-                    Content="Documents"
+                    Content="{Binding Source={StaticResource LStrings}, Path=[Documents]}"
                     Click="button_documents_Click">
                 </Button>
 
                 <TextBlock
-                    Text="MANAGE"
+                    x:Name="ManageText"
+                    Text="{Binding Source={StaticResource LStrings}, Path=[MANAGE]}"
                     Style="{StaticResource SideBarTextBlock}">
                 </TextBlock>
 
@@ -177,22 +179,28 @@
                     x:Name="button_correspondents"
                     Style="{StaticResource SideBarButtonStyle}"
                     Tag="Account"
-                    Content="Correspondents">
+                    Content="{Binding Source={StaticResource LStrings}, Path=[Correspondents]}">
                 </Button>
 
                 <Button
                     x:Name="button_tags"
                     Style="{StaticResource SideBarButtonStyle}"
                     Tag="Tags"
-                    Content="Tags"
+                    Content="{Binding Source={StaticResource LStrings}, Path=[Tags]}"
                     Click="button_tags_Click">
                 </Button>
+
+                <TextBlock
+                    x:Name="AdministrationText"
+                    Text="{Binding Source={StaticResource LStrings}, Path=[ADMINISTRATION]}"
+                    Style="{StaticResource SideBarTextBlock}">
+                </TextBlock>
 
                 <Button
                     x:Name="Button_Settings"
                     Style="{StaticResource SideBarButtonStyle}"
                     Tag="Settings"
-                    Content="Settings"
+                    Content="{Binding Source={StaticResource LStrings}, Path=[Settings]}"
                     Click="Button_Settings_Click">
                 </Button>
                 

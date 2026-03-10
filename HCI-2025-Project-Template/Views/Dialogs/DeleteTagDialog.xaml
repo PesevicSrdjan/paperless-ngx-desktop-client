@@ -28,24 +28,24 @@
 
     <StackPanel Margin="{StaticResource DeleteTagMainMargin}">
         <TextBlock 
-            Text="Delete tag?" 
+            Text="{Binding Source={StaticResource LStrings}, Path=[DeleteTagTitle]}" 
             FontSize="{StaticResource DeleteTagTitleFontSize}" 
             FontWeight="SemiBold" 
             Margin="{StaticResource DeleteTagTitleMargin}"/>
 
         <TextBlock 
-            Text="Are you sure you want to delete this tag? This action cannot be undone."
+            Text="{Binding Source={StaticResource LStrings}, Path=[DeleteTagSubtitle]}"
             TextWrapping="Wrap" 
             Foreground="{StaticResource DeleteTagDescriptionForeground}" 
             Margin="{StaticResource DeleteTagDescriptionMargin}"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <Button
-                Content="Cancel"
+                Content="{Binding Source={StaticResource LStrings}, Path=[Cancel]}"
                 Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
                 Margin="{StaticResource DeleteTagCancelButtonMargin}">
             </Button>
             <Button 
-                Content="Save"
+                Content="{Binding Source={StaticResource LStrings}, Path=[DeleteTagButton]}"
                 Background="{StaticResource DeleteTagConfirmButtonBackground}"
                 Click="Delete_Click">
             </Button>

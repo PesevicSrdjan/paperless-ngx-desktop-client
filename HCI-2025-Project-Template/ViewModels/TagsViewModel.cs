@@ -1,6 +1,9 @@
-﻿using HCI_2025_Project_Template.Core.Interfaces;
+﻿using CommunityToolkit.Mvvm.Input;
+using HCI_2025_Project_Template.Core.Interfaces;
+using HCI_2025_Project_Template.Core.Models.Api;
 using HCI_2025_Project_Template.Core.Models.Ui;
 using HCI_2025_Project_Template.Core.Services;
+using HCI_2025_Project_Template.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,20 +13,28 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace HCI_2025_Project_Template.ViewModels
 {
-    public class TagsViewModel : INotifyPropertyChanged
+    public class TagsViewModel : PaginationViewModel
     {
-        private readonly DocumentLoaderService _loader;
         private readonly ITagService _tagService;
+
         private bool _isLoading;
         private string _name;
         private TagInfo _selectedTag;
         private Color _selectedColor;
         private string _colorHex;
         private TagDialogMode _mode;
+
+        public ICommand NextPageCommand { get; }
+        public ICommand PreviousPageCommand { get; }
+
+        public IRelayCommand<PageItem> GoToPageCommand { get; }
+
         public enum TagDialogMode
         {
             Create,
@@ -32,8 +43,11 @@ namespace HCI_2025_Project_Template.ViewModels
         public ObservableCollection<TagInfo> TagsList { get; set; } = new();
         public TagsViewModel(DocumentLoaderService loader)
         {
-            _loader = loader;
             _tagService = new TagService();
+
+            NextPageCommand = new AsyncRelayCommand(NextPageAsync);
+            PreviousPageCommand = new AsyncRelayCommand(PreviousPageAsync);
+            GoToPageCommand = new AsyncRelayCommand<PageItem>(GoToPageAsync);
         }
         public bool IsLoading
         {
@@ -59,6 +73,21 @@ namespace HCI_2025_Project_Template.ViewModels
                 
             }
         }
+
+        private int _totalTags;
+        public int TotalTags
+        {
+            get => _totalTags;
+            set
+            {
+                if (_totalTags == value) return;
+                _totalTags = value;
+                OnPropertyChanged(nameof(TotalTags));
+                OnPropertyChanged(nameof(TotalTagsText));
+            }
+        }
+
+        public string TotalTagsText => string.Format(LocalizationManager.Strings["TagsFormat"], TotalTags);
         public Color SelectedColor
         {
             get => _selectedColor;
@@ -114,18 +143,47 @@ namespace HCI_2025_Project_Template.ViewModels
             }
         }
 
-        public string Title => Mode == TagDialogMode.Create ? "Create tag" : "Edit tag";
-
-        public async Task LoadInitialAsync()
+        public string Title
+        {
+            get
+            {
+                var loc = LocalizationManager.Strings;
+                return Mode == TagDialogMode.Create ? loc["CreateTag"] : loc["EditTag"];
+            }
+        }
+        public int PageSize { get; set; } = 25;
+        public async Task LoadPageAsync(int page)
         {
             IsLoading = true;
+
             try
             {
-                await _loader.InitializeAsync();
+                var response = await _tagService.getTagsAsync(page, PageSize);
+
+                if (response == null)
+                    return;
+
+                CurrentPage = page;
+
+                TotalTags = response.Count;
+
+                TotalPages = response.Count;
+                TotalPages = (int)Math.Ceiling((double)TotalPages/ PageSize);
+
+                UpdatePages(); 
 
                 TagsList.Clear();
-                foreach (var tag in _loader.TagsDict.Values)
-                    TagsList.Add(tag);
+
+                foreach (var t in response.Results)
+                {
+                    TagsList.Add(new TagInfo
+                    {
+                        Id = t.Id,
+                        Name = t.Name,
+                        Color = t.TagColor,
+                        DocumentCount = t.DocumentCount
+                    });
+                }
             }
             finally
             {
@@ -178,10 +236,21 @@ namespace HCI_2025_Project_Template.ViewModels
             }
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
+        private async Task GoToPageAsync(PageItem page)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            if (page?.Number != null)
+                await LoadPageAsync(page.Number.Value);
+        }
+
+        public async Task NextPageAsync()
+        {
+            await LoadPageAsync(CurrentPage + 1);
+        }
+
+        public async Task PreviousPageAsync()
+        {
+            if (CurrentPage > 1)
+                await LoadPageAsync(CurrentPage - 1);
         }
     }
 }

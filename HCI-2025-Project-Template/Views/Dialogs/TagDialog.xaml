@@ -35,7 +35,7 @@
 
         <TextBox
             Text="{Binding Name}"
-            materialDesign:HintAssist.Hint="Name"
+            materialDesign:HintAssist.Hint="{Binding Source={StaticResource LStrings}, Path=[TagCreateName]}"
             Margin="{StaticResource TagDialogTextBoxMargin}"/>
 
         <materialDesign:ColorPicker
@@ -44,19 +44,19 @@
 
         <TextBox
             Text="{Binding ColorHex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            materialDesign:HintAssist.Hint="HEX color"
+            materialDesign:HintAssist.Hint="{Binding Source={StaticResource LStrings}, Path=[TagCreateHexColor]}"
             CharacterCasing="Upper"
             Margin="{StaticResource TagDialogHexMargin}"/>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <Button
-                Content="Cancel"
+                Content="{Binding Source={StaticResource LStrings}, Path=[Cancel]}"
                 Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
                 Margin="{StaticResource TagDialogCancelButtonMargin}">
             </Button>
 
             <Button
-                Content="Save"
+                Content="{Binding Source={StaticResource LStrings}, Path=[Save]}"
                 IsDefault="True" 
                 Click="SaveEdit_Click">
             </Button>

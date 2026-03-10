@@ -12,7 +12,7 @@
 
     <UserControl.Resources>
 
-        <!-- ========== COLORS ========== -->
+                        <!-- ========== COLORS ========== -->
         <SolidColorBrush x:Key="FilterBorderStyleBackground">Transparent</SolidColorBrush>
         <SolidColorBrush x:Key="PaginationPageStyleBackground">Transparent</SolidColorBrush>
         <SolidColorBrush x:Key="CurrentPageForeground">White</SolidColorBrush>
@@ -24,11 +24,10 @@
         <SolidColorBrush x:Key="ActiveDocTypeForeground">Black</SolidColorBrush>
         <SolidColorBrush x:Key="ActiveCorrespondentForeground">Black</SolidColorBrush>
         <SolidColorBrush x:Key="LoadingTextForeground">Gray</SolidColorBrush>
+        <SolidColorBrush x:Key="PreviewOverlayBackground">#AA000000</SolidColorBrush>
 
         <!-- ========== CONTROL SIZES ========== -->
         <sys:Double x:Key="SearchBoxHeight">26</sys:Double>
-        <sys:Double x:Key="ProgressBarWidth">20</sys:Double>
-        <sys:Double x:Key="ProgressBarHeight">20</sys:Double>
         <sys:Double x:Key="FilterStyleHeight">30</sys:Double>
         <sys:Double x:Key="PaginationPageStyleWidth">30</sys:Double>
         <sys:Double x:Key="PaginationPageStyleHeight">30</sys:Double>
@@ -45,7 +44,6 @@
 
         <!-- ========== MARGINS ========== -->
         <Thickness x:Key="SearchBoxMargins">20,12,20,0</Thickness>
-        <Thickness x:Key="ProgressBarMargins">20,0,0,0</Thickness>
         <Thickness x:Key="ItemsBorderStyleMargins">2</Thickness>
         <Thickness x:Key="CheckBoxFilterMargin">0,0,4,0</Thickness>
         <Thickness x:Key="TopRightBadgeStyleMargins">0,0,2,0</Thickness>
@@ -92,7 +90,7 @@
             <Setter Property="Padding" Value="{StaticResource SearchBoxPadding}"/>
             <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}"/>
             <Setter Property="FontSize" Value="{StaticResource SearchBoxFont}"/>
-            <Setter Property="materialDesign:HintAssist.Hint" Value="Search"/>
+            <Setter Property="materialDesign:HintAssist.Hint" Value="{Binding Source={StaticResource LStrings}, Path=[SearchText]}"/>
             <Setter Property="materialDesign:TextFieldAssist.HasLeadingIcon" Value="True"/>
             <Setter Property="materialDesign:TextFieldAssist.HasClearButton" Value="True"/>
             <Setter Property="materialDesign:TextFieldAssist.LeadingIcon" Value="Search"/>
@@ -105,20 +103,6 @@
                     <Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}"/>
                     <Setter Property="Foreground" Value="{DynamicResource AccentColor}"/>
                     <Setter Property="IsHitTestVisible" Value="False"/>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-
-        <Style x:Key="LoadingCircularProgressBar" TargetType="ProgressBar" BasedOn="{StaticResource MaterialDesignCircularProgressBar}">
-            <Setter Property="Width" Value="{StaticResource ProgressBarWidth}"/>
-            <Setter Property="Height" Value="{StaticResource ProgressBarHeight}"/>
-            <Setter Property="IsIndeterminate" Value="True"/>
-            <Setter Property="Visibility" Value="Collapsed"/>
-            <Setter Property="Foreground" Value="{DynamicResource AccentColor}"/>
-            <Setter Property="Margin" Value="{StaticResource ProgressBarMargins}"/>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding IsLoading}" Value="True">
-                    <Setter Property="Visibility" Value="Visible"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -240,7 +224,7 @@
 
         <TextBlock
            Style="{StaticResource BodyTextStyle}"
-           Text="Documents" 
+           Text="{Binding Source={StaticResource LStrings}, Path=[Documents]}" 
            FontSize="{StaticResource FontSizeTitle}"
            HorizontalAlignment="Left"
            Margin="{StaticResource TitleMargins}"
@@ -286,20 +270,20 @@
         <Grid Grid.Row="2" Grid.Column="2" Margin="{StaticResource GridFiltersMargin}" Width="Auto" HorizontalAlignment="Left">
 
             <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="5"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="5"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="0">
-            <!-- ComboBox -->
+                <!-- ComboBox -->
                 <ComboBox 
                     x:Name="ComboBoxTags"
                     Style="{StaticResource FiltersStyle}"
-                    materialDesign:HintAssist.Hint="Tags"
+                    materialDesign:HintAssist.Hint="{Binding Source={StaticResource LStrings}, Path=[Tags]}"
                     materialDesign:TextFieldAssist.LeadingIcon="Tag"
                     ItemsSource="{Binding TagsList}"
                     SelectionChanged="ComboBoxTags_SelectionChanged">
@@ -336,95 +320,95 @@
                         Style="{StaticResource BadgeTextStyle}"
                         Text="{Binding SelectedTags.Count}"/>
                 </Border>
-                
+
             </Grid>
-                <Grid Grid.Column="2">
-                    <ComboBox
+            <Grid Grid.Column="2">
+                <ComboBox
                         x:Name="ComboBoxCorrespondents"
                         Style="{StaticResource FiltersStyle}"
-                        materialDesign:HintAssist.Hint="Correspondent"
+                        materialDesign:HintAssist.Hint="{Binding Source={StaticResource LStrings}, Path=[Correspondent]}"
                         materialDesign:TextFieldAssist.LeadingIcon="Account"
                         ItemsSource="{Binding CorrespondentsList}"
                         SelectionChanged="ComboBoxCorrespondents_SelectionChanged"
                         Width="Auto">
 
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <Border 
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border 
                                     Style="{StaticResource FilterBorderStyle}"
                                     MouseLeftButtonDown="Item_Click"
                                     PreviewMouseLeftButtonDown="Item_Click">
 
-                                    <StackPanel Orientation="Horizontal">
-                                        <CheckBox 
+                                <StackPanel Orientation="Horizontal">
+                                    <CheckBox 
                                             Style="{StaticResource CheckBoxFilter}"
                                             Checked="CheckBox_Checked_Corr"
                                             Unchecked="CheckBox_Unchecked_Corr"/>
-                                        <Border 
+                                    <Border 
                                             Style="{StaticResource ItemsBorderStyle}"
                                             Background="{Binding Color}">
-                                            <TextBlock 
+                                        <TextBlock 
                                                 Text="{Binding Name}" 
                                                 Foreground="{DynamicResource MaterialDesignBody}" 
                                                 FontSize="{StaticResource BodyFontSizeExtraSmall}"/>
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-                    
-                    <Border 
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <Border 
                         Style="{StaticResource TopRightBadgeStyle}"
                         Visibility="{Binding HasSelectedCorrespondent, Converter={StaticResource BoolToVis}}">
-                        <TextBlock 
+                    <TextBlock 
                             Text="{Binding SelectedCorrespondents.Count}" 
                             Style="{StaticResource BadgeTextStyle}"/>
-                    </Border>
+                </Border>
 
-                </Grid>
+            </Grid>
 
-                <Grid Grid.Column="4">
-                    <ComboBox
+            <Grid Grid.Column="4">
+                <ComboBox
                         x:Name="ComboBoxTypes"
                         Style="{StaticResource FiltersStyle}"
-                        materialDesign:HintAssist.Hint="Document Type"
+                        materialDesign:HintAssist.Hint="{Binding Source={StaticResource LStrings}, Path=[DocumentType]}"
                         materialDesign:TextFieldAssist.LeadingIcon="FileDocument"
                         Width="Auto"
                         ItemsSource="{Binding TypesList}"
                         SelectionChanged="ComboBoxTypes_SelectionChanged" VerticalAlignment="Center">
 
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <Border 
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border 
                                     Style="{StaticResource FilterBorderStyle}"
                                     MouseLeftButtonDown="Item_Click"
                                     PreviewMouseLeftButtonDown="Item_Click">
-                                    <StackPanel Orientation="Horizontal">
-                                        <CheckBox 
+                                <StackPanel Orientation="Horizontal">
+                                    <CheckBox 
                                             Style="{StaticResource CheckBoxFilter}"
                                             Checked="CheckBox_Checked_Type"
                                             Unchecked="CheckBox_Unchecked_Type"/>
-                                        <Border Style="{StaticResource ItemsBorderStyle}">
-                                            <TextBlock 
+                                    <Border Style="{StaticResource ItemsBorderStyle}">
+                                        <TextBlock 
                                                 Text="{Binding Name}" 
                                                 Foreground="{DynamicResource MaterialDesignBody}" 
                                                 FontSize="{StaticResource BodyFontSizeExtraSmall}"/>
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
 
-                    <Border 
+                <Border 
                         Style="{StaticResource TopRightBadgeStyle}"
                         Visibility="{Binding HasSelectedDocType, Converter={StaticResource BoolToVis}}">
-                        <TextBlock 
+                    <TextBlock 
                             Text="{Binding SelectedTypes.Count}" 
                             Style="{StaticResource BadgeTextStyle}"/>
-                    </Border>
-                </Grid>
+                </Border>
+            </Grid>
         </Grid>
 
 
@@ -445,7 +429,7 @@
                                 FontSize="{StaticResource TagsFilterFont}"/>
                         </Border>
                     </DataTemplate>
-                    
+
                     <DataTemplate 
                         DataType="{x:Type models:DocTypeInfo}">
                         <Border 
@@ -473,15 +457,15 @@
                                 FontSize="{StaticResource BodyFontSizeExtraSmall}"/>
                         </Border>
                     </DataTemplate>
-                    
+
                 </ItemsControl.Resources>
-                
+
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel IsItemsHost="True"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
-                
+
             </ItemsControl>
         </WrapPanel>
 
@@ -489,7 +473,7 @@
         <Button Grid.Row="4" Grid.Column="1"
             VerticalAlignment="Center"
             HorizontalAlignment="Left"
-            Content="Clear Filters"
+            Content="{Binding Source={StaticResource LStrings}, Path=[ClearFiltersText]}"
             Padding="{StaticResource ClearFilterButtonPadding}"
             Click="ClearFilters_Click">
             <Button.Style>
@@ -520,7 +504,7 @@
                 </ProgressBar>
 
                 <TextBlock
-                    Text="Loading..."
+                    Text="{Binding Source={StaticResource LStrings}, Path=[LoadingText]}"
                     FontStyle="Italic"
                     Foreground="{StaticResource LoadingTextForeground}"
                     Margin="{StaticResource LoadingTextMargins}">
@@ -560,59 +544,21 @@
             </TextBlock>
         </StackPanel>
 
-        <StackPanel Grid.Row="4" Grid.Column="2"
-            Orientation="Horizontal" 
-            HorizontalAlignment="Right">
+        <local:PaginationControl Grid.Row="4" Grid.Column="2"/>
 
-            <Button 
-                Style="{StaticResource PaginationPageStyle}" 
-                Padding="{StaticResource PageButtonPadding}"
-                Click="PreviousPage_Click">
-
-                <materialDesign:PackIcon 
-                    Kind="ChevronDoubleLeft" 
-                    Width="{StaticResource PageIconWidth}" 
-                    Height="{StaticResource PageIconHeight}"/>
-            </Button>
-            
-            <ItemsControl ItemsSource="{Binding Pages}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Button
-                            Width="{StaticResource PageNumberButtonWidth}" 
-                            Height="{StaticResource PageNumberButtonHeight}" 
-                            Margin="{StaticResource PageNumberButtonMargins}"
-                            Command="{Binding DataContext.GoToPageCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                            CommandParameter="{Binding}"
-                            Style="{StaticResource PaginationPageStyle}">
-                                <TextBlock 
-                                    Text="{Binding Number, TargetNullValue=…}" 
-                                    HorizontalAlignment="Center" 
-                                    VerticalAlignment="Center"/>
-                        </Button>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-                
-            </ItemsControl>
-
-            <Button 
-                Style="{StaticResource PaginationPageStyle}"
-                Padding="{StaticResource PageButtonPadding}"
-                Margin="{StaticResource PageButtonMargins}"
-                Click="NextPage_Click">
-
-                <materialDesign:PackIcon 
-                    Kind="ChevronDoubleRight" 
-                    Width="{StaticResource PageIconWidth}" 
-                    Height="{StaticResource PageIconHeight}"/>
-            </Button>
-        </StackPanel>
         <ContentControl x:Name="DocumentContentControl" Grid.Row="5" Grid.ColumnSpan="3"></ContentControl>
+
+        <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="6" Grid.ColumnSpan="3"
+            x:Name="PreviewOverlay" 
+            Visibility="Collapsed" 
+            Background="{StaticResource PreviewOverlayBackground}"
+            HorizontalAlignment="Stretch" 
+            VerticalAlignment="Stretch">
+
+            <ContentControl 
+                x:Name="PreviewContentControl"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"/>
+        </Grid>
     </Grid>
 </UserControl>
