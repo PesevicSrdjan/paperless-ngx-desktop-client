@@ -10,25 +10,68 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
 
+    <UserControl.InputBindings>
+
+        <!-- Ctrl + U otvara Upload -->
+        <KeyBinding Key="U"
+            Modifiers="Control"
+            Command="ApplicationCommands.Open"/>
+
+    </UserControl.InputBindings>
+
+    <UserControl.CommandBindings>
+
+        <CommandBinding Command="ApplicationCommands.Open"
+                Executed="UploadShortcut"/>
+
+    </UserControl.CommandBindings>
+
+
     <UserControl.Resources>
 
         <!-- ========== COLORS ========== -->
         <SolidColorBrush x:Key="DashboardCardBackground">#F0FFF4</SolidColorBrush>
         <SolidColorBrush x:Key="DashboardPrimaryTextBrush">Black</SolidColorBrush>
-        
+        <SolidColorBrush x:Key="MouseOverBorderBrush">Black</SolidColorBrush>
+        <SolidColorBrush x:Key="MouseOverBorderBackground">White</SolidColorBrush>
+        <SolidColorBrush x:Key="BorderDescriptionColor">LightGray</SolidColorBrush>
+        <SolidColorBrush x:Key="IsPressedBorderBackground">#EEE</SolidColorBrush>
+
+        <SolidColorBrush x:Key="CardBackground">White</SolidColorBrush>
+        <SolidColorBrush x:Key="PrimaryGreen">#1B5E20</SolidColorBrush>
+        <SolidColorBrush x:Key="ProgressBarBackground">#E0E0E0</SolidColorBrush>
+        <SolidColorBrush x:Key="ProgressBarForeground">#2E7D32</SolidColorBrush>
+        <SolidColorBrush x:Key="GrayBackground">Gray</SolidColorBrush>
+        <SolidColorBrush x:Key="BorderColorLightGray">LightGray</SolidColorBrush>
+        <SolidColorBrush x:Key="AlertOrange">Orange</SolidColorBrush>
+        <SolidColorBrush x:Key="BadgeForeground">White</SolidColorBrush>
+        <SolidColorBrush x:Key="LegendEllipseFill">#2E7D32</SolidColorBrush>
+
         <!-- ========== CONTROL SIZES ========== -->
-        <sys:Double x:Key="ButtonWidth">200</sys:Double>
+        <sys:Double x:Key="ButtonWidth">270</sys:Double>
         <sys:Double x:Key="ButtonHeight">70</sys:Double>
-        <sys:Double x:Key="LogoWidth">170</sys:Double>
-        <sys:Double x:Key="LogoHeight">75</sys:Double>
+        <sys:Double x:Key="LogoWidth">270</sys:Double>
+        <sys:Double x:Key="LogoHeight">90</sys:Double>
         <sys:Double x:Key="UploadIconWidth">36</sys:Double>
         <sys:Double x:Key="UploadIconHeight">36</sys:Double>
+        <sys:Double x:Key="ScrollBarHeight">500</sys:Double>
+        <sys:Double x:Key="ProgressBarMaximum">100</sys:Double>
+
+        <sys:Double x:Key="AlertIconWidth">18</sys:Double>
+        <sys:Double x:Key="AlertIconHeight">18</sys:Double>
+        <sys:Double x:Key="ProgressBarHeight">10</sys:Double>
+        <sys:Double x:Key="LegendEllipseWidth">10</sys:Double>
+        <sys:Double x:Key="LegendEllipseHeight">10</sys:Double>
+        
 
         <!-- ========== BORDER THICKNESS ========== -->
         <Thickness x:Key="DefaultBorderThickness">1</Thickness>
+        <Thickness x:Key="DescriptionBorderThickness">0.2</Thickness>
 
         <!-- ========== FONT SIZE ========== -->
         <sys:Double x:Key="CardTitle">26</sys:Double>
+        <sys:Double x:Key="TitleFontSize">18</sys:Double>
+        <sys:Double x:Key="ProgressPercentageFontSize">10</sys:Double>
 
         <!-- ========== MARGINS ========== -->
         <Thickness x:Key="TitleMargins">25</Thickness>
@@ -37,13 +80,32 @@
         <Thickness x:Key="CardMargins">20,0,10,0</Thickness>
         <Thickness x:Key="CardBodyMargins">0,8,0,0</Thickness>
         <Thickness x:Key="CardFooterMargins">0,10,0,0</Thickness>
+        <Thickness x:Key="BorderDescriptionMargin">0,10,0,0</Thickness>
+        <Thickness x:Key="OuterCardMargin">10,80,20,20</Thickness>
+        <Thickness x:Key="TitleStackPanelMargin">0,0,0,10</Thickness>
+        <Thickness x:Key="AlertIconMargin">8,0,0,0</Thickness>
+        <Thickness x:Key="GridSmallMargin">0,5</Thickness>
+        <Thickness x:Key="StackPanelItemMargin">0,2</Thickness>
+        <Thickness x:Key="StackPanelFileTypesMargin">0,15,0,5</Thickness>
+        <Thickness x:Key="BottomStatsMargin">0,10,0,0</Thickness>
+        <Thickness x:Key="LegendStackPanelMargin">5</Thickness>
+        <Thickness x:Key="LegendPercentageMargin">5,0</Thickness>
+        <Thickness x:Key="TextMarginNextToLegendEllipse">5,0,0,0</Thickness>
+        <Thickness x:Key="ProgressTextMargin">85,0,0,0</Thickness>
 
         <!-- ========== CORNER RADIUS ========== -->
         <CornerRadius x:Key="DashboardCornerRadius">5</CornerRadius>
         <CornerRadius x:Key="CardCornerRadius">5</CornerRadius>
-        
+
+        <CornerRadius x:Key="OuterCardCornerRadius">6</CornerRadius>
+        <CornerRadius x:Key="InnerBorderCornerRadius">5</CornerRadius>
+        <CornerRadius x:Key="BadgeCornerRadius">12</CornerRadius>
+
         <!-- ========== PADDING ========== -->
         <Thickness x:Key="CardPadding">15</Thickness>
+        <Thickness x:Key="OuterCardPadding">15</Thickness>
+        <Thickness x:Key="HeadPadding">10</Thickness>
+        <Thickness x:Key="ItemPadding">8,2</Thickness>
         
         <Style x:Key="CustomUploadButtonStyle" TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
             <Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}"/>
@@ -70,11 +132,11 @@
                         
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="Black"/>
-                                <Setter TargetName="border" Property="Background" Value="White"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource MouseOverBorderBrush}"/>
+                                <Setter TargetName="border" Property="Background" Value="{StaticResource MouseOverBorderBackground}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#EEE"/>
+                                <Setter TargetName="border" Property="Background" Value="{StaticResource IsPressedBorderBackground}"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter TargetName="border" Property="Opacity" Value="0.5"/>
@@ -84,10 +146,15 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
+
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
     </UserControl.Resources>
 
     <Grid
+        x:Name="MainGrid"
+        Focusable="True"
         Background="{DynamicResource MaterialDesignPaper}"
         AllowDrop="True"
         DragEnter="Grid_DragEnter"
@@ -194,6 +261,7 @@
 
                 <!-- Glavni tekst -->
                 <TextBlock
+                    x:Name="PaperlessTextBlock"
                     Text="{Binding Source={StaticResource LStrings}, Path=[PaperlessDescription]}"
                     TextWrapping="Wrap" 
                     Margin="{StaticResource CardBodyMargins}" 
@@ -201,14 +269,274 @@
                     Foreground="{StaticResource DashboardPrimaryTextBrush}">
                 </TextBlock>
 
+                <Border
+                    Margin="{StaticResource BorderDescriptionMargin}"
+                    BorderThickness="{StaticResource DescriptionBorderThickness}"
+                    BorderBrush="{StaticResource BorderDescriptionColor}"/>
+
                 <!-- Footer tekst -->
                 <TextBlock 
                     Text="{Binding Source={StaticResource LStrings}, Path=[PaperlessFooterText]}"
                     FontStyle="Italic" 
-                    FontSize="{StaticResource BodyFontSizeExtraSmall}" 
+                    FontSize="{StaticResource BodyFontSizeSmall}" 
                     Margin="{StaticResource CardFooterMargins}" 
                     Foreground="{DynamicResource AccentColor}"/>
             </StackPanel>
+        </Border>
+
+
+        <Border Grid.Row="1" Grid.Column="3" Grid.RowSpan="2"
+            Margin="{StaticResource OuterCardMargin}"
+            Padding="{StaticResource OuterCardPadding}"
+            Background="{StaticResource CardBackground}"
+            CornerRadius="{StaticResource OuterCardCornerRadius}"
+            Width="{StaticResource ButtonWidth}"
+            BorderBrush="{StaticResource BorderColorLightGray}"
+            VerticalAlignment="Top"
+            BorderThickness="{StaticResource DefaultBorderThickness}">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="{StaticResource ScrollBarHeight}">
+                <StackPanel>
+                <!-- TITLE -->
+                    <StackPanel Orientation="Horizontal" Margin="{StaticResource TitleStackPanelMargin}">
+
+                        <TextBlock 
+                            Text="{Binding Source={StaticResource LStrings}, Path=[Statistics]}"
+                            FontSize="{StaticResource TitleFontSize}"
+                            FontWeight="SemiBold"
+                            VerticalAlignment="Center"/>
+
+                        <materialDesign:PackIcon
+                            Kind="Alert"
+                            Width="{StaticResource AlertIconWidth}"
+                            Height="{StaticResource AlertIconHeight}"
+                            VerticalAlignment="Center"
+                            Margin="{StaticResource AlertIconMargin}"
+                            Foreground="{StaticResource AlertOrange}"
+                            ToolTip="{Binding Source={StaticResource LStrings}, Path=[NoInternetConnectionText]}"
+                            Visibility="{Binding NoInternet, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                    </StackPanel>
+
+                    <!-- MAIN BOX -->
+                <Border 
+                    BorderBrush="{StaticResource BorderColorLightGray}"
+                    BorderThickness="{StaticResource DefaultBorderThickness}"
+                    CornerRadius="{StaticResource InnerBorderCornerRadius}"
+                    Padding="{StaticResource HeadPadding}">
+
+                    <StackPanel>
+                        <!-- ROW ITEM -->
+                        <Grid Margin="{StaticResource GridSmallMargin}">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock 
+                                Text="{Binding Source={StaticResource LStrings}, Path=[DocumentsInInbox]}"/>
+                            <Border Grid.Column="1"
+                                Background="{StaticResource PrimaryGreen}"
+                                CornerRadius="{StaticResource BadgeCornerRadius}"
+                                Padding="{StaticResource ItemPadding}">
+                                <TextBlock 
+                                   Text="{Binding DocumentsInbox}"
+                                   Foreground="{StaticResource BadgeForeground}"/>
+                            </Border>
+                        </Grid>
+
+                        <Separator/>
+
+                        <Grid Margin="{StaticResource GridSmallMargin}">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock 
+                                Text="{Binding Source={StaticResource LStrings}, Path=[TotalDocuments]}"/>
+                            <Border Grid.Column="1"
+                                Background="{StaticResource PrimaryGreen}"
+                                CornerRadius="{StaticResource BadgeCornerRadius}"
+                                Padding="{StaticResource ItemPadding}">
+                                <TextBlock 
+                                   Text="{Binding DocumentsTotal}"
+                                   Foreground="{StaticResource BadgeForeground}"/>
+                            </Border>
+                        </Grid>
+
+                        <Separator/>
+
+                        <Grid Margin="{StaticResource GridSmallMargin}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="{Binding Source={StaticResource LStrings}, Path=[TotalChars]}"/>
+                            <Border Grid.Column="1"
+                                Background="{StaticResource GrayBackground}"
+                                CornerRadius="{StaticResource BadgeCornerRadius}"
+                                Padding="{StaticResource ItemPadding}">
+                                <TextBlock Text="{Binding CharacterCount}"
+                                   Foreground="{StaticResource BadgeForeground}"/>
+                            </Border>
+                        </Grid>
+
+                        <Separator/>
+
+                        <Grid Margin="{StaticResource GridSmallMargin}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock 
+                                Text="{Binding Source={StaticResource LStrings}, Path=[CurrentASN]}"/>
+                            <Border Grid.Column="1"
+                                Background="{StaticResource GrayBackground}"
+                                CornerRadius="{StaticResource BadgeCornerRadius}"
+                                Padding="{StaticResource ItemPadding}">
+                                <TextBlock 
+                                    Text="{Binding CurrentAsn}"
+                                    Foreground="{StaticResource BadgeForeground}"/>
+                            </Border>
+                        </Grid>
+
+                        <StackPanel Margin="{StaticResource StackPanelFileTypesMargin}">
+                            <ItemsControl ItemsSource="{Binding FileTypes}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="{StaticResource StackPanelItemMargin}">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="80"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
+
+                                                    <ProgressBar Grid.Column="1" 
+                                                        Height="{StaticResource ProgressBarHeight}"
+                                                        Value="{Binding Percentage}"
+                                                        Maximum="{StaticResource ProgressBarMaximum}"
+                                                        Background="{StaticResource ProgressBarBackground}"
+                                                        Foreground="{StaticResource ProgressBarForeground}"/>
+                                                </Grid>
+                                                <TextBlock 
+                                                    Text="{Binding Percentage, StringFormat={}{0:F1}%}" 
+                                                    FontSize="{StaticResource ProgressPercentageFontSize}"
+                                                    Margin="{StaticResource ProgressTextMargin}"/>  
+                                            </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+
+                        <!-- LEGEND -->
+                        <ItemsControl ItemsSource="{Binding FileTypes}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Margin="{StaticResource LegendStackPanelMargin}">
+                                        <Ellipse 
+                                            Width="{StaticResource LegendEllipseWidth}" 
+                                            Height="{StaticResource LegendEllipseHeight}" 
+                                            Fill="{StaticResource ProgressBarForeground}"/>
+                                        <TextBlock 
+                                            Text="{Binding Name}" 
+                                            Margin="{StaticResource LegendPercentageMargin}"/>
+                                        <TextBlock 
+                                            Text="{Binding Percentage, StringFormat={}{0:F1}%}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                    </StackPanel>
+                </Border>
+
+                <!-- BOTTOM STATS -->
+                <Border 
+                    Margin="{StaticResource BottomStatsMargin}"
+                    BorderBrush="{StaticResource BorderColorLightGray}"
+                    BorderThickness="{StaticResource DefaultBorderThickness}"
+                    CornerRadius="{StaticResource InnerBorderCornerRadius}"
+                    Padding="{StaticResource HeadPadding}">
+
+                    <StackPanel>
+
+                        <Grid Margin="{StaticResource GridSmallMargin}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock 
+                                Text="{Binding Source={StaticResource LStrings}, Path=[Tags]}"/>
+                            <Border Grid.Column="1" 
+                                Background="{StaticResource GrayBackground}" 
+                                CornerRadius="{StaticResource BadgeCornerRadius}" 
+                                Padding="{StaticResource ItemPadding}">
+                                <TextBlock 
+                                    Text="{Binding TagCount}" 
+                                    Foreground="{StaticResource BadgeForeground}"/>
+                            </Border>
+                        </Grid>
+
+                        <Separator/>
+
+                        <Grid Margin="{StaticResource GridSmallMargin}">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock 
+                                Text="{Binding Source={StaticResource LStrings}, Path=[Correspondents]}"/>
+                            <Border Grid.Column="1" 
+                                    Background="{StaticResource GrayBackground}" 
+                                    CornerRadius="{StaticResource BadgeCornerRadius}" 
+                                    Padding="{StaticResource ItemPadding}">
+                                <TextBlock 
+                                    Text="{Binding CorrespondentCount}" 
+                                    Foreground="{StaticResource BadgeForeground}"/>
+                            </Border>
+                        </Grid>
+
+                        <Separator/>
+
+                        <Grid Margin="{StaticResource GridSmallMargin}">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock 
+                                Text="{Binding Source={StaticResource LStrings}, Path=[DocumentTypes]}"/>
+                            <Border Grid.Column="1" 
+                                    Background="{StaticResource GrayBackground}" 
+                                    CornerRadius="{StaticResource BadgeCornerRadius}" 
+                                    Padding="{StaticResource ItemPadding}">
+                                <TextBlock 
+                                    Text="{Binding DocumentTypeCount}" 
+                                    Foreground="{StaticResource BadgeForeground}"/>
+                            </Border>
+                        </Grid>
+
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+            </ScrollViewer>
         </Border>
     </Grid>
 </UserControl>

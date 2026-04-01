@@ -2,10 +2,13 @@
 using HCI_2025_Project_Template.Core.Models.Api;
 using HCI_2025_Project_Template.Core.Models.Responses;
 using HCI_2025_Project_Template.Core.Models.Ui;
+using HCI_2025_Project_Template.Helpers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -23,6 +26,7 @@ namespace HCI_2025_Project_Template.Core.Services
         private Task? _currentThumbnailTask;
 
         public IDocumentService DocumentService => _documentService;
+        
         public Dictionary<int, TagInfo> TagsDict { get; set; } = new();
         public Dictionary<int, DocTypeInfo> TypesDict { get; set; } = new();
         public Dictionary<int, CorrespondentsInfo> CorrespondentsDict { get; set; } = new();
@@ -41,8 +45,8 @@ namespace HCI_2025_Project_Template.Core.Services
         public async Task InitializeAsync()
         {
             var tagsTask = _tagService.GetAllTagsAsync();
-            var typesTask = _docTypeService.getDocTypeAsync();
-            var corrTask = _correspondentsService.getCorrespondentsAsync();
+            var typesTask = _docTypeService.GetAllDocTypesAsync();
+            var corrTask = _correspondentsService.GetAllCorrespondentsAsync();
 
             await Task.WhenAll(tagsTask, typesTask, corrTask);
 
@@ -96,7 +100,7 @@ namespace HCI_2025_Project_Template.Core.Services
 
             if (_currentThumbnailTask != null && !_currentThumbnailTask.IsCompleted)
             {
-                try { await _currentThumbnailTask; } catch { /* ignore */ }
+                try { await _currentThumbnailTask; } catch {  /* ignore */ }
             }
 
             _thumbCts = new CancellationTokenSource();
@@ -131,13 +135,15 @@ namespace HCI_2025_Project_Template.Core.Services
 
             }).ToList();
 
+            
+
             var docsWithoutThumbnails = docs.Where(d => !_thumbnailCache.ContainsKey(d.Id) || _thumbnailCache[d.Id] == null).ToList();
 
             if (docsWithoutThumbnails.Any() && !token.IsCancellationRequested)
             {
                 _currentThumbnailTask = LoadThumbnailsAsync(docsWithoutThumbnails, token);
             }
-
+            
             return docs;
         }
 
@@ -209,6 +215,7 @@ namespace HCI_2025_Project_Template.Core.Services
                 System.Diagnostics.Debug.WriteLine($"Greška u LoadThumbnailsAsync: {ex.Message}");
             }
         }
+
     }
 }
 

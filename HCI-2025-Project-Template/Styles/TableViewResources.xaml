@@ -1,0 +1,27 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+
+    <!-- ========== MARGINS ========== -->
+    <Thickness x:Key="TableViewGridMargins">20</Thickness>
+    <Thickness x:Key="MetaDataGridMargin">0,0,0,10</Thickness>
+    <Thickness x:Key="NameMargins">2</Thickness>
+    <Thickness x:Key="IconMargins">0,0,4,0</Thickness>
+
+    <!-- ========== CONTROL SIZES ========== -->
+    <sys:Double x:Key="IconWidth">16</sys:Double>
+    <sys:Double x:Key="IconHeight">16</sys:Double>
+
+    <!-- ========== BORDER THICKNESS ========== -->
+    <Thickness x:Key="MetaDataGridBorderThickness">0</Thickness>
+
+    <!-- ========== CORNER RADIUS ========== -->
+    <CornerRadius x:Key="NameCornerRadius">4</CornerRadius>
+
+    <!-- ========== PADDING ========== -->
+    <Thickness x:Key="NamePadding">4,2</Thickness>
+    <Thickness x:Key="ButtonPadding">10,4</Thickness>
+
+</ResourceDictionary>

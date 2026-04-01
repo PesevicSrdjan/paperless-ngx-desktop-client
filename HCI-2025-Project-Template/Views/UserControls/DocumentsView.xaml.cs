@@ -22,37 +22,49 @@ namespace HCI_2025_Project_Template.Views.UserControls
     /// <summary>
     /// Interaction logic for DocumentsView.xaml
     /// </summary>
-    public partial class DocumentsView : UserControl
+    public partial class DocumentsView : UserControl, INoInternetAware
     {
-        private static DocumentsViewModel _viewModel;
+        private DocumentsViewModel _viewModel;
 
         private UserControl _tableView = new DocumentsTableView();
         private UserControl _cardView = new DocumentsCardView();
+
+        // Event koji se prosljeđuje 'DashboardWindow' ukoliko je došlo do problema sa konekcijom.
+        public event Action? NoInternetDetectedExternally;
         public DocumentsView()
         {
             InitializeComponent();
 
-            if (_tableView is DocumentsTableView tableViewControl)
-            {
-                tableViewControl.OnDocumentDoubleClicked += OpenPreview;
-            }
+            Loaded += DocumentsView_Loaded;
 
-            if (_cardView is DocumentsCardView cardViewControl)
-            {
-                cardViewControl.OnDocumentDoubleClicked += OpenPreview;
-            }
+            DocumentContentControl.Content = new LoadingSpinner();
 
             _viewModel = new DocumentsViewModel(new DocumentLoaderService());
+            DataContext = _viewModel;
 
-            _ = loadDataAsyncHelper();
+            _viewModel.NoInternetDetected += () =>
+            {
+                NoInternetDetectedExternally?.Invoke();
+            };
 
-            this.DataContext = _viewModel;
-            DocumentContentControl.Content = _tableView;
+            if (_tableView is DocumentsTableView tableViewControl)
+                tableViewControl.OnDocumentDoubleClicked += OpenPreview;
+
+            if (_cardView is DocumentsCardView cardViewControl)
+                cardViewControl.OnDocumentDoubleClicked += OpenPreview;
         }
-        private async Task loadDataAsyncHelper()
+
+        private async void DocumentsView_Loaded(object sender, RoutedEventArgs e)
+        {
+            await LoadDocumentsAsync();
+        }
+
+        private async Task LoadDocumentsAsync()
         {
             await _viewModel.LoadInitialAsync();
+            DocumentContentControl.Content = _tableView;
         }
+
         private void tableView_Click(object sender, RoutedEventArgs e)
         {
             DocumentContentControl.Content = _tableView;
@@ -232,6 +244,28 @@ namespace HCI_2025_Project_Template.Views.UserControls
                 }
             };
         }
+
+        #region DODATNA FUNKCIONALNOST - DODATNI MODALITETI I INTERAKCIJE
+
+        public static RoutedUICommand RefreshCommand = new RoutedUICommand("Refresh", "RefreshDocuments", typeof(DocumentsView));
+        private async void RefreshCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            await TriggerRefresh();
+        }
+        public void TriggerSearch(string text)
+        {
+            if (_viewModel != null)
+            {
+                _viewModel.SearchTitle = text;
+            }
+        }
+        public async Task TriggerRefresh()
+        {
+            _viewModel.Documents.Clear();
+            await _viewModel.LoadInitialAsync();
+        }
+
+        #endregion
 
     }
 }

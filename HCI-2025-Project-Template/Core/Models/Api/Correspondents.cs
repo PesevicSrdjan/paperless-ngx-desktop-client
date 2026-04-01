@@ -14,5 +14,8 @@ namespace HCI_2025_Project_Template.Core.Models.Api
 
         [JsonPropertyName("name")]
         public required string Name { get; set; }
+
+        [JsonPropertyName("document_count")]
+        public int DocumentCount { get; set; }
     }
 }

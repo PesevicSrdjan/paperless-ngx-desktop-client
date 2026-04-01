@@ -1,4 +1,5 @@
-﻿using HCI_2025_Project_Template.Core.Models.Ui;
+﻿using HCI_2025_Project_Template.Core.Interfaces;
+using HCI_2025_Project_Template.Core.Models.Ui;
 using HCI_2025_Project_Template.Core.Services;
 using HCI_2025_Project_Template.ViewModels;
 using HCI_2025_Project_Template.Views.Dialogs;
@@ -23,21 +24,27 @@ namespace HCI_2025_Project_Template.Views.UserControls
     /// <summary>
     /// Interaction logic for TagsView.xaml
     /// </summary>
-    public partial class TagsView : UserControl
+    public partial class TagsView : UserControl, INoInternetAware
     {
         private static TagsViewModel? _viewModel;
         private UserControl _tableView = new TagsTableView();
+
+        // Event koji se prosljeđuje 'DashboardWindow' ukoliko je došlo do problema sa konekcijom.
+        public event Action? NoInternetDetectedExternally;
         public TagsView()
         {
             InitializeComponent();
 
-            if(_viewModel == null)
-            {
-                _viewModel = new TagsViewModel(new DocumentLoaderService());
-                _ = loadDataAsyncHelper();
-            }
+            _viewModel = new TagsViewModel(new DocumentLoaderService());
+            DataContext = _viewModel;
 
-            this.DataContext = _viewModel;
+            _viewModel.NoInternetDetected += () =>
+            {
+                NoInternetDetectedExternally?.Invoke();
+            };
+
+            _ = loadDataAsyncHelper();
+
             TagsContentControl.Content = _tableView;
         }
         private async Task loadDataAsyncHelper()
@@ -57,6 +64,12 @@ namespace HCI_2025_Project_Template.Views.UserControls
 
             var dialog = new TagDialog(_viewModel);
             await DialogHost.Show(dialog, "MainDialog");
+        }
+
+        public async Task TriggerRefresh()
+        {
+            _viewModel!.TagsList.Clear();
+            await _viewModel.LoadPageAsync(1);
         }
     }
 }

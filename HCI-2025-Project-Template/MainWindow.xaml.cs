@@ -1,4 +1,8 @@
-﻿using System.Net.Http;
+﻿using HCI_2025_Project_Template.Core.Services;
+using HCI_2025_Project_Template.ViewModels;
+using HCI_2025_Project_Template.Views;
+using MaterialDesignThemes.Wpf;
+using System.Net.Http;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,9 +13,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using HCI_2025_Project_Template.Views;
-using HCI_2025_Project_Template.ViewModels;
-using HCI_2025_Project_Template.Core.Services;
 
 namespace HCI_2025_Project_Template
 {
@@ -31,7 +32,7 @@ namespace HCI_2025_Project_Template
         public MainWindow()
         {
             InitializeComponent();
-
+            MainSnackbar.MessageQueue = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
             // Instanciranje LoginViewModel - a, ubrizgavamo instancu AuthService.
             _viewModel = new LoginViewModel(new AuthService());
 
@@ -170,11 +171,22 @@ namespace HCI_2025_Project_Template
                 // Otvori Dashboard
                 DashboardWindow dbw = new DashboardWindow();
                 dbw.Show();
-                //this.Close();
+                this.Hide();
             }
             else
             {
-                MessageBox.Show("Login nije uspio!", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                if (result.Error == "NoNetwork")
+                {
+                    MainSnackbar.MessageQueue?.Enqueue("Trenutno nema interneta ili server nije dostupan.");
+                }
+                else if (result.Error == "InvalidCredentials")
+                {
+                    MainSnackbar.MessageQueue?.Enqueue("Pogrešan username ili password.");
+                }
+                else
+                {
+                    MainSnackbar.MessageQueue?.Enqueue("Dogodila se neočekivana greška.");
+                }
             }
         }
     }

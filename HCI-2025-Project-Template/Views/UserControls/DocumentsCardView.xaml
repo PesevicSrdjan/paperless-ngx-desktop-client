@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HCI_2025_Project_Template.Views.UserControls"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              d:DesignHeight="450" d:DesignWidth="800">
@@ -34,6 +35,7 @@
         <Thickness x:Key="TypeMargins">8,2,8,4</Thickness>
         <Thickness x:Key="TagsMargins">8,0,8,8</Thickness>
         <Thickness x:Key="TagMargins">2</Thickness>
+        <Thickness x:Key="SnackbarMargin">10</Thickness>
 
         <!-- ========== CONTROL SIZES ========== -->
         <sys:Double x:Key="ListBoxItemWidth">160</sys:Double>
@@ -53,10 +55,11 @@
         <Thickness x:Key="TagPadding">4,2</Thickness>
 
     </UserControl.Resources>
+    <materialDesign:DialogHost Identifier="RootDialog" materialDesign:TransitionAssist.DisableTransitions="True">
+        <Grid Background="{DynamicResource MaterialDesignPaper}">
 
-    <Grid Background="{DynamicResource MaterialDesignPaper}">
-
-        <ListBox 
+        <ListBox
+            x:Name="documentsListBox"
             ItemsSource="{Binding Documents}" 
             BorderThickness="{StaticResource BorderThicknessListBox}"
             Background="{StaticResource ListBoxColor}"
@@ -84,6 +87,26 @@
                             <DropShadowEffect 
                                 Color="{StaticResource DropShadowEffectColor}" BlurRadius="8" ShadowDepth="2" Opacity="0.25"/>
                         </Border.Effect>
+
+                        <Border.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Open" Click="OpenMenuItem_Click">
+                                    <MenuItem.Icon>
+                                        <materialDesign:PackIcon Kind="FolderOpen" Width="20" Height="20"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Download" Click="DownloadMenuItem_Click">
+                                    <MenuItem.Icon>
+                                        <materialDesign:PackIcon Kind="Download" Width="20" Height="20"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="View Details" Click="ViewDetails_Click">
+                                    <MenuItem.Icon>
+                                        <materialDesign:PackIcon Kind="FileDocument" Width="20" Height="20"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </ContextMenu>
+                        </Border.ContextMenu>
 
                         <StackPanel>
                             <!-- Thumbnail -->
@@ -179,5 +202,10 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        <materialDesign:Snackbar 
+             x:Name="MainSnackbar"
+             MessageQueue="{materialDesign:MessageQueue}" 
+             Margin="{StaticResource SnackbarMargin}"/>
     </Grid>
+    </materialDesign:DialogHost>
 </UserControl>

@@ -2,6 +2,7 @@
 using HCI_2025_Project_Template.Core.Models.Api;
 using HCI_2025_Project_Template.Core.Models.Responses;
 using HCI_2025_Project_Template.Core.Models.Ui;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -215,6 +216,43 @@ namespace HCI_2025_Project_Template.Core.Services
                 return response.IsSuccessStatusCode;
             }
             catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool?> DownloadDocumentAsync(Document doc)
+        {
+            if (doc == null)
+                return false;
+
+            try
+            {
+                var client = ApiClient.Instance; 
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", AuthSession.Token);
+
+                var response = await client.GetAsync($"api/documents/{doc.Id}/download/");
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return false;
+                }
+
+                var bytes = await response.Content.ReadAsByteArrayAsync();
+
+                var saveFileDialog = new SaveFileDialog
+                {
+                    FileName = doc.Title + ".pdf",
+                    Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*"
+                };
+
+                if (saveFileDialog.ShowDialog() != true)
+                    return null;
+                
+                await File.WriteAllBytesAsync(saveFileDialog.FileName, bytes);
+                return true;
+            }
+            catch (Exception)
             {
                 return false;
             }

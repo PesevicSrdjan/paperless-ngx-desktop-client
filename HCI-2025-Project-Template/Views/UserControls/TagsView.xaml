@@ -11,24 +11,7 @@
 
     <UserControl.Resources>
 
-        <!-- ========== COLORS ========== -->
-        <SolidColorBrush x:Key="LoadingForeground">Gray</SolidColorBrush>
-
-        <!-- ========== CONTROL SIZES ========== -->
-        <sys:Double x:Key="CreateIconWidth">16</sys:Double>
-        <sys:Double x:Key="CreateIconHeight">19</sys:Double>
-        <sys:Double x:Key="CreateButtonWidth">80</sys:Double>
-
-        <!-- ========== MARGINS ========== -->
-        <Thickness x:Key="TitleMargins">20,20,0,0</Thickness>
-        <Thickness x:Key="CreateIconMargins">0,0,4,0</Thickness>
-        <Thickness x:Key="CreateButtonMargins">0,20,30,0</Thickness>
-        <Thickness x:Key="LoadingTextMargins">10,10,0,0</Thickness>
-        <Thickness x:Key="PaginationControlMargins">10,10,10,10</Thickness>
-        <Thickness x:Key="NumberOfTagsMargins">25,0,10,0</Thickness>
-
-        <!-- ========== PADDING ========== -->
-        <Thickness x:Key="CreateButtonPadding">5,2</Thickness>
+        <ResourceDictionary Source="/Styles/CommonViewResources.xaml"/>
 
     </UserControl.Resources>
 
@@ -70,12 +53,12 @@
                     Height="{StaticResource CreateIconHeight}" 
                     Margin="{StaticResource CreateIconMargins}"/>
                 <TextBlock 
-                    Text="{Binding Source={StaticResource LStrings}, Path=[CreateTagText]}"/>
+                    Text="{Binding Source={StaticResource LStrings}, Path=[CreateText]}"/>
             </StackPanel>
         </Button>
 
         <TextBlock Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" 
-            Margin="{StaticResource NumberOfTagsMargins}"
+            Margin="{StaticResource NumberOfMetadataMargins}"
             FontSize="{StaticResource BodyFontSizeSmall}"
             FontWeight="SemiBold"
             Foreground="{DynamicResource MaterialDesignBody}"

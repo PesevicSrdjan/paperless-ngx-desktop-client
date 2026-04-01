@@ -11,31 +11,16 @@
     
     <UserControl.Resources>
 
-        <!-- ========== COLORS ========== -->
-        <SolidColorBrush x:Key="TagsForeground">White</SolidColorBrush>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/TableViewResources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
 
-        <!-- ========== MARGINS ========== -->
-        <Thickness x:Key="TableViewGridMargins">20</Thickness>
-        <Thickness x:Key="TagsDataGridMargin">0,0,0,10</Thickness>
-        <Thickness x:Key="NameMargins">2</Thickness>
-        <Thickness x:Key="IconMargins">0,0,4,0</Thickness>
+            <!-- lokalni resursi -->
+            <SolidColorBrush x:Key="TagsForeground">White</SolidColorBrush>
+            <sys:Double x:Key="TagsFont">10</sys:Double>
+        </ResourceDictionary>
 
-        <!-- ========== CONTROL SIZES ========== -->
-        <sys:Double x:Key="IconWidth">16</sys:Double>
-        <sys:Double x:Key="IconHeight">16</sys:Double>
-
-        <!-- ========== BORDER THICKNESS ========== -->
-        <Thickness x:Key="TagsDataGridBorderThickness">0</Thickness>
-
-        <!-- ========== CORNER RADIUS ========== -->
-        <CornerRadius x:Key="NameCornerRadius">4</CornerRadius>
-        
-        <!-- ========== PADDING ========== -->
-        <Thickness x:Key="NamePadding">4,2</Thickness>
-        <Thickness x:Key="ButtonPadding">10,4</Thickness>
-
-        <!-- ========== FONT SIZE ========== -->
-        <sys:Double x:Key="TagsFont">10</sys:Double>
 
     </UserControl.Resources>
 
@@ -57,7 +42,7 @@
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Stretch"
                 ItemsSource="{Binding TagsList}"
-                Margin="{StaticResource TagsDataGridMargin}"
+                Margin="{StaticResource MetaDataGridMargin}"
                 SelectionUnit="FullRow"
                 SelectionMode="Single"
                 AutoGenerateColumns="False"
@@ -68,7 +53,7 @@
                 <DataGrid.CellStyle>
                     <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
                         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-                        <Setter Property="BorderThickness" Value="{StaticResource TagsDataGridBorderThickness}"/>
+                        <Setter Property="BorderThickness" Value="{StaticResource MetaDataGridBorderThickness}"/>
                     </Style>
                 </DataGrid.CellStyle>
 

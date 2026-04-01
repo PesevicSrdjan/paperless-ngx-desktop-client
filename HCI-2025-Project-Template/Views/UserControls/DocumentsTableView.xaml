@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HCI_2025_Project_Template.Views.UserControls"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              d:DesignHeight="450" d:DesignWidth="800">
@@ -13,10 +14,14 @@
         <!-- ========== COLORS ========== -->
         <SolidColorBrush x:Key="TagsForeground">White</SolidColorBrush>
 
+        <!-- ========== CONTROL SIZES ========== -->
+        <sys:Double x:Key="IconSize">20</sys:Double>
+        
         <!-- ========== MARGINS ========== -->
         <Thickness x:Key="TableViewGridMargins">20</Thickness>
         <Thickness x:Key="DataGridMargins">0,0,0,10</Thickness>
         <Thickness x:Key="TagsMargins">2</Thickness>
+        <Thickness x:Key="SnackbarMargin">10</Thickness>
 
         <!-- ========== BORDER THICKNESS ========== -->
         <Thickness x:Key="CellBorderThickness">0</Thickness>
@@ -31,7 +36,7 @@
         <sys:Double x:Key="TagsFont">10</sys:Double>
 
     </UserControl.Resources>
-    
+    <materialDesign:DialogHost Identifier="RootDialog" materialDesign:TransitionAssist.DisableTransitions="True">
     <Grid 
         Background="{DynamicResource MaterialDesignPaper}" 
         Margin="{StaticResource TableViewGridMargins}">
@@ -111,7 +116,50 @@
                     Width="*"
                     Binding="{Binding Type}"
                     Header="{Binding Source={StaticResource LStrings}, Path=[Type]}" />
-            </DataGrid.Columns>
-     </DataGrid>
-    </Grid>
+                </DataGrid.Columns>
+
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Open"
+                        Click="OpenMenuItem_Click">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon 
+                                Kind="FolderOpen" 
+                                Width="{StaticResource IconSize}" 
+                                Height="{StaticResource IconSize}"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+
+                    <MenuItem 
+                        Header="Download"
+                        Click="DownloadMenuItem_Click">
+  
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon 
+                                Kind="Download" 
+                                Width="{StaticResource IconSize}" 
+                                Height="{StaticResource IconSize}"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+
+                    <MenuItem 
+                        Header="View Details"
+                        Click="ViewDetails_Click">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon 
+                                Kind="FileDocument" 
+                                Width="{StaticResource IconSize}" 
+                                Height="{StaticResource IconSize}"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
+
+        <materialDesign:Snackbar 
+            x:Name="MainSnackbar"
+            MessageQueue="{materialDesign:MessageQueue}" 
+            Margin="{StaticResource SnackbarMargin}"/>
+        </Grid>
+    </materialDesign:DialogHost>
 </UserControl>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HCI_2025_Project_Template.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -132,35 +133,35 @@ namespace HCI_2025_Project_Template.Core.Models.Ui
             Debug.WriteLine($"UpdateUploadStatus called for {DocumentName}, Stage: {Stage}");
             switch (Stage)
             {
-
+                 
                 case FileStage.Waiting:
-                    UploadStatus = "Waiting...";
+                    UploadStatus = LocalizationManager.Strings["Waiting"];
                     ProgressColor = Brushes.LightGreen;
                     break;
 
                 case FileStage.ReadyToUpload:
-                    UploadStatus = "Ready to upload";
+                    UploadStatus = LocalizationManager.Strings["ReadyToUpload"];
                     ProgressColor = Brushes.LightGreen;
                     break;
 
                 case FileStage.Uploading:
                     ProgressColor = Brushes.Blue;
-                    UploadStatus = $"Uploading... {(int)UploadProgress}%";
+                    UploadStatus = $"{LocalizationManager.Strings["Uploading"]} {(int)UploadProgress}%";
                     break;
 
                 case FileStage.Uploaded:
-                    UploadStatus = "Upload successful";
+                    UploadStatus = LocalizationManager.Strings["UploadSuccessful"];
                     ProgressColor = Brushes.LightBlue;
                     break;
 
                 case FileStage.FailedInPreparing:
-                    UploadStatus = "Failed";
+                    UploadStatus = LocalizationManager.Strings["Failed"];
                     ProgressColor = Brushes.Red;
                     ProgressBackgroundColor = Brushes.LightCoral;
                     break;
 
                 case FileStage.Failed:
-                    UploadStatus = "Upload failed";
+                    UploadStatus = LocalizationManager.Strings["UploadFailed"]; ;
                     ProgressColor = Brushes.Red;
                     ProgressBackgroundColor = Brushes.LightCoral;
                     break;

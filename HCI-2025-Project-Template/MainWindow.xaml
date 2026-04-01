@@ -101,6 +101,8 @@
                 Content="{Binding Source={StaticResource LStrings}, Path=[SignButtonText]}"
                 IsDefault="True"
                 Click="Button_Click"/>
+            
+            
 
         </StackPanel>
 
@@ -120,5 +122,10 @@
                     FontSize="{DynamicResource BodyFontSizeSmall}"/>
             </Border>
         </Popup>
+
+        <materialDesign:Snackbar x:Name="MainSnackbar" Grid.Row="2"
+                 Margin="16" 
+                 VerticalAlignment="Bottom" 
+                 HorizontalAlignment="Center"/>
     </Grid>
 </Window>

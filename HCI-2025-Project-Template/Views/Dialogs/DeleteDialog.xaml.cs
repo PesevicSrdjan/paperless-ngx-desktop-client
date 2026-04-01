@@ -1,4 +1,5 @@
-﻿using HCI_2025_Project_Template.ViewModels;
+﻿using HCI_2025_Project_Template.Core.Interfaces;
+using HCI_2025_Project_Template.ViewModels;
 using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
@@ -20,18 +21,20 @@ namespace HCI_2025_Project_Template.Views.Dialogs
     /// <summary>
     /// Interaction logic for DeleteTagDialog.xaml
     /// </summary>
-    public partial class DeleteTagDialog : UserControl
+    public partial class DeleteDialog : UserControl
     {
-        private readonly TagsViewModel _viewModel;
-        public DeleteTagDialog(TagsViewModel viewModel)
+        //private readonly TagsViewModel _viewModel;
+
+        private readonly IDeleteDialogViewModel _viewModel;
+        public DeleteDialog(IDeleteDialogViewModel viewModel)
         {
             InitializeComponent();
             _viewModel = viewModel;
+            DataContext = _viewModel;
         }
-
         private async void Delete_Click(object sender, RoutedEventArgs e)
         {
-            await _viewModel.DeleteTagAsync();
+            await _viewModel.DeleteAsync();
             DialogHost.CloseDialogCommand.Execute(null, null);
         }
     }

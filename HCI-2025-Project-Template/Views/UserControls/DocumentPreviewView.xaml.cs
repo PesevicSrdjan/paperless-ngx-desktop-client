@@ -38,12 +38,10 @@ namespace HCI_2025_Project_Template.Views.UserControls
         }
 
         public event Action OnClose;
-
         private void CloseButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             OnClose?.Invoke();
         }
-
         private void TagComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (sender is ComboBox comboBox &&
@@ -71,7 +69,6 @@ namespace HCI_2025_Project_Template.Views.UserControls
         }
 
         public event Action<DocumentUpdateRequest> OnSaved;
-
         public async Task LoadDocumentAsync(Document document)
         {
             _document = document;
@@ -102,7 +99,6 @@ namespace HCI_2025_Project_Template.Views.UserControls
                 PreviewText.Visibility = Visibility.Collapsed;
             }
         }
-
         private async void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             var request = ViewModel.CreateUpdateRequest();
@@ -123,7 +119,6 @@ namespace HCI_2025_Project_Template.Views.UserControls
             }
                 
         }
-
         private async void SaveAndClose_Click(object sender, RoutedEventArgs e)
         {
             var request = ViewModel.CreateUpdateRequest();
@@ -143,7 +138,6 @@ namespace HCI_2025_Project_Template.Views.UserControls
                 MessageBox.Show("Failed to update document.");
             }
         }
-
         private void DiscardButton_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.LoadDocumentMetadata(_document);

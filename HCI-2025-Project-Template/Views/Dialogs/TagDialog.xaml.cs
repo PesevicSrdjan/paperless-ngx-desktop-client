@@ -31,6 +31,12 @@ namespace HCI_2025_Project_Template.Views.Dialogs
         {
             if (DataContext is not TagsViewModel vm) return;
 
+            if (!vm.Validate(out string error))
+            {
+                MessageBox.Show(error, "", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             if (vm.Mode == TagsViewModel.TagDialogMode.Edit)
                 await vm.EditTagAsync();
             else

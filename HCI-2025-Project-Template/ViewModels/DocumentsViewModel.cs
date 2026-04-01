@@ -1,22 +1,30 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using HCI_2025_Project_Template.Core.Interfaces;
 using HCI_2025_Project_Template.Core.Models.Ui;
 using HCI_2025_Project_Template.Core.Services;
 using HCI_2025_Project_Template.Helpers;
 using System;
 using System.Collections.Generic;
+using HCI_2025_Project_Template.Helpers;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using System.Runtime.InteropServices;
 
 namespace HCI_2025_Project_Template.ViewModels
 {
     public class DocumentsViewModel : PaginationViewModel
     {
         private readonly DocumentLoaderService _loader;
+        private readonly IDocumentService _documentService;
 
         private bool _isLoading;
         private DispatcherTimer? _searchTimer;
@@ -29,14 +37,36 @@ namespace HCI_2025_Project_Template.ViewModels
         private bool _isPageLoading;
         private int _totalDocumentsUnfiltered;
 
+        public event Action? NoInternetDetected;
         public ICommand NextPageCommand { get; }
         public ICommand PreviousPageCommand { get; }
-
         public IRelayCommand<PageItem> GoToPageCommand { get; }
-
         public DocumentLoaderService Loader => _loader;
 
-        public int PageSize { get; set; } = 50;
+        public List<int> PageSizeOptions { get; } = new() { 10, 25, 50, 100 };
+        
+
+        private int _pageSize = 50;
+        public int PageSize
+        {
+            get => _pageSize;
+            set
+            {
+                if (_pageSize != value)
+                {
+                    _pageSize = value;
+                    OnPropertyChanged(nameof(PageSize));
+
+                    _ = ReloadAfterPageSizeChange();
+                }
+            }
+        }
+
+        private async Task ReloadAfterPageSizeChange()
+        {
+            await LoadPageAsync(1);
+        }
+
         public List<Document> DocumentsAll { get; set; } = new();
         public ObservableCollection<Document> Documents { get; set; } = new();
 
@@ -122,13 +152,17 @@ namespace HCI_2025_Project_Template.ViewModels
         }
         #endregion
 
+
         public DocumentsViewModel(DocumentLoaderService loader)
         {
             _loader = loader;
+            _documentService = new DocumentService();
 
             NextPageCommand = new AsyncRelayCommand(NextPageAsync);
             PreviousPageCommand = new AsyncRelayCommand(PreviousPageAsync);
             GoToPageCommand = new AsyncRelayCommand<PageItem>(GoToPageAsync);
+
+            
 
             #region Timer za Search
             _searchTimer = new DispatcherTimer
@@ -170,6 +204,15 @@ namespace HCI_2025_Project_Template.ViewModels
         public async Task LoadInitialAsync()
         {
             IsLoading = true;
+
+            if (!await NetworkHelper.HasInternetCachedAsync())
+            {
+                NoInternetDetected?.Invoke();
+                IsLoading = false;
+                return;
+            }
+
+            
             await _loader.InitializeAsync();
 
             // Popuni liste filtera
@@ -193,8 +236,6 @@ namespace HCI_2025_Project_Template.ViewModels
 
             TotalPages = (int)Math.Ceiling(TotalDocuments / (double)PageSize);
 
-            Debug.WriteLine($"TotalDocuments: {TotalDocuments}");
-            Debug.WriteLine($"TotalPages: {TotalPages}");
 
             if (DocumentsAll.Count > 0)
             {
@@ -206,6 +247,16 @@ namespace HCI_2025_Project_Template.ViewModels
 
         public async Task LoadPageAsync(int page, string? title = null, bool forceRecalcTotalDocuments = false, bool isPagination = false)
         {
+            /**/
+            IsLoading = true; 
+            if (!await NetworkHelper.HasInternetCachedAsync())
+            {
+                NoInternetDetected?.Invoke();
+                IsLoading = false;
+                return;
+            }
+            /**/
+
             if (_isPageLoading)
                 return;
 
@@ -238,7 +289,7 @@ namespace HCI_2025_Project_Template.ViewModels
                 );
 
                 DocumentsAll = documents;
-                TotalDocuments = documents.FirstOrDefault()?.TotalCount ?? 0; ;
+                TotalDocuments = documents.FirstOrDefault()?.TotalCount ?? 0;
                 TotalPages = (int)Math.Ceiling(TotalDocuments / (double)PageSize);
 
                 if (DocumentsAll != null && DocumentsAll.Count > 0)
@@ -328,6 +379,7 @@ namespace HCI_2025_Project_Template.ViewModels
             Documents.Clear();
             foreach (var doc in DocumentsAll)
                 Documents.Add(doc);
+
         }
         #endregion
 
@@ -347,6 +399,12 @@ namespace HCI_2025_Project_Template.ViewModels
         {
             if (CurrentPage > 1)
                 await LoadPageAsync(CurrentPage - 1);
+        }
+
+
+        public async Task<bool?> DownloadDocumentAsync(Document doc)
+        {
+            return await _documentService.DownloadDocumentAsync(doc);
         }
     }
 }

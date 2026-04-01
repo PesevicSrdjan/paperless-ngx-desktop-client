@@ -1,0 +1,207 @@
+﻿<UserControl x:Class="HCI_2025_Project_Template.Views.UserControls.DocumentsDetailView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+              xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <UserControl.Resources>
+        <!-- ========== COLORS ========== -->
+        <SolidColorBrush x:Key="DetailBackground">White</SolidColorBrush>
+        <SolidColorBrush x:Key="SeparatorColor">#E5E5E5</SolidColorBrush>
+        <SolidColorBrush x:Key="LabelForeground">#777</SolidColorBrush>
+        <SolidColorBrush x:Key="ThumbnailBackground">#F4F4F4</SolidColorBrush>
+        <SolidColorBrush x:Key="TagForeground">White</SolidColorBrush>
+        <SolidColorBrush x:Key="ButtonForeground">White</SolidColorBrush>
+
+            <!-- ========== CONTROL SIZES ========== -->
+        <sys:Double x:Key="TitleFontSize">26</sys:Double>
+        <sys:Double x:Key="LabelFontSize">11</sys:Double>
+        <sys:Double x:Key="ValueFontSize">14</sys:Double>
+        <sys:Double x:Key="TagFontSize">11</sys:Double>
+        <sys:Double x:Key="SeparatorHeight">2</sys:Double>
+        <sys:Double x:Key="TagTitleFontSize">12</sys:Double>
+        <sys:Double x:Key="CloseButtonWidth">100</sys:Double>
+        <sys:Double x:Key="ContainerMinWidth">720</sys:Double>
+        <sys:Double x:Key="ContainerMaxWidth">800</sys:Double>
+
+            <!-- ========== MARGINS ========== -->
+        <Thickness x:Key="HeaderMargin">0,0,0,20</Thickness>
+        <Thickness x:Key="SectionMargin">0,0,0,15</Thickness>
+        <Thickness x:Key="TagsTitleMargin">0,0,0,6</Thickness>
+        <Thickness x:Key="TagMargin">3</Thickness>
+        <Thickness x:Key="ActionBarMargin">0,25,0,0</Thickness>
+        <Thickness x:Key="MetadataStackPanelMargin">0,0,40,0</Thickness>
+        <Thickness x:Key="SeparatorMargin">0,8,0,0</Thickness>
+
+            <!-- ========== BORDER THICKNESS ========== -->
+        <Thickness x:Key="ButtonBorderThickness">0,1,0,0</Thickness>
+
+            <!-- ========== PADDING ========== -->
+        <Thickness x:Key="ContainerPadding">30</Thickness>
+        <Thickness x:Key="ThumbnailPadding">12</Thickness>
+        <Thickness x:Key="ActionBarPadding">10</Thickness>
+        <Thickness x:Key="TagPadding">8,4</Thickness>
+
+            <!-- ========== CORNER RADIUS ========== -->
+        <CornerRadius x:Key="ContainerCornerRadius">10</CornerRadius>
+        <CornerRadius x:Key="ThumbnailCornerRadius">8</CornerRadius>
+        <CornerRadius x:Key="TagCornerRadius">6</CornerRadius>
+
+    </UserControl.Resources>
+
+    <Border 
+        Background="{DynamicResource MaterialDesignPaper}"
+        CornerRadius="{StaticResource ContainerCornerRadius}"
+        Padding="{StaticResource ContainerPadding}"
+        MinWidth="{StaticResource ContainerMinWidth}"
+        MaxWidth="{StaticResource ContainerMaxWidth}">
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- ================= TITLE ================= -->
+            <StackPanel Grid.Row="0" Margin="{StaticResource HeaderMargin}">
+                <TextBlock 
+                    Text="{Binding Title}"
+                    FontSize="{StaticResource TitleFontSize}"
+                    FontWeight="Bold"
+                    TextWrapping="Wrap"/>
+
+                <Border 
+                    Height="{StaticResource SeparatorHeight}"
+                    Background="{StaticResource SeparatorColor}"
+                    Margin="{StaticResource SeparatorMargin}"/>
+            </StackPanel>
+            <!-- ================= MAIN CONTENT ================= -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.1*"/>
+                    <ColumnDefinition Width="0.9*"/>
+                </Grid.ColumnDefinitions>
+                <!-- ===== LEFT SIDE (METADATA) ===== -->
+                <StackPanel Grid.Column="0" Margin="{StaticResource MetadataStackPanelMargin}">
+
+                    <StackPanel Margin="{StaticResource SectionMargin}">
+                        <TextBlock 
+                            Text="Date"
+                            FontSize="{StaticResource LabelFontSize}"
+                            Foreground="{StaticResource LabelForeground}"/>
+                        <TextBlock 
+                            Text="{Binding DateOnly}"
+                            FontSize="{StaticResource BodyFontSizeSmall}"/>
+                    </StackPanel>
+
+                    <StackPanel 
+                        Margin="{StaticResource SectionMargin}">
+                        <TextBlock 
+                            Text="Type"
+                            FontSize="{StaticResource LabelFontSize}"
+                            Foreground="{StaticResource LabelForeground}"/>
+                        <TextBlock 
+                            Text="{Binding Type}"
+                            FontSize="{StaticResource BodyFontSizeSmall}"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="{StaticResource SectionMargin}">
+                        <TextBlock 
+                            Text="Correspondent"
+                            FontSize="{StaticResource LabelFontSize}"
+                            Foreground="{StaticResource LabelForeground}"/>
+                        <TextBlock 
+                            Text="{Binding Correspondent}"
+                            FontSize="{StaticResource BodyFontSizeSmall}"
+                            TextWrapping="Wrap"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="{StaticResource SectionMargin}">
+                        <TextBlock 
+                            Text="File type"
+                            FontSize="{StaticResource LabelFontSize}"
+                            Foreground="{StaticResource LabelForeground}"/>
+                        <TextBlock 
+                            Text="{Binding MimeType}"
+                            FontSize="{StaticResource BodyFontSizeSmall}"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="{StaticResource HeaderMargin}">
+                        <TextBlock 
+                            Text="Document ID"
+                            FontSize="{StaticResource LabelFontSize}"
+                            Foreground="{StaticResource LabelForeground}"/>
+                        <TextBlock 
+                            Text="{Binding Id}"
+                            FontSize="{StaticResource BodyFontSizeSmall}"/>
+                    </StackPanel>
+
+                    <!-- TAGS -->
+                    <StackPanel>
+                        <TextBlock 
+                            Text="Tags"
+                            FontSize="{StaticResource TagTitleFontSize}"
+                            FontWeight="SemiBold"
+                            Margin="{StaticResource TagsTitleMargin}"/>
+
+                        <ItemsControl ItemsSource="{Binding Tags}">
+
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border 
+                                        Background="{Binding Color}"
+                                        CornerRadius="{StaticResource TagCornerRadius}"
+                                        Padding="{StaticResource TagPadding}"
+                                        Margin="{StaticResource TagMargin}">
+                                        <TextBlock 
+                                            Text="{Binding Name}"
+                                            Foreground="{StaticResource TagForeground}"
+                                            FontSize="{StaticResource TagFontSize}"/>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </StackPanel>
+                <!-- ===== RIGHT SIDE (THUMBNAIL) ===== -->
+                <Border Grid.Column="1"
+                    Background="{StaticResource ThumbnailBackground}"
+                    CornerRadius="{StaticResource ThumbnailCornerRadius}"
+                    Padding="{StaticResource ThumbnailPadding}"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch">
+
+                    <Grid>
+                        <Image 
+                            Source="{Binding Thumbnail}"
+                            Stretch="Uniform"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+                    </Grid>
+                </Border>
+            </Grid>
+            <!-- ================= ACTION BAR ================= -->
+            <Border Grid.Row="2"
+                BorderBrush="{StaticResource SeparatorColor}"
+                BorderThickness="{StaticResource ButtonBorderThickness}"
+                Margin="{StaticResource ActionBarMargin}"
+                Padding="{StaticResource ActionBarPadding}">
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button 
+                        Content="Close"
+                        Background="{DynamicResource AccentColor}"
+                        Foreground="{StaticResource ButtonForeground}"
+                        Width="{StaticResource CloseButtonWidth}"
+                        Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                        Style="{StaticResource MaterialDesignRaisedButton}"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>

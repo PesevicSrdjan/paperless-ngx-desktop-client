@@ -15,11 +15,48 @@
         Icon="/Assets/paperless.ico">
         <!--'d:Height="1020"' && d:Width="1919" postavljeno zbog design-a-->
 
+    <Window.InputBindings>
+        <KeyBinding Key="D" Modifiers="Control"
+            Command="{x:Static local:DashboardWindow.NavigateCommand}"
+            CommandParameter="documents"/>
+        
+        <KeyBinding Key="K" Modifiers="Control"
+            Command="{x:Static local:DashboardWindow.NavigateCommand}"
+            CommandParameter="dashboard"/>
+
+        <KeyBinding Key="T" Modifiers="Control"
+            Command="{x:Static local:DashboardWindow.NavigateCommand}"
+            CommandParameter="tags"/>
+
+        <KeyBinding Key="C"  Modifiers="Control"
+            Command="{x:Static local:DashboardWindow.NavigateCommand}"
+            CommandParameter="correspondents"/>
+        
+        <KeyBinding Key="S" Modifiers="Control"
+            Command="{x:Static local:DashboardWindow.NavigateCommand}"
+            CommandParameter="settings"/>
+
+        <KeyBinding Key="Y" Modifiers="Control"
+            Command="{x:Static local:DashboardWindow.NavigateCommand}"
+            CommandParameter="types"/>
+
+    </Window.InputBindings>
+
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static local:DashboardWindow.NavigateCommand}"
+                        Executed="NavigateCommand_Executed"/>
+    </Window.CommandBindings>
+
+
     <Window.Resources>
 
         <SolidColorBrush x:Key="SideBarIconForeground">White</SolidColorBrush>
         <SolidColorBrush x:Key="SideBarTextForeground">#666</SolidColorBrush>
         <SolidColorBrush x:Key="PaperlessTextForeground">White</SolidColorBrush>
+        <SolidColorBrush x:Key="PopupForeground">White</SolidColorBrush>
+        <SolidColorBrush x:Key="MicButtonBackground">Transparent</SolidColorBrush>
+        <SolidColorBrush x:Key="MicForeground">White</SolidColorBrush>
+        <SolidColorBrush x:Key="KeyboardShortcutColor">#DDD</SolidColorBrush>
         <Color x:Key="DropShadowColor">Black</Color>
 
         <!-- ========== CONTROL SIZES ========== -->
@@ -29,9 +66,28 @@
         <sys:Double x:Key="ImageWidth">30</sys:Double>
         <sys:Double x:Key="ImageHeight">30</sys:Double>
         <sys:Double x:Key="PaperlessTextWidth">130</sys:Double>
+        <sys:Double x:Key="PopupStudentWidth">120</sys:Double>
+        <sys:Double x:Key="PopupShortcutsWidth">100</sys:Double>
+
+        <sys:Double x:Key="PopupIconWidthSmall">16</sys:Double>
+        <sys:Double x:Key="PopupIconHeightSmall">16</sys:Double>
+        <sys:Double x:Key="PopupIconWidthLarge">30</sys:Double>
+        <sys:Double x:Key="PopupIconHeightLarge">30</sys:Double>
+        <sys:Double x:Key="PopupTextMarginLeft">5</sys:Double>
+        <sys:Double x:Key="MicIconWidth">28</sys:Double>
+        <sys:Double x:Key="MicIconHeight">28</sys:Double>
+        <sys:Double x:Key="ShortcutMinWidth">60</sys:Double>
 
         <!-- ========== PADDING ========== -->
         <Thickness x:Key="SideBarButtonPadding">10,8</Thickness>
+        <Thickness x:Key="PopupPaddingSmall">4</Thickness>
+        <Thickness x:Key="PopupPaddingLarge">12</Thickness>
+        <Thickness x:Key="PopupPadding">0</Thickness>
+
+        <!-- ========== CORNER RADIUS ========== -->
+        <CornerRadius x:Key="PopupCornerRadiusSmall">4</CornerRadius>
+        <CornerRadius x:Key="PopupCornerRadiusLarge">8</CornerRadius>
+        
 
         <!-- ========== MARGINS ========== -->
         <Thickness x:Key="SideBarButtonMargin">0,5</Thickness>
@@ -39,12 +95,22 @@
         <Thickness x:Key="SideBarTextMargin">20,20,0,10</Thickness>
         <Thickness x:Key="ImageMargin">10,10,0,0</Thickness>
         <Thickness x:Key="PaperlessTextMargin">0,15,0,0</Thickness>
+        <Thickness x:Key="PopupStudentMargin">5,0,0,0</Thickness>
+        <Thickness x:Key="PopupShortcutsMargin">5,0,0,0</Thickness>
+        <Thickness x:Key="PopupStudentItemMargin">0,0,5,0</Thickness>
+        <Thickness x:Key="ShortcutsItemTextMargin">10,0,0,0</Thickness>
+        <Thickness x:Key="MicTextMargin">5,0,0,0</Thickness>
+        <Thickness x:Key="ShortcutsStackPanleMargin">0,2,0,2</Thickness>
+        <Thickness x:Key="KeyboardShortcutMargin">0,0,0,10</Thickness>
+       
 
         <!-- ========== FONT SIZE ========== -->
         <sys:Double x:Key="PaperlessTextFont">15</sys:Double>
 
         <!-- ========== BORDER THICKNESS ========== -->
         <Thickness x:Key="PaperlessBorderThickness">0,0,1,0</Thickness>
+        <Thickness x:Key="PopupBorderThickness">1</Thickness>
+        <Thickness x:Key="MicButtonBorderThickness">0</Thickness>
 
         <!-- Style za sve Buttone na Sidebar (Navigation bar)-->
         <Style x:Key="SideBarButtonStyle" TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
@@ -72,7 +138,7 @@
                             <TextBlock x:Name="ButtonText"
                                Text="{Binding Content, RelativeSource={RelativeSource AncestorType=Button}}"
                                VerticalAlignment="Center"
-                               FontSize="{StaticResource BodyFontSizeSmall}"
+                               FontSize="{StaticResource BodyFontSizeExtraSmall}"
                                Foreground="{TemplateBinding Foreground}"
                                FontWeight="{TemplateBinding FontWeight}"/>
                         </StackPanel>
@@ -117,11 +183,15 @@
             <ColumnDefinition Width="Auto"/>
             <!-- Search box -->
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            
             <!-- Ostatak -->
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <Border Grid.Row="0" Grid.ColumnSpan="4"
+        <Border Grid.Row="0" Grid.ColumnSpan="6"
             VerticalAlignment="Top"
             Background="{DynamicResource AccentColor}"
             Height="{StaticResource BorderHeight}"/>
@@ -176,10 +246,20 @@
                 </TextBlock>
 
                 <Button
-                    x:Name="button_correspondents"
+                    x:Name="Button_Correspondents"
                     Style="{StaticResource SideBarButtonStyle}"
                     Tag="Account"
-                    Content="{Binding Source={StaticResource LStrings}, Path=[Correspondents]}">
+                    Content="{Binding Source={StaticResource LStrings}, Path=[Correspondents]}"
+                    Click="Button_Correspondents_Click">
+                </Button>
+
+                <Button
+                    x:Name="Button_DocumentTypes"
+                    Style="{StaticResource SideBarButtonStyle}"
+                    Tag="Hashtag"
+                    Content="{Binding Source={StaticResource LStrings}, Path=[DocumentTypes]}"
+                    Click="Button_DocumentTypes_Click">
+                    
                 </Button>
 
                 <Button
@@ -207,6 +287,282 @@
             </StackPanel>
         </Border>
 
-        <ContentControl x:Name="MainContentControl" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2"></ContentControl>
+        <materialDesign:PopupBox Grid.Row="0" Grid.Column="5"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Width="{StaticResource PopupStudentWidth}"
+            Padding="{StaticResource PopupPadding}"
+            StaysOpen="False"
+            Margin="{StaticResource PopupStudentMargin}">
+            <materialDesign:PopupBox.ToggleContent>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon
+                        Foreground="{StaticResource PopupForeground}"
+                        Kind="AccountCircle" 
+                        Width="{StaticResource PopupIconWidthLarge}" 
+                        Height="{StaticResource PopupIconHeightLarge}"/>
+                    <TextBlock 
+                        Text="Student" 
+                        FontSize="{StaticResource BodyFontSizeSmall}"
+                        Foreground="{StaticResource PopupForeground}"
+                        Margin="{StaticResource PopupStudentMargin}" 
+                        VerticalAlignment="Center"/>
+                </StackPanel>
+            </materialDesign:PopupBox.ToggleContent>
+            
+            <materialDesign:PopupBox.PopupContent>
+                <StackPanel>
+                    <Button 
+                        Style="{StaticResource MaterialDesignFlatButton}" 
+                        Foreground="{DynamicResource MaterialDesignBody}"
+                        Click="Button_Settings_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon 
+                                Kind="Settings" 
+                                Width="{StaticResource PopupIconWidthSmall}" 
+                                Height="{StaticResource PopupIconHeightSmall}" 
+                                Margin="{StaticResource PopupStudentItemMargin}"/>
+                            <TextBlock 
+                                Text="{Binding Source={StaticResource LStrings}, Path=[Settings]}"/>
+                        </StackPanel>
+                    </Button>
+                    
+                    <Button 
+                        Style="{StaticResource MaterialDesignFlatButton}" 
+                        Foreground="{DynamicResource MaterialDesignBody}">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon 
+                                Kind="HelpCircle" 
+                                Width="{StaticResource PopupIconWidthSmall}" 
+                                Height="{StaticResource PopupIconHeightSmall}" 
+                                Margin="{StaticResource PopupStudentItemMargin}"/>
+                            <TextBlock 
+                                Text="{Binding Source={StaticResource LStrings}, Path=[Documentation]}"/>
+                        </StackPanel>
+                    </Button>
+                    <Button 
+                        Style="{StaticResource MaterialDesignFlatButton}" 
+                        Click="Button_Logout_Click"
+                        Foreground="{DynamicResource MaterialDesignBody}">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon 
+                                Kind="LogoutVariant" 
+                                Width="{StaticResource PopupIconWidthSmall}" 
+                                Height="{StaticResource PopupIconHeightSmall}"
+                                Margin="{StaticResource PopupStudentItemMargin}"/>
+                            <TextBlock 
+                                Text="{Binding Source={StaticResource LStrings}, Path=[Logout]}"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </materialDesign:PopupBox.PopupContent>
+        </materialDesign:PopupBox>
+
+        <materialDesign:PopupBox Grid.Row="0" Grid.Column="4"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Width="{StaticResource PopupShortcutsWidth}"
+            Padding="{StaticResource PopupPadding}"
+            Margin="{StaticResource PopupShortcutsMargin}"                    
+            StaysOpen="False">
+
+            <materialDesign:PopupBox.ToggleContent>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon
+                        Foreground="{StaticResource PopupForeground}"
+                        Kind="Keyboard"
+                        Width="{StaticResource PopupIconWidthLarge}"
+                        Height="{StaticResource PopupIconHeightLarge}"/>
+                    <TextBlock
+                        Text="{Binding Source={StaticResource LStrings}, Path=[Shortcuts]}"
+                        FontSize="{StaticResource BodyFontSizeSmall}"
+                        Foreground="{StaticResource PopupForeground}"
+                        Margin="{StaticResource PopupShortcutsMargin}"
+                        VerticalAlignment="Center"/>
+                </StackPanel>
+            </materialDesign:PopupBox.ToggleContent>
+
+            <materialDesign:PopupBox.PopupContent>
+                <Border 
+                    CornerRadius="{StaticResource PopupCornerRadiusLarge}" 
+                    Padding="{StaticResource PopupPaddingLarge}" 
+                    BorderBrush="{StaticResource KeyboardShortcutColor}" 
+                    BorderThickness="{StaticResource PopupBorderThickness}"
+                    Effect="{DynamicResource MaterialDesignElevation3Shadow}">
+                    <StackPanel>
+                        <TextBlock 
+                            Text="{Binding Source={StaticResource LStrings}, Path=[KeyboardShortcuts]}" 
+                            FontWeight="Bold" 
+                            FontSize="{StaticResource BodyFontSizeSmall}" 
+                            Margin="{StaticResource KeyboardShortcutMargin}"/>
+
+                        <!-- Shortcut item template -->
+                        <StackPanel Margin="{StaticResource ShortcutsStackPanleMargin}">
+                            <DockPanel>
+                                <Border 
+                                    CornerRadius="{StaticResource PopupCornerRadiusSmall}" 
+                                    Padding="{StaticResource PopupPaddingSmall}" 
+                                    MinWidth="{StaticResource ShortcutMinWidth}" 
+                                    HorizontalAlignment="Left">
+                                    <TextBlock 
+                                        Text="Ctrl + D" 
+                                        FontWeight="SemiBold" 
+                                        FontSize="{StaticResource BodyFontSizeExtraSmall}"/>
+                                </Border>
+                                <TextBlock Text="{Binding Source={StaticResource LStrings}, Path=[OpenDocuments]}" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                            </DockPanel>
+
+                            <DockPanel>
+                                <Border 
+                                    CornerRadius="{StaticResource PopupCornerRadiusSmall}" 
+                                    Padding="{StaticResource PopupPaddingSmall}" 
+                                    MinWidth="{StaticResource ShortcutMinWidth}" 
+                                    HorizontalAlignment="Left">
+                                    <TextBlock 
+                                        Text="Ctrl + K" 
+                                        FontWeight="SemiBold" 
+                                        FontSize="{StaticResource BodyFontSizeExtraSmall}"/>
+                                </Border>
+                                <TextBlock 
+                                    Text="{Binding Source={StaticResource LStrings}, Path=[OpenDashboard]}" 
+                                    Margin="{StaticResource ShortcutsItemTextMargin}" 
+                                    VerticalAlignment="Center"/>
+                            </DockPanel>
+
+                            <DockPanel>
+                                <Border  
+                                    CornerRadius="{StaticResource PopupCornerRadiusSmall}" 
+                                    Padding="{StaticResource PopupPaddingSmall}" 
+                                    MinWidth="{StaticResource ShortcutMinWidth}" 
+                                    HorizontalAlignment="Left">
+                                    <TextBlock 
+                                        Text="Ctrl + T" 
+                                        FontWeight="SemiBold" 
+                                        FontSize="{StaticResource BodyFontSizeExtraSmall}"/>
+                                </Border>
+                                <TextBlock 
+                                    Text="{Binding Source={StaticResource LStrings}, Path=[OpenTags]}" 
+                                    Margin="{StaticResource ShortcutsItemTextMargin}" 
+                                    VerticalAlignment="Center"/>
+                            </DockPanel>
+
+                            <DockPanel>
+                                <Border  
+                                    CornerRadius="{StaticResource PopupCornerRadiusSmall}" 
+                                    Padding="{StaticResource PopupPaddingSmall}" 
+                                    MinWidth="{StaticResource ShortcutMinWidth}" 
+                                    HorizontalAlignment="Left">
+                                    <TextBlock 
+                                        Text="Ctrl + S" 
+                                        FontWeight="SemiBold" 
+                                        FontSize="{StaticResource BodyFontSizeExtraSmall}"/>
+                                </Border>
+                                <TextBlock 
+                                    Text="{Binding Source={StaticResource LStrings}, Path=[OpenSettings]}" 
+                                    Margin="{StaticResource ShortcutsItemTextMargin}" 
+                                    VerticalAlignment="Center"/>
+                            </DockPanel>
+
+                            <DockPanel>
+                                <Border  
+                                    CornerRadius="{StaticResource PopupCornerRadiusSmall}" 
+                                    Padding="{StaticResource PopupPaddingSmall}" 
+                                    MinWidth="{StaticResource ShortcutMinWidth}" 
+                                    HorizontalAlignment="Left">
+                                    <TextBlock 
+                                        Text="Ctrl + C" 
+                                        FontWeight="SemiBold" 
+                                        FontSize="{StaticResource BodyFontSizeSmall}"/>
+                                </Border>
+                                <TextBlock 
+                                    Text="{Binding Source={StaticResource LStrings}, Path=[OpenCorrespondents]}" 
+                                    Margin="{StaticResource ShortcutsItemTextMargin}" 
+                                    VerticalAlignment="Center"/>
+                            </DockPanel>
+
+                            <DockPanel>
+                                <Border 
+                                    CornerRadius="{StaticResource PopupCornerRadiusSmall}" 
+                                    Padding="{StaticResource PopupPaddingSmall}" 
+                                    MinWidth="{StaticResource ShortcutMinWidth}" 
+                                    HorizontalAlignment="Left">
+                                    <TextBlock 
+                                        Text="Ctrl + U" 
+                                        FontWeight="SemiBold" 
+                                        FontSize="{StaticResource BodyFontSizeExtraSmall}"/>
+                                </Border>
+                                <TextBlock 
+                                    Text="{Binding Source={StaticResource LStrings}, Path=[UploadDocument]}" 
+                                    Margin="{StaticResource ShortcutsItemTextMargin}" 
+                                    VerticalAlignment="Center"/>
+                            </DockPanel>
+
+                            <DockPanel>
+                                <Border 
+                                    CornerRadius="{StaticResource PopupCornerRadiusSmall}" 
+                                    Padding="{StaticResource PopupPaddingSmall}" 
+                                    MinWidth="{StaticResource ShortcutMinWidth}" 
+                                    HorizontalAlignment="Left">
+                                    <TextBlock 
+                                        Text="Ctrl + Y" 
+                                        FontWeight="SemiBold" 
+                                        FontSize="{StaticResource BodyFontSizeExtraSmall}"/>
+                                </Border>
+                                <TextBlock 
+                                    Text="{Binding Source={StaticResource LStrings}, Path=[OpenDocumentTypes]}"
+                                    Margin="{StaticResource ShortcutsItemTextMargin}" 
+                                    VerticalAlignment="Center"/>
+                            </DockPanel>
+
+                            <DockPanel>
+                                <Border 
+                                    CornerRadius="{StaticResource PopupCornerRadiusSmall}" 
+                                    Padding="{StaticResource PopupPaddingSmall}" 
+                                    MinWidth="{StaticResource ShortcutMinWidth}" 
+                                    HorizontalAlignment="Left">
+                                    <TextBlock 
+                                        Text="F5" 
+                                        FontWeight="SemiBold" 
+                                        FontSize="{StaticResource BodyFontSizeExtraSmall}"/>
+                                </Border>
+                                <TextBlock 
+                                    Text="{Binding Source={StaticResource LStrings}, Path=[Refresh]}" 
+                                    Margin="{StaticResource ShortcutsItemTextMargin}" 
+                                    VerticalAlignment="Center"/>
+                            </DockPanel>
+
+                            <!-- Dodaj još shortcut-a po potrebi -->
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </materialDesign:PopupBox.PopupContent>
+        </materialDesign:PopupBox>
+
+        <Button Grid.Column="3"
+            Click="MicButton_Click"
+            HorizontalAlignment="Right"
+            Background="{StaticResource MicButtonBackground}"
+            BorderThickness="{StaticResource MicButtonBorderThickness}"
+            Cursor="Hand">
+
+            <StackPanel Orientation="Horizontal">
+                <materialDesign:PackIcon
+                    x:Name="MicIcon"
+                    Foreground="{StaticResource MicForeground}"
+                    Kind="Microphone"
+                    Width="{StaticResource MicIconWidth}"
+                    Height="{StaticResource MicIconHeight}"/>
+
+                <TextBlock
+                    Text="{Binding Source={StaticResource LStrings}, Path=[Voice]}"
+                    FontSize="{StaticResource BodyFontSizeSmall}"
+                    Foreground="{StaticResource MicForeground}"
+                    Margin="{StaticResource MicTextMargin}"
+                    VerticalAlignment="Center"/>
+            </StackPanel>
+
+        </Button>
+
+        <ContentControl x:Name="MainContentControl" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="6"></ContentControl>
     </Grid>
 </Window>

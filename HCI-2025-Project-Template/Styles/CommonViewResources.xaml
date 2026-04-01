@@ -1,0 +1,25 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- ========== COLORS ========== -->
+    <SolidColorBrush x:Key="LoadingForeground">Gray</SolidColorBrush>
+
+    <!-- ========== CONTROL SIZES ========== -->
+    <sys:Double x:Key="CreateIconWidth">16</sys:Double>
+    <sys:Double x:Key="CreateIconHeight">19</sys:Double>
+    <sys:Double x:Key="CreateButtonWidth">80</sys:Double>
+
+    <!-- ========== MARGINS ========== -->
+    <Thickness x:Key="TitleMargins">20,20,0,0</Thickness>
+    <Thickness x:Key="CreateIconMargins">0,0,4,0</Thickness>
+    <Thickness x:Key="CreateButtonMargins">0,20,30,0</Thickness>
+    <Thickness x:Key="LoadingTextMargins">10,10,0,0</Thickness>
+    <Thickness x:Key="PaginationControlMargins">10,10,10,10</Thickness>
+    <Thickness x:Key="NumberOfMetadataMargins">25,0,10,0</Thickness>
+
+    <!-- ========== PADDING ========== -->
+    <Thickness x:Key="CreateButtonPadding">5,2</Thickness>
+
+</ResourceDictionary>

@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace HCI_2025_Project_Template.Core.Services
 {
@@ -16,30 +17,46 @@ namespace HCI_2025_Project_Template.Core.Services
     {
         public async Task<LoginResponse> loginAsync(string username, string password)
         {
-            var request = new LoginRequest 
-            { 
-                Username = username, 
-                Password = password
-            };
-
-            var json = JsonSerializer.Serialize(request);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await ApiClient.Instance.PostAsync("api/token/", content);
-
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                return new LoginResponse 
-                { 
-                    Token = null 
+                var request = new LoginRequest
+                {
+                    Username = username,
+                    Password = password
                 };
+
+                var json = JsonSerializer.Serialize(request);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await ApiClient.Instance.PostAsync("api/token/", content);
+
+                Debug.WriteLine($"HTTP Status Code: {(int)response.StatusCode} ({response.StatusCode})");
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    Debug.WriteLine("usaooa");
+                    return new LoginResponse
+                    {
+                        Token = null,
+                        Error = "InvalidCredentials"
+                    };
+                }
+
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                var loginResponse = JsonSerializer.Deserialize<LoginResponse>(responseContent);
+
+
+                return loginResponse != null ? loginResponse : new LoginResponse { Token = null, Error = "UnknownError"};
             }
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-
-            var loginResponse = JsonSerializer.Deserialize<LoginResponse>(responseContent);
-
-            return loginResponse != null ? loginResponse : new LoginResponse { Token = null };
+            catch(HttpRequestException ex)
+            {
+                return new LoginResponse { Token = null, Error = "NoNetwork" };
+            }
+            catch (Exception ex)
+            {
+                return new LoginResponse { Token = null, Error = "UnknownError" };
+            }
         }
     }
 }

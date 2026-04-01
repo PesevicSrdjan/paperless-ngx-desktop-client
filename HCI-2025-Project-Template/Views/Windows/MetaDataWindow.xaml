@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:resources="clr-namespace:HCI_2025_Project_Template.Resources"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
@@ -54,7 +55,7 @@
         <sys:Double x:Key="HeadButtonsIconHeight">20</sys:Double>
         <sys:Double x:Key="UploadButtonWidth">120</sys:Double>
         <sys:Double x:Key="UploadButtonHeight">35</sys:Double>
-        <sys:Double x:Key="AddMoreFilesButtonWidth">150</sys:Double>
+        <sys:Double x:Key="AddMoreFilesButtonWidth">180</sys:Double>
         <sys:Double x:Key="AddMoreFilesButtonHeight">35</sys:Double>
 
         <!-- ========== CORNER RADIUS ========== -->
@@ -135,9 +136,10 @@
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{TemplateBinding materialDesign:ButtonAssist.CornerRadius}">
-                                <ContentPresenter HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"
-                                          Content="{TemplateBinding Content}"/>
+                                <ContentPresenter 
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Content="{TemplateBinding Content}"/>
                             </Border>
                         </Grid>
 
@@ -216,8 +218,8 @@
                                             IsEnabled="{Binding IsEnabled}">
                                             <materialDesign:HintAssist.Hint>
                                                 <TextBlock>
-                                                <Run Text="Document Name"/>
-                                                <Run Text=" *" Foreground="{StaticResource RequiredColor}"/>
+                                                    <Run Text="{x:Static resources:Strings.DocumentName}"/>
+                                                    <Run Text=" *" Foreground="{StaticResource RequiredColor}"/>
                                                 </TextBlock>
                                             </materialDesign:HintAssist.Hint>
                                         </TextBox>
@@ -225,7 +227,7 @@
                                         <!-- CORRESPONDENT -->
                                         <ComboBox
                                             Foreground="{DynamicResource MaterialDesignBody}"
-                                            materialDesign:HintAssist.Hint="Correspondent"
+                                            materialDesign:HintAssist.Hint="{x:Static resources:Strings.Correspondent}"
                                             ItemsSource="{Binding DataContext.CorrespondentsList, RelativeSource={RelativeSource AncestorType=Window}}"
                                             SelectedItem="{Binding Correspondent, Mode=TwoWay}"
                                             DisplayMemberPath="Name"
@@ -244,7 +246,7 @@
                                             IsEnabled="{Binding IsEnabled}">
                                             <materialDesign:HintAssist.Hint>
                                                 <TextBlock>
-                                                <Run Text="Document Type"/>
+                                                <Run Text="{x:Static resources:Strings.DocumentType}"/>
                                                 <Run Text=" *" Foreground="{StaticResource RequiredColor}"/>
                                                 </TextBlock>
                                             </materialDesign:HintAssist.Hint>
@@ -253,7 +255,7 @@
                                         <!-- TAG -->
                                         <ComboBox
                                             Foreground="{DynamicResource MaterialDesignBody}"
-                                            materialDesign:HintAssist.Hint="Add Tag"
+                                            materialDesign:HintAssist.Hint="{x:Static resources:Strings.AddTag}"
                                             ItemsSource="{Binding DataContext.TagsList,
                                             RelativeSource={RelativeSource AncestorType=Window}}"
                                             DisplayMemberPath="Name"
@@ -330,8 +332,8 @@
                                             IsEnabled="{Binding IsEnabled}">
                                             <materialDesign:HintAssist.Hint>
                                                 <TextBlock>
-                                                <Run Text="Date"/>
-                                                <Run Text=" *" Foreground="{StaticResource RequiredColor}"/>
+                                                    <Run Text="{x:Static resources:Strings.Date}"/>
+                                                    <Run Text=" *" Foreground="{StaticResource RequiredColor}"/>
                                                 </TextBlock>
                                             </materialDesign:HintAssist.Hint>
                                         </DatePicker>
@@ -362,7 +364,7 @@
                 </ItemsControl>
 
                 <TextBlock 
-                   Text="Paperless — start your journey by uploading files!"
+                   Text="{Binding Source={StaticResource LStrings}, Path=[UploadDescription]}"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    FontSize="{StaticResource BodyFontSizeDefault}"
@@ -477,7 +479,7 @@
                     Height="{StaticResource HeadButtonsIconHeight}" 
                     Margin="{StaticResource HeadButtonsIconMargin}"/>
                 <TextBlock 
-                    Text="Submit" 
+                    Text="{Binding Source={StaticResource LStrings}, Path=[Submit]}" 
                     Foreground="{StaticResource HeadButtonsForeground}"/>
             </StackPanel>
         </Button>
@@ -501,7 +503,7 @@
                     Height="{StaticResource HeadButtonsIconHeight}" 
                     Margin="{StaticResource HeadButtonsIconMargin}"/>
                 <TextBlock 
-                    Text="Upload" 
+                    Text="{Binding Source={StaticResource LStrings}, Path=[Upload]}" 
                     Foreground="{StaticResource HeadButtonsForeground}"/>
             </StackPanel>
         </Button>
@@ -526,7 +528,7 @@
                     Height="{StaticResource HeadButtonsIconWidth}" 
                     Margin="{StaticResource HeadButtonsIconMargin}"/>
                 <TextBlock 
-                    Text="Add More Files" 
+                    Text="{Binding Source={StaticResource LStrings}, Path=[AddMoreFiles]}" 
                     Foreground="{StaticResource HeadButtonsForeground}"/>
             </StackPanel>
         </Button>

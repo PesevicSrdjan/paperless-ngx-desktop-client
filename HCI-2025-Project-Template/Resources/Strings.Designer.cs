@@ -79,6 +79,24 @@ namespace HCI_2025_Project_Template.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add More Files.
+        /// </summary>
+        public static string AddMoreFiles {
+            get {
+                return ResourceManager.GetString("AddMoreFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Tag.
+        /// </summary>
+        public static string AddTag {
+            get {
+                return ResourceManager.GetString("AddTag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add tags.
         /// </summary>
         public static string AddTagsText {
@@ -97,11 +115,56 @@ namespace HCI_2025_Project_Template.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All files failed to prepare..
+        /// </summary>
+        public static string AllFilesFailedMessage {
+            get {
+                return ResourceManager.GetString("AllFilesFailedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preparation Failed.
+        /// </summary>
+        public static string AllFilesFailedTitle {
+            get {
+                return ResourceManager.GetString("AllFilesFailedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The following files could not be found on the system: {0} .
+        /// </summary>
+        public static string AllFilesMissingMessage {
+            get {
+                return ResourceManager.GetString("AllFilesMissingMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File Not Found.
+        /// </summary>
+        public static string AllFilesMissingTitle {
+            get {
+                return ResourceManager.GetString("AllFilesMissingTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check your connection and try again.
+        /// </summary>
+        public static string CheckConnectionText {
+            get {
+                return ResourceManager.GetString("CheckConnectionText", resourceCulture);
             }
         }
         
@@ -169,6 +232,33 @@ namespace HCI_2025_Project_Template.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Total: {0}.
+        /// </summary>
+        public static string CorrespondentsFormat {
+            get {
+                return ResourceManager.GetString("CorrespondentsFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create correspondent.
+        /// </summary>
+        public static string CreateCorrespondent {
+            get {
+                return ResourceManager.GetString("CreateCorrespondent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create document type.
+        /// </summary>
+        public static string CreateDocumentType {
+            get {
+                return ResourceManager.GetString("CreateDocumentType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create tag.
         /// </summary>
         public static string CreateTag {
@@ -180,9 +270,18 @@ namespace HCI_2025_Project_Template.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Create.
         /// </summary>
-        public static string CreateTagText {
+        public static string CreateText {
             get {
-                return ResourceManager.GetString("CreateTagText", resourceCulture);
+                return ResourceManager.GetString("CreateText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current ASN:.
+        /// </summary>
+        public static string CurrentASN {
+            get {
+                return ResourceManager.GetString("CurrentASN", resourceCulture);
             }
         }
         
@@ -219,6 +318,42 @@ namespace HCI_2025_Project_Template.Resources {
         public static string DateCreated {
             get {
                 return ResourceManager.GetString("DateCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete this correspondent? This action cannot be undone..
+        /// </summary>
+        public static string DeleteCorrespondentSubtitle {
+            get {
+                return ResourceManager.GetString("DeleteCorrespondentSubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete correspondent?.
+        /// </summary>
+        public static string DeleteCorrespondentTitle {
+            get {
+                return ResourceManager.GetString("DeleteCorrespondentTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete this document type? This action cannot be undone..
+        /// </summary>
+        public static string DeleteDocumentTypeSubtitle {
+            get {
+                return ResourceManager.GetString("DeleteDocumentTypeSubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete document type?.
+        /// </summary>
+        public static string DeleteDocumentTypeTitle {
+            get {
+                return ResourceManager.GetString("DeleteDocumentTypeTitle", resourceCulture);
             }
         }
         
@@ -268,6 +403,24 @@ namespace HCI_2025_Project_Template.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Documentation.
+        /// </summary>
+        public static string Documentation {
+            get {
+                return ResourceManager.GetString("Documentation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Document Name.
+        /// </summary>
+        public static string DocumentName {
+            get {
+                return ResourceManager.GetString("DocumentName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Documents.
         /// </summary>
         public static string Documents {
@@ -304,11 +457,65 @@ namespace HCI_2025_Project_Template.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Documents in inbox:.
+        /// </summary>
+        public static string DocumentsInInbox {
+            get {
+                return ResourceManager.GetString("DocumentsInInbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Document Type.
         /// </summary>
         public static string DocumentType {
             get {
                 return ResourceManager.GetString("DocumentType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total: {0}.
+        /// </summary>
+        public static string DocumentTypeFormat {
+            get {
+                return ResourceManager.GetString("DocumentTypeFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Document Types.
+        /// </summary>
+        public static string DocumentTypes {
+            get {
+                return ResourceManager.GetString("DocumentTypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download.
+        /// </summary>
+        public static string Download {
+            get {
+                return ResourceManager.GetString("Download", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit correspondent.
+        /// </summary>
+        public static string EditCorrespondent {
+            get {
+                return ResourceManager.GetString("EditCorrespondent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit document type.
+        /// </summary>
+        public static string EditDocumentType {
+            get {
+                return ResourceManager.GetString("EditDocumentType", resourceCulture);
             }
         }
         
@@ -327,6 +534,42 @@ namespace HCI_2025_Project_Template.Resources {
         public static string EditTagText {
             get {
                 return ResourceManager.GetString("EditTagText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed.
+        /// </summary>
+        public static string Failed {
+            get {
+                return ResourceManager.GetString("Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Files Missing.
+        /// </summary>
+        public static string FilesMissingTitle {
+            get {
+                return ResourceManager.GetString("FilesMissingTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The following files could not be found: {0}.
+        /// </summary>
+        public static string FilesMissingWarning {
+            get {
+                return ResourceManager.GetString("FilesMissingWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Keyboard Shortcuts.
+        /// </summary>
+        public static string KeyboardShortcuts {
+            get {
+                return ResourceManager.GetString("KeyboardShortcuts", resourceCulture);
             }
         }
         
@@ -367,11 +610,47 @@ namespace HCI_2025_Project_Template.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Logout.
+        /// </summary>
+        public static string Logout {
+            get {
+                return ResourceManager.GetString("Logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MANAGE.
         /// </summary>
         public static string MANAGE {
             get {
                 return ResourceManager.GetString("MANAGE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All required fields must be filled in (name, type, and date) for all documents..
+        /// </summary>
+        public static string MissingFields {
+            get {
+                return ResourceManager.GetString("MissingFields", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing Required Fields.
+        /// </summary>
+        public static string MissingReqFields {
+            get {
+                return ResourceManager.GetString("MissingReqFields", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name is required.
+        /// </summary>
+        public static string NameRequired {
+            get {
+                return ResourceManager.GetString("NameRequired", resourceCulture);
             }
         }
         
@@ -385,7 +664,97 @@ namespace HCI_2025_Project_Template.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You&apos;re ready to start uploading documents! Explore the various features of this web app on your own, or start a quick tour using the button below.
+        ///   Looks up a localized string similar to There are no documents ready for upload..
+        /// </summary>
+        public static string NoDocToUpload {
+            get {
+                return ResourceManager.GetString("NoDocToUpload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No internet connection.
+        /// </summary>
+        public static string NoInternetConnectionText {
+            get {
+                return ResourceManager.GetString("NoInternetConnectionText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nothing to upload.
+        /// </summary>
+        public static string NoUpload {
+            get {
+                return ResourceManager.GetString("NoUpload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open.
+        /// </summary>
+        public static string Open {
+            get {
+                return ResourceManager.GetString("Open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open Correspondents.
+        /// </summary>
+        public static string OpenCorrespondents {
+            get {
+                return ResourceManager.GetString("OpenCorrespondents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open Dashboard.
+        /// </summary>
+        public static string OpenDashboard {
+            get {
+                return ResourceManager.GetString("OpenDashboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open Documents.
+        /// </summary>
+        public static string OpenDocuments {
+            get {
+                return ResourceManager.GetString("OpenDocuments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open Document Types.
+        /// </summary>
+        public static string OpenDocumentTypes {
+            get {
+                return ResourceManager.GetString("OpenDocumentTypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open Settings.
+        /// </summary>
+        public static string OpenSettings {
+            get {
+                return ResourceManager.GetString("OpenSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open Tags.
+        /// </summary>
+        public static string OpenTags {
+            get {
+                return ResourceManager.GetString("OpenTags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You&apos;re ready to start uploading documents! Explore the various features of this client app on your own, or start a quick tour using the button below.
         ///
         ///More detail on how to use and configure Paperless-ngx is always available in the documentation..
         /// </summary>
@@ -405,6 +774,15 @@ namespace HCI_2025_Project_Template.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to documentation.
+        /// </summary>
+        public static string PaperlessLinkWord {
+            get {
+                return ResourceManager.GetString("PaperlessLinkWord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Paperless-ngx is running! 🎉.
         /// </summary>
         public static string PaperlessTitle {
@@ -419,6 +797,42 @@ namespace HCI_2025_Project_Template.Resources {
         public static string Password {
             get {
                 return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to per page.
+        /// </summary>
+        public static string PerPageText {
+            get {
+                return ResourceManager.GetString("PerPageText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ready to upload.
+        /// </summary>
+        public static string ReadyToUpload {
+            get {
+                return ResourceManager.GetString("ReadyToUpload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh.
+        /// </summary>
+        public static string Refresh {
+            get {
+                return ResourceManager.GetString("Refresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh Documents.
+        /// </summary>
+        public static string RefreshDocuments {
+            get {
+                return ResourceManager.GetString("RefreshDocuments", resourceCulture);
             }
         }
         
@@ -468,11 +882,47 @@ namespace HCI_2025_Project_Template.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Shortcuts.
+        /// </summary>
+        public static string Shortcuts {
+            get {
+                return ResourceManager.GetString("Shortcuts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show:.
+        /// </summary>
+        public static string ShowText {
+            get {
+                return ResourceManager.GetString("ShowText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sign in.
         /// </summary>
         public static string SignButtonText {
             get {
                 return ResourceManager.GetString("SignButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Statistics.
+        /// </summary>
+        public static string Statistics {
+            get {
+                return ResourceManager.GetString("Statistics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submit.
+        /// </summary>
+        public static string Submit {
+            get {
+                return ResourceManager.GetString("Submit", resourceCulture);
             }
         }
         
@@ -531,11 +981,74 @@ namespace HCI_2025_Project_Template.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Total characters:.
+        /// </summary>
+        public static string TotalChars {
+            get {
+                return ResourceManager.GetString("TotalChars", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total documents:.
+        /// </summary>
+        public static string TotalDocuments {
+            get {
+                return ResourceManager.GetString("TotalDocuments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Try again.
+        /// </summary>
+        public static string TryAgain {
+            get {
+                return ResourceManager.GetString("TryAgain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Type.
         /// </summary>
         public static string Type {
             get {
                 return ResourceManager.GetString("Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload.
+        /// </summary>
+        public static string Upload {
+            get {
+                return ResourceManager.GetString("Upload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload completed.
+        /// </summary>
+        public static string UploadCompleted {
+            get {
+                return ResourceManager.GetString("UploadCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paperless — start your journey by uploading files!.
+        /// </summary>
+        public static string UploadDescription {
+            get {
+                return ResourceManager.GetString("UploadDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload Document.
+        /// </summary>
+        public static string UploadDocument {
+            get {
+                return ResourceManager.GetString("UploadDocument", resourceCulture);
             }
         }
         
@@ -558,11 +1071,92 @@ namespace HCI_2025_Project_Template.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Upload failed.
+        /// </summary>
+        public static string UploadFailed {
+            get {
+                return ResourceManager.GetString("UploadFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload Files.
+        /// </summary>
+        public static string UploadFiles {
+            get {
+                return ResourceManager.GetString("UploadFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uploading....
+        /// </summary>
+        public static string Uploading {
+            get {
+                return ResourceManager.GetString("Uploading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Documents have been successfully uploaded..
+        /// </summary>
+        public static string UploadSuccess {
+            get {
+                return ResourceManager.GetString("UploadSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload successful.
+        /// </summary>
+        public static string UploadSuccessful {
+            get {
+                return ResourceManager.GetString("UploadSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Some documents failed to upload. Please try again..
+        /// </summary>
+        public static string UploadUnsuccess {
+            get {
+                return ResourceManager.GetString("UploadUnsuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Username.
         /// </summary>
         public static string Username {
             get {
                 return ResourceManager.GetString("Username", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View details.
+        /// </summary>
+        public static string ViewDetails {
+            get {
+                return ResourceManager.GetString("ViewDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Voice shortcut.
+        /// </summary>
+        public static string Voice {
+            get {
+                return ResourceManager.GetString("Voice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Waiting....
+        /// </summary>
+        public static string Waiting {
+            get {
+                return ResourceManager.GetString("Waiting", resourceCulture);
             }
         }
         

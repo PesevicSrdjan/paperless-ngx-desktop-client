@@ -178,7 +178,7 @@
     <value>Korisničko ime</value>
   </data>
   <data name="PaperlessDescription" xml:space="preserve">
-    <value>Spremni ste da počnete sa otpremanjem dokumenata! Istražite različite funkcije ove veb aplikacije sami, ili započnite brzi obilazak koristeći dugme ispod.
+    <value>Spremni ste da počnete sa otpremanjem dokumenata! Istražite različite funkcije ove klijent aplikacije sami, ili započnite brzi obilazak koristeći dugme ispod.
 
 Više informacija o korišćenju i podešavanju Paperless‑ngx uvek je dostupno u dokumentaciji.</value>
   </data>
@@ -230,7 +230,7 @@ Više informacija o korišćenju i podešavanju Paperless‑ngx uvek je dostupno
   <data name="ActionsText" xml:space="preserve">
     <value>Opcije</value>
   </data>
-  <data name="CreateTagText" xml:space="preserve">
+  <data name="CreateText" xml:space="preserve">
     <value>Kreiraj</value>
   </data>
   <data name="DeleteTagText" xml:space="preserve">
@@ -275,11 +275,11 @@ Više informacija o korišćenju i podešavanju Paperless‑ngx uvek je dostupno
   <data name="TagsFormat" xml:space="preserve">
     <value>Ukupno: {0}</value>
   </data>
-  <data name="CloseText" xml:space="preserve">
-    <value>← Zatvori</value>
-  </data>
   <data name="AddTagsText" xml:space="preserve">
     <value>Dodaj oznaku</value>
+  </data>
+  <data name="CloseText" xml:space="preserve">
+    <value>← Zatvori</value>
   </data>
   <data name="DateCreated" xml:space="preserve">
     <value>Datum kreiranja</value>
@@ -289,5 +289,203 @@ Više informacija o korišćenju i podešavanju Paperless‑ngx uvek je dostupno
   </data>
   <data name="SaveAndClose" xml:space="preserve">
     <value>Sačuvaj i zatvori</value>
+  </data>
+  <data name="DocumentTypes" xml:space="preserve">
+    <value>Tipovi dokumenata</value>
+  </data>
+  <data name="CorrespondentsFormat" xml:space="preserve">
+    <value>Ukupno: {0}</value>
+  </data>
+  <data name="CreateCorrespondent" xml:space="preserve">
+    <value>Kreiraj sagovornika</value>
+  </data>
+  <data name="EditCorrespondent" xml:space="preserve">
+    <value>Uredi sagovornika</value>
+  </data>
+  <data name="DeleteCorrespondentSubtitle" xml:space="preserve">
+    <value>Da li ste sigurni da želite obrisati ovog sagovornika? Ova akcija se ne može poništiti.</value>
+  </data>
+  <data name="DeleteCorrespondentTitle" xml:space="preserve">
+    <value>Brisanje sagovornika?</value>
+  </data>
+  <data name="CreateDocumentType" xml:space="preserve">
+    <value>Kreiraj tip dokumenta</value>
+  </data>
+  <data name="DeleteDocumentTypeSubtitle" xml:space="preserve">
+    <value>Da li ste sigurni da želite obrisati ovaj tip dokumenta? Ova akcija se ne može poništiti.</value>
+  </data>
+  <data name="DeleteDocumentTypeTitle" xml:space="preserve">
+    <value>Brisanje tipa dokumenta?</value>
+  </data>
+  <data name="DocumentTypeFormat" xml:space="preserve">
+    <value>Ukupno: {0}</value>
+  </data>
+  <data name="EditDocumentType" xml:space="preserve">
+    <value>Uredi tip dokumenta</value>
+  </data>
+  <data name="PerPageText" xml:space="preserve">
+    <value>po stranici</value>
+  </data>
+  <data name="ShowText" xml:space="preserve">
+    <value>Prikaži:</value>
+  </data>
+  <data name="Documentation" xml:space="preserve">
+    <value>Dokumentacija</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>Preuzmi</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Odjavi se</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Otvori</value>
+  </data>
+  <data name="OpenCorrespondents" xml:space="preserve">
+    <value>Otvori Sagvornike</value>
+  </data>
+  <data name="OpenDashboard" xml:space="preserve">
+    <value>Otvori Kontrolnu tablu</value>
+  </data>
+  <data name="OpenDocuments" xml:space="preserve">
+    <value>Otvori Dokumente</value>
+  </data>
+  <data name="OpenDocumentTypes" xml:space="preserve">
+    <value>Otvori Tipove dokumenata</value>
+  </data>
+  <data name="OpenSettings" xml:space="preserve">
+    <value>Otvori Podešavanja</value>
+  </data>
+  <data name="OpenTags" xml:space="preserve">
+    <value>Otvori Oznake</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="Shortcuts" xml:space="preserve">
+    <value>Prečice</value>
+  </data>
+  <data name="UploadDocument" xml:space="preserve">
+    <value>Otpremi Dokument</value>
+  </data>
+  <data name="ViewDetails" xml:space="preserve">
+    <value>Pogledaj detalje</value>
+  </data>
+  <data name="Voice" xml:space="preserve">
+    <value>Glasovna prečica</value>
+  </data>
+  <data name="KeyboardShortcuts" xml:space="preserve">
+    <value>Tastaturne Prečice</value>
+  </data>
+  <data name="RefreshDocuments" xml:space="preserve">
+    <value>Osvježi Dokumente</value>
+  </data>
+  <data name="PaperlessLinkWord" xml:space="preserve">
+    <value>dokumentaciji</value>
+  </data>
+  <data name="CheckConnectionText" xml:space="preserve">
+    <value>Provjerite konekciju i pokušajte ponovo</value>
+  </data>
+  <data name="NoInternetConnectionText" xml:space="preserve">
+    <value>Nema internet konekcije</value>
+  </data>
+  <data name="TryAgain" xml:space="preserve">
+    <value>Pokušajte ponovo</value>
+  </data>
+  <data name="CurrentASN" xml:space="preserve">
+    <value>Trenutni ASN:</value>
+  </data>
+  <data name="DocumentsInInbox" xml:space="preserve">
+    <value>Dokumenti u inbox-u:</value>
+  </data>
+  <data name="Statistics" xml:space="preserve">
+    <value>Statistika</value>
+  </data>
+  <data name="TotalChars" xml:space="preserve">
+    <value>Ukupno karaktera:</value>
+  </data>
+  <data name="TotalDocuments" xml:space="preserve">
+    <value>Ukupno dokumenata:</value>
+  </data>
+  <data name="NameRequired" xml:space="preserve">
+    <value>Naziv je obavezan</value>
+  </data>
+  <data name="MissingFields" xml:space="preserve">
+    <value>Sva obavezna polja moraju biti popunjena (naziv, tip i datum) za sve dokumente.</value>
+  </data>
+  <data name="MissingReqFields" xml:space="preserve">
+    <value>Nedostaju obavezna polja</value>
+  </data>
+  <data name="DocumentName" xml:space="preserve">
+    <value>Naziv Dokumenta</value>
+  </data>
+  <data name="AddTag" xml:space="preserve">
+    <value>Dodaj oznaku</value>
+  </data>
+  <data name="UploadFiles" xml:space="preserve">
+    <value>Otpremanje dokumenata</value>
+  </data>
+  <data name="AddMoreFiles" xml:space="preserve">
+    <value>Dodaj dokumente</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Potvrdi</value>
+  </data>
+  <data name="UploadDescription" xml:space="preserve">
+    <value>Paperless — započni svoju avanturu sa otpremanjem dokumenata!</value>
+  </data>
+  <data name="Upload" xml:space="preserve">
+    <value>Otpremi</value>
+  </data>
+  <data name="Failed" xml:space="preserve">
+    <value>Neuspješno</value>
+  </data>
+  <data name="NoDocToUpload" xml:space="preserve">
+    <value>Nema dokumenata spremnih za otpremanje</value>
+  </data>
+  <data name="NoUpload" xml:space="preserve">
+    <value>Nema dokumenata za otpremanje</value>
+  </data>
+  <data name="ReadyToUpload" xml:space="preserve">
+    <value>Spremno za otpremanje</value>
+  </data>
+  <data name="UploadCompleted" xml:space="preserve">
+    <value>Otpremanje završeno</value>
+  </data>
+  <data name="UploadFailed" xml:space="preserve">
+    <value>Otpremanje neuspješno</value>
+  </data>
+  <data name="Uploading" xml:space="preserve">
+    <value>Otpremanje...</value>
+  </data>
+  <data name="UploadSuccess" xml:space="preserve">
+    <value>Dokumenti su uspješno otpremljeni</value>
+  </data>
+  <data name="UploadSuccessful" xml:space="preserve">
+    <value>Uspješno otpremljeno</value>
+  </data>
+  <data name="UploadUnsuccess" xml:space="preserve">
+    <value>Neki dokumenti nisu uspješno otpremljeni. Molimo Vas pokušajte ponovo.</value>
+  </data>
+  <data name="Waiting" xml:space="preserve">
+    <value>Na čekanju...</value>
+  </data>
+  <data name="AllFilesFailedMessage" xml:space="preserve">
+    <value>Svi fajlovi nisu uspeli da se pripreme.</value>
+  </data>
+  <data name="AllFilesFailedTitle" xml:space="preserve">
+    <value>Priprema neuspešna</value>
+  </data>
+  <data name="AllFilesMissingMessage" xml:space="preserve">
+    <value>Sledeći fajlovi nisu pronađeni na sistemu: {0}</value>
+  </data>
+  <data name="AllFilesMissingTitle" xml:space="preserve">
+    <value>Fajl nije pronađen</value>
+  </data>
+  <data name="FilesMissingTitle" xml:space="preserve">
+    <value>Nedostajući fajlovi</value>
+  </data>
+  <data name="FilesMissingWarning" xml:space="preserve">
+    <value>Sledeći fajlovi nisu pronađeni: {0}</value>
   </data>
 </root>

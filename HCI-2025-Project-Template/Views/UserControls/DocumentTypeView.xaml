@@ -1,0 +1,106 @@
+﻿<UserControl x:Class="HCI_2025_Project_Template.Views.UserControls.DocumentTypeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HCI_2025_Project_Template.Views.UserControls"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary Source="/Styles/CommonViewResources.xaml"/>
+    </UserControl.Resources>
+
+    <Grid Background="{DynamicResource MaterialDesignPaper}">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="0"
+            Style="{StaticResource BodyTextStyle}"
+            Text="{Binding Source={StaticResource LStrings}, Path=[DocumentTypes]}"
+            FontSize="{StaticResource FontSizeTitle}"
+            FontWeight="SemiBold"
+            Margin="{StaticResource TitleMargins}"/>
+
+        <Button Grid.Row="0"
+            Style="{StaticResource MaterialDesignOutlinedButton}"
+            BorderBrush="{DynamicResource AccentColor}"
+            Foreground="{DynamicResource AccentColor}"
+            Width="{StaticResource CreateButtonWidth}"
+            HorizontalAlignment="Right"
+            Margin="{StaticResource CreateButtonMargins}"
+            Padding="{StaticResource CreateButtonPadding}"
+            Click="CreateDocumentType_Click">
+
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <materialDesign:PackIcon 
+                 Kind="Plus" 
+                 Width="{StaticResource CreateIconWidth}" 
+                 Height="{StaticResource CreateIconHeight}" 
+                 Margin="{StaticResource CreateIconMargins}"/>
+                <TextBlock 
+                Text="{Binding Source={StaticResource LStrings}, Path=[CreateText]}"/>
+            </StackPanel>
+        </Button>
+
+        <TextBlock Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" 
+             Margin="{StaticResource NumberOfMetadataMargins}"
+             FontSize="{StaticResource BodyFontSizeSmall}"
+             FontWeight="SemiBold"
+             Foreground="{DynamicResource MaterialDesignBody}"
+             Text="{Binding TotalDocumentTypesText}">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsLoading}" Value="False">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+
+        <StackPanel Grid.Row="2" HorizontalAlignment="Left" Orientation="Horizontal">
+            <!-- ProgressBar za učitavanje -->
+            <ProgressBar 
+            x:Name="loadingBar"
+            Style="{StaticResource LoadingCircularProgressBar}">
+            </ProgressBar>
+
+            <TextBlock
+            Text="{Binding Source={StaticResource LStrings}, Path=[LoadingText]}"
+            FontStyle="Italic"
+            Foreground="{StaticResource LoadingForeground}"
+            Margin="{StaticResource LoadingTextMargins}"
+            VerticalAlignment="Center">
+
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </StackPanel>
+
+        <local:PaginationControl Grid.Row="2" Margin="{StaticResource PaginationControlMargins}"/>
+
+        <ContentControl x:Name="DocumentTypeContentControl" Grid.Row="3"></ContentControl>
+
+    </Grid>
+</UserControl>

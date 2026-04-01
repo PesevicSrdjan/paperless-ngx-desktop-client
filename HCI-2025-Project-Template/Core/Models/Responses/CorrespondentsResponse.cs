@@ -9,6 +9,7 @@ namespace HCI_2025_Project_Template.Core.Models.Responses
 {
     public class CorrespondentsResponse
     {
+        public int Count { get; set; }
         public required List<Correspondents> Results { get; set; }
     }
 }

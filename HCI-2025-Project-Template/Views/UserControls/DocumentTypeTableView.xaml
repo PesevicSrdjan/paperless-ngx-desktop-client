@@ -1,0 +1,110 @@
+﻿<UserControl x:Class="HCI_2025_Project_Template.Views.UserControls.DocumentTypeTableView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HCI_2025_Project_Template.Views.UserControls"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary Source="/Styles/TableViewResources.xaml"/>
+    </UserControl.Resources>
+
+    <materialDesign:DialogHost Identifier="MainDialog" materialDesign:TransitionAssist.DisableTransitions="True">
+
+        <Grid
+        Background="{DynamicResource MaterialDesignPaper}" 
+        Margin="{StaticResource TableViewGridMargins}">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <DataGrid Grid.Row="0"
+            x:Name="DocumentTypesGrid"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            ItemsSource="{Binding DocumentTypesList}"
+            Margin="{StaticResource MetaDataGridMargin}"
+            SelectionUnit="FullRow"
+            SelectionMode="Single"
+            AutoGenerateColumns="False"
+            CanUserAddRows="False"
+            CanUserDeleteRows="False"
+            IsReadOnly="True">
+
+                <DataGrid.CellStyle>
+                    <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                        <Setter Property="BorderThickness" Value="{StaticResource MetaDataGridBorderThickness}"/>
+                    </Style>
+                </DataGrid.CellStyle>
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                    Width="*"
+                    Header="{Binding Source={StaticResource LStrings}, Path=[NameTagText]}" 
+                    Binding="{Binding Name}"/>
+
+                    <DataGridTextColumn
+                    Width="*"
+                    Header="{Binding Source={StaticResource LStrings}, Path=[DocumentsCountText]}" 
+                    Binding="{Binding DocumentCount}"/>
+
+                    <DataGridTemplateColumn Header="{Binding Source={StaticResource LStrings}, Path=[ActionsText]}" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="4"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- EDIT -->
+                                    <Button Grid.Column="0"
+                                    Padding="{StaticResource ButtonPadding}"
+                                    Click="EditButton_Click"
+                                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                                    BorderBrush="{DynamicResource AccentColor}"
+                                    Foreground="{DynamicResource AccentColor}">
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon
+                                            Kind="Pencil"
+                                            Width="{StaticResource IconWidth}"
+                                            Height="{StaticResource IconHeight}"
+                                            Margin="{StaticResource IconMargins}"/>
+                                            <TextBlock Text="{Binding Source={StaticResource LStrings}, Path=[EditTagText]}"/>
+                                        </StackPanel>
+                                    </Button>
+
+                                    <!-- DELETE -->
+                                    <Button Grid.Column="2"
+                                    Padding="{StaticResource ButtonPadding}"
+                                    Click="DeleteButton_Click"
+                                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                                    BorderBrush="{DynamicResource AccentColor}"
+                                    Foreground="{DynamicResource AccentColor}">
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon
+                                            Kind="Delete"
+                                            Width="{StaticResource IconWidth}"
+                                            Height="{StaticResource IconHeight}"
+                                            Margin="{StaticResource IconMargins}"/>
+                                            <TextBlock Text="{Binding Source={StaticResource LStrings}, Path=[DeleteTagText]}"/>
+                                        </StackPanel>
+                                    </Button>
+                                </Grid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </materialDesign:DialogHost>
+</UserControl>

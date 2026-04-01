@@ -82,8 +82,11 @@ namespace HCI_2025_Project_Template.ViewModels
 
             var response = await _authService.loginAsync(Username, Password);
 
-            if (response == null || !response.Success)
-                return new LoginResponse { Token = null };
+            if (response == null)
+                return new LoginResponse { Token = null, Error = "UnknownError" };
+
+            if (!response.Success)
+                return response;
 
             AuthSession.Token = response.Token;
 

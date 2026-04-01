@@ -15,5 +15,7 @@ namespace HCI_2025_Project_Template.Core.Models.Responses
         public string? Token { get; set; }
         // 'Success' provjerava da li je u UI login prošao.
         public bool Success => !string.IsNullOrEmpty(Token);
+
+        public string ?Error { get; set; }
     }
 }

@@ -55,8 +55,13 @@ namespace HCI_2025_Project_Template.ViewModels
 
         public async Task PrepareFilesAsync()
         {
-            foreach (var file in FilesMetadata)
+            var filesToProcess = FilesMetadata.ToList();
+
+            foreach (var file in filesToProcess)
             {
+                if (!FilesMetadata.Contains(file))
+                    continue;
+
                 if (!System.IO.File.Exists(file.FilePath))
                 {
                     file.Stage = FileMetadata.FileStage.FailedInPreparing;
@@ -64,18 +69,27 @@ namespace HCI_2025_Project_Template.ViewModels
                     continue;
                 }
 
-
                 file.Stage = FileStage.Waiting;
                 file.UploadProgress = 0;
 
                 for (int i = 1; i <= 100; i += 10)
                 {
+                    if (!FilesMetadata.Contains(file))
+                        break;
+
                     await Task.Delay(150);
+
+                    if (!FilesMetadata.Contains(file))
+                        break;
+
                     file.UploadProgress = i;
                 }
 
-                file.Stage = FileStage.ReadyToUpload;
-                file.UploadProgress = 100;
+                if (FilesMetadata.Contains(file))
+                {
+                    file.Stage = FileStage.ReadyToUpload;
+                    file.UploadProgress = 100;
+                }
             }
         }
         public async Task<bool> UploadAllAsync(List<FileMetadata> files)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
@@ -22,8 +23,11 @@ namespace HCI_2025_Project_Template.Core.Models.Ui
 
         public string? MimeType { get; set; }
 
+        
         private BitmapImage? _thumbnail;
         private bool _isThumbnailLoading = false;
+        
+        [JsonIgnore]
         public BitmapImage? Thumbnail
         {
             get => _thumbnail;

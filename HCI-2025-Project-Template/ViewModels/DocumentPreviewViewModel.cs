@@ -8,12 +8,15 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 
 namespace HCI_2025_Project_Template.ViewModels
@@ -22,6 +25,7 @@ namespace HCI_2025_Project_Template.ViewModels
     {
         private readonly IDocumentService _documentService;
         private readonly DocumentLoaderService _loader;
+        
 
         private bool _isEdited;
         private string _title = string.Empty;
@@ -203,12 +207,15 @@ namespace HCI_2025_Project_Template.ViewModels
             {
                 var bytes = await _documentService.GetDocumentPreviewAsync(documentId);
                 PreviewBytes = bytes;
+
             }
             finally
             {
                 IsLoading = false;
             }
         }
+
+        
         #endregion
         public void LoadDocumentMetadata(Document doc)
         {
@@ -238,6 +245,7 @@ namespace HCI_2025_Project_Template.ViewModels
             }
             IsEdited = false;
         }
+
         public int DocumentId { get; set; }
         public DocumentUpdateRequest CreateUpdateRequest()
         {

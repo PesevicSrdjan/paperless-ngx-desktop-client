@@ -42,7 +42,7 @@ namespace HCI_2025_Project_Template.Views.UserControls
             if (sender is Button button && button.DataContext is TagInfo tag)
             {
                 ViewModel!.SelectedTag = tag;
-                var dialog = new DeleteTagDialog(ViewModel);
+                var dialog = new DeleteDialog(ViewModel);
                 await DialogHost.Show(dialog, "MainDialog");
             }
         }

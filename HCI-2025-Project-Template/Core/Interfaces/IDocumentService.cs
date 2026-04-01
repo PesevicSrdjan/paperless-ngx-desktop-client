@@ -12,7 +12,7 @@ namespace HCI_2025_Project_Template.Core.Interfaces
 {
     public interface IDocumentService
     {
-
+        Task<bool?> DownloadDocumentAsync(Document doc);
         Task<BitmapImage?> getDocumentThumbAsync(int idDoc);
 
         Task<byte[]> GetDocumentPreviewAsync(int documentId);

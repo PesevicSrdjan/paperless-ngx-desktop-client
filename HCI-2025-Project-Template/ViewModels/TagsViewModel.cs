@@ -19,7 +19,7 @@ using System.Windows.Media;
 
 namespace HCI_2025_Project_Template.ViewModels
 {
-    public class TagsViewModel : PaginationViewModel
+    public class TagsViewModel : PaginationViewModel, IDeleteDialogViewModel
     {
         private readonly ITagService _tagService;
 
@@ -30,6 +30,8 @@ namespace HCI_2025_Project_Template.ViewModels
         private string _colorHex;
         private TagDialogMode _mode;
 
+        public string DeleteTitle => LocalizationManager.Strings["DeleteTagTitle"];
+        public string DeleteSubtitle => LocalizationManager.Strings["DeleteTagSubtitle"];
         public ICommand NextPageCommand { get; }
         public ICommand PreviousPageCommand { get; }
 
@@ -152,9 +154,18 @@ namespace HCI_2025_Project_Template.ViewModels
             }
         }
         public int PageSize { get; set; } = 25;
+
+        public event Action? NoInternetDetected;
         public async Task LoadPageAsync(int page)
         {
             IsLoading = true;
+
+            if (!await NetworkHelper.HasInternetCachedAsync())
+            {
+                NoInternetDetected?.Invoke();
+                IsLoading = false;
+                return;
+            }
 
             try
             {
@@ -221,10 +232,23 @@ namespace HCI_2025_Project_Template.ViewModels
                 };
 
                 TagsList.Add(tagInfo);
+
+                TotalTags = TotalTags + 1;
             }
         }
+        public bool Validate(out string errorMessage)
+        {
+            if (string.IsNullOrWhiteSpace(Name))
+            {
+                errorMessage = LocalizationManager.Strings["NameRequired"];
+                return false;
+            }
 
-        public async Task DeleteTagAsync()
+            errorMessage = string.Empty;
+            return true;
+        }
+
+        public async Task DeleteAsync()
         {
             if (SelectedTag == null) return;
 
@@ -234,6 +258,7 @@ namespace HCI_2025_Project_Template.ViewModels
                 TagsList.Remove(SelectedTag);
                 SelectedTag = null;
             }
+            TotalTags = TotalTags - 1;
         }
 
         private async Task GoToPageAsync(PageItem page)
