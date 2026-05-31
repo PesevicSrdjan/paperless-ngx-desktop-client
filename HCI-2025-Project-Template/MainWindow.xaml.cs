@@ -169,9 +169,16 @@ namespace HCI_2025_Project_Template
                 Settings.Default.Save();
 
                 DashboardWindow dbw = new DashboardWindow();
-                this.Hide();
-                dbw.ShowDialog(); // čeka dok se dashboard ne zatvori
-                this.Show();
+                //this.Hide();
+                //dbw.ShowDialog(); // čeka dok se dashboard ne zatvori
+                //this.Show();
+
+                Application.Current.MainWindow = dbw;
+                dbw.Show();
+                this.Close();
+
+
+
             }
             else
             {

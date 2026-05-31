@@ -139,8 +139,13 @@ namespace HCI_2025_Project_Template.Views
         }
         private void Button_Logout_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mw = new MainWindow();
+            /*MainWindow mw = new MainWindow();
             mw.Show();
+            this.Close();*/
+
+            var login = new MainWindow();
+            Application.Current.MainWindow = login;
+            login.Show();
             this.Close();
         }
 
