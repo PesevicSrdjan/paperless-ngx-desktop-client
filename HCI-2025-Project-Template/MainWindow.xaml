@@ -10,7 +10,7 @@
         WindowStartupLocation="CenterScreen"
         SizeToContent="WidthAndHeight"
         MinWidth="500"
-        MinHeight="450"
+        MinHeight="550"
         Icon="./Assets/paperless.ico">
 
     <Window.Resources>
@@ -22,8 +22,8 @@
         <Thickness x:Key="PasswordMargins">0,0,0,20</Thickness>
 
         <!-- ========== CONTROL SIZES ========== -->
-        <sys:Double x:Key="ImageMaxWidth">350</sys:Double>
-        <sys:Double x:Key="ImageMinWidth">350</sys:Double>
+        <sys:Double x:Key="ImageWidth">350</sys:Double>
+        <sys:Double x:Key="ImageHeight">150</sys:Double>
         <sys:Double x:Key="StackPanelWidth">350</sys:Double>
         <sys:Double x:Key="PopupMaxHeight">200</sys:Double>
 
@@ -38,7 +38,7 @@
     <Grid Background="{DynamicResource MaterialDesignPaper}">
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -49,8 +49,8 @@
                VerticalAlignment="Bottom"
                Source="{DynamicResource Logo}"
                Stretch="Uniform"
-               MaxWidth="{StaticResource ImageMaxWidth}"
-               MinWidth="{StaticResource ImageMinWidth}"
+               Width="{StaticResource ImageWidth}"
+               Height="{StaticResource ImageHeight}"
                Margin="{StaticResource ImageMargins}"/>
 
         <!-- CENTRAL PANEL -->
@@ -101,9 +101,6 @@
                 Content="{Binding Source={StaticResource LStrings}, Path=[SignButtonText]}"
                 IsDefault="True"
                 Click="Button_Click"/>
-            
-            
-
         </StackPanel>
 
         <!-- POPUP -->

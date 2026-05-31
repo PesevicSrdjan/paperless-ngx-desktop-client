@@ -329,7 +329,8 @@
                     
                     <Button 
                         Style="{StaticResource MaterialDesignFlatButton}" 
-                        Foreground="{DynamicResource MaterialDesignBody}">
+                        Foreground="{DynamicResource MaterialDesignBody}"
+                        Click="Documentation_Click">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon 
                                 Kind="HelpCircle" 

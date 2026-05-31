@@ -111,7 +111,7 @@ namespace HCI_2025_Project_Template.ViewModels
             }
 
             DocumentsTotal = data.DocumentsTotal;
-            DocumentsInbox = data.DocumentsInbox;
+            DocumentsInbox = data.DocumentsInbox ?? 0;
             CharacterCount = data.CharacterCount;
             CurrentAsn = data.CurrentAsn;
 

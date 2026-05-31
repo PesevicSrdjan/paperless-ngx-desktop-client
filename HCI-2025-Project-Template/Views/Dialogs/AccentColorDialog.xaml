@@ -26,7 +26,7 @@
 
     <StackPanel Margin="{StaticResource AccentDialogMainMargin}">
         <TextBlock 
-            Text="{Binding Source={StaticResource LStrings}, Path=[ChooseAccentColorText]}"
+            Text="{Binding Source={StaticResource LStrings}, Path=[ChooseAccentColorTitle]}"
             FontSize="{StaticResource AccentDialogTitleFontSize}"
             FontWeight="SemiBold"
             Margin="{StaticResource AccentDialogTitleMargin}"/>

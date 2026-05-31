@@ -30,11 +30,9 @@ namespace HCI_2025_Project_Template.Core.Services
 
                 var response = await ApiClient.Instance.PostAsync("api/token/", content);
 
-                Debug.WriteLine($"HTTP Status Code: {(int)response.StatusCode} ({response.StatusCode})");
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    Debug.WriteLine("usaooa");
                     return new LoginResponse
                     {
                         Token = null,

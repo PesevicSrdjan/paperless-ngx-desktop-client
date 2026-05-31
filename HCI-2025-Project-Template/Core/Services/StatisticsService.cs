@@ -25,6 +25,8 @@ namespace HCI_2025_Project_Template.Core.Services
 
                 var response = await client.GetAsync("api/statistics/");
 
+                var raw = await response.Content.ReadAsStringAsync();
+
                 if (response.StatusCode == HttpStatusCode.NotFound)
                     return null;
 

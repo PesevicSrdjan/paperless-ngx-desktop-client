@@ -59,6 +59,12 @@ namespace HCI_2025_Project_Template.Views.UserControls
             await LoadDocumentsAsync();
         }
 
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.Focus();
+            Keyboard.Focus(this);
+        }
+
         private async Task LoadDocumentsAsync()
         {
             await _viewModel.LoadInitialAsync();

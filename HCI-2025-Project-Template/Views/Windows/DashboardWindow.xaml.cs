@@ -35,6 +35,8 @@ namespace HCI_2025_Project_Template.Views
             _selectedSidebarButton = button_dashboard;
 
             _speechService = new SpeechService();
+
+            // Kad god se event desi, poziva se OnVoceCommand.
             _speechService.CommandRecognized += OnVoiceCommand;
 
             Loaded += dashboardWindow_Loaded;
@@ -43,8 +45,6 @@ namespace HCI_2025_Project_Template.Views
         private void dashboardWindow_Loaded(object sender, RoutedEventArgs e)
         {
             setNewSelectedButton(_selectedSidebarButton);
-
-            
         }
         private void button_dashboard_Click(object sender, RoutedEventArgs e)
         {
@@ -77,6 +77,14 @@ namespace HCI_2025_Project_Template.Views
             );
         }
 
+        private void Documentation_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "https://docs.paperless-ngx.com/",
+                UseShellExecute = true
+            });
+        }
         private void resetPrevSelectedButton()
         {
             if (_selectedSidebarButton != null)
@@ -131,7 +139,6 @@ namespace HCI_2025_Project_Template.Views
         }
         private void Button_Logout_Click(object sender, RoutedEventArgs e)
         {
-            
             MainWindow mw = new MainWindow();
             mw.Show();
             this.Close();
@@ -217,7 +224,11 @@ namespace HCI_2025_Project_Template.Views
             }
         }
 
-
+        /// <summary>
+        /// Dispatcher.Invoke - izvršavanje se prebacuje na UI thread, jer se UI elementi ne mogu mijenjati iz pozadinskih Thread -ova.
+        /// Na osnovu string - a koji se prosljedjuje kao parametar 'navigira' se na različite sekcije aplikacije, ili se pokreće pretraga.
+        /// </summary>
+        /// <param name="speech"></param>
         private void OnVoiceCommand(string speech)
         {
             Dispatcher.Invoke(() =>

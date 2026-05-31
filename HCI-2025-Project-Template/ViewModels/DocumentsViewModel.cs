@@ -5,7 +5,6 @@ using HCI_2025_Project_Template.Core.Services;
 using HCI_2025_Project_Template.Helpers;
 using System;
 using System.Collections.Generic;
-using HCI_2025_Project_Template.Helpers;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -46,7 +45,7 @@ namespace HCI_2025_Project_Template.ViewModels
         public List<int> PageSizeOptions { get; } = new() { 10, 25, 50, 100 };
         
 
-        private int _pageSize = 50;
+        private int _pageSize = 10;
         public int PageSize
         {
             get => _pageSize;

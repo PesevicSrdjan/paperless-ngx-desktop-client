@@ -13,13 +13,13 @@ namespace HCI_2025_Project_Template.Core.Models.Api
         public int DocumentsTotal { get; set; }
 
         [JsonPropertyName("documents_inbox")]
-        public int DocumentsInbox { get; set; }
+        public int? DocumentsInbox { get; set; }
 
         [JsonPropertyName("inbox_tag")]
-        public int InboxTag { get; set; }
+        public int? InboxTag { get; set; }
 
         [JsonPropertyName("inbox_tags")]
-        public List<int> InboxTags { get; set; }
+        public List<int>? InboxTags { get; set; }
 
         [JsonPropertyName("document_file_type_counts")]
         public List<FileTypeCountDto> DocumentFileTypeCounts { get; set; }

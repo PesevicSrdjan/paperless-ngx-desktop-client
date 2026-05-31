@@ -21,7 +21,7 @@ namespace HCI_2025_Project_Template.Core.Services
         private readonly ITagService _tagService;
         private readonly IDocTypeService _docTypeService;
         private readonly ICorrespondentsService _correspondentsService;
-        private CancellationTokenSource? _thumbCts;
+        private CancellationTokenSource? _thumbCts; // Prekida učitavanje thumbnailova prethodne stranice ako je korisnik prešao na novu stranicu.
         private readonly SemaphoreSlim _thumbnailSemaphore = new SemaphoreSlim(2);
         private Task? _currentThumbnailTask;
 

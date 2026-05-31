@@ -168,10 +168,10 @@ namespace HCI_2025_Project_Template
                 Settings.Default.SavedUser = savedString;
                 Settings.Default.Save();
 
-                // Otvori Dashboard
                 DashboardWindow dbw = new DashboardWindow();
-                dbw.Show();
                 this.Hide();
+                dbw.ShowDialog(); // čeka dok se dashboard ne zatvori
+                this.Show();
             }
             else
             {
