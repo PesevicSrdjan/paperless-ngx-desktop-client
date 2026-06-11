@@ -129,8 +129,6 @@ namespace HCI_2025_Project_Template.Core.Models.Ui
         }
         private void UpdateUploadStatus()
         {
-
-            Debug.WriteLine($"UpdateUploadStatus called for {DocumentName}, Stage: {Stage}");
             switch (Stage)
             {
                  
