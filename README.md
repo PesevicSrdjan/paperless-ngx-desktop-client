@@ -49,3 +49,12 @@ See `docs/HCI_Analiza_Srdan_Pesevic.pdf` for detailed analysis of UI/UX improvem
 ## 🚀 Status
 
 This is an educational project and an unofficial client for Paperless-ngx.
+
+
+## 🚀 How to run
+
+1. Clone the repository
+2. Open solution in Visual Studio
+3. Restore NuGet packages
+4. Set API base URL in configuration
+5. Run the application
