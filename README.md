@@ -74,4 +74,11 @@ This is an educational project and an unofficial client for Paperless-ngx.
 1. Download the latest release
 2. Run `PaperlessDesktop.exe`
 
+## Demo credentials
+
+For testing purposes:
+
+Username: student_test
+Password: TestPass123
+
 ⚠️ This is an unofficial client and is not affiliated with Paperless-ngx.
