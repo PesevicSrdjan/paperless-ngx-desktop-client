@@ -18,18 +18,28 @@ The UI is inspired by the official web interface but adapted for desktop usabili
 
 ## 🖥️ UI Preview
 
+### Authentication
 ![Login](screenshots/login.png)
+
+### Dashboard
 ![Dashboard](screenshots/dashboard.png)
-![Documents](screenshots/documents_table_view.png)
-![Documents](screenshots/documents_card_view.png)
+
+### Documents
+![Table View](screenshots/documents_table_view.png)
+![Card View](screenshots/documents_card_view.png)
+
+### Metadata
 ![Correspondents](screenshots/correspondents_view.png)
 ![Document Types](screenshots/document_types_view.png)
 ![Tags](screenshots/tags_view.png)
-![Dashboard](screenshots/dashboard.png)
-![Settings](screenshots/settings_view.png)
+
+### Actions
 ![Upload](screenshots/upload_process_view.png)
-![Document Preview](screenshots/documents_preview.png)
-![No Internet View](screenshots/no_internet_view.png)
+![Preview](screenshots/documents_preview.png)
+
+### Settings & State
+![Settings](screenshots/settings_view.png)
+![No Internet](screenshots/no_internet_view.png)
 
 ## 🧠 Motivation
 
@@ -46,15 +56,22 @@ The goal of this project was to explore Human-Computer Interaction principles by
 
 See `docs/HCI_Analiza_Srdan_Pesevic.pdf` for detailed analysis of UI/UX improvements compared to the web version.
 
-## 🚀 Status
+## 📌 Status
 
 This is an educational project and an unofficial client for Paperless-ngx.
 
 
 ## 🚀 How to run
 
+### Option 1: Run from source
 1. Clone the repository
 2. Open solution in Visual Studio
 3. Restore NuGet packages
 4. Set API base URL in configuration
-5. Run the application
+5. Run the application (F5)
+
+### Option 2: Run executable
+1. Download the latest release
+2. Run `PaperlessDesktop.exe`
+
+⚠️ This is an unofficial client and is not affiliated with Paperless-ngx.
