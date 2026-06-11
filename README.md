@@ -18,7 +18,18 @@ The UI is inspired by the official web interface but adapted for desktop usabili
 
 ## 🖥️ UI Preview
 
+![Login](screenshots/login.png)
 ![Dashboard](screenshots/dashboard.png)
+![Documents](screenshots/documents_table_view.png)
+![Documents](screenshots/documents_card_view.png)
+![Correspondents](screenshots/correspondents_view.png)
+![Document Types](screenshots/document_types_view.png)
+![Tags](screenshots/tags_view.png)
+![Dashboard](screenshots/dashboard.png)
+![Settings](screenshots/settings_view.png)
+![Upload](screenshots/upload_process_view.png)
+![Document Preview](screenshots/documents_preview.png)
+![No Internet View](screenshots/no_internet_view.png)
 
 ## 🧠 Motivation
 
